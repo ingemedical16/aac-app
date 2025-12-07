@@ -19,9 +19,20 @@ export class ChildrenService {
 
   findAllByUser(userId: number) {
     return this.repo.find({
-      where: { user: { id: userId } },
-      relations: ['user'],
-    });
+  where: { user: { id: userId } },
+  relations: ['user'],
+  select: {
+    id: true,
+    name: true,
+    age: true,
+    user: {
+      id: true,
+      email: true,
+      // password is automatically excluded
+    },
+  },
+});
+
   }
 
   async update(id: number, dto: UpdateChildDto) {
