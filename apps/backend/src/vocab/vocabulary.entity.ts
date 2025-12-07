@@ -9,8 +9,11 @@ export class Vocabulary {
   word: string;
 
   @Column()
+  lang: string;
+
+  @Column({ nullable: true })
   imageUrl: string;
 
-  @Column()
-  lang: string;
+  @Column({ nullable: true })
+  category: string;
 }

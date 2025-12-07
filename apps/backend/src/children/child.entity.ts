@@ -9,6 +9,9 @@ export class Child {
   @Column()
   name: string;
 
-  @ManyToOne(() => User, (user) => user.children)
+  @Column({ nullable: true })
+  age: number;
+
+  @ManyToOne(() => User, (user) => user.children, { onDelete: 'CASCADE' })
   user: User;
 }

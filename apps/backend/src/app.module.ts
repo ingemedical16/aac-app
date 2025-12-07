@@ -10,6 +10,12 @@ import { Vocabulary } from './vocab/vocabulary.entity';
 import { ImageAsset } from './images/image.entity';
 
 import { AuthModule } from './auth/auth.module';
+import { ChildrenModule } from './children/children.module';
+import { VocabularyModule } from './vocab/vocabulary.module';
+import { ImagesModule } from './images/images.module';
+
+
+
 
 @Module({
   imports: [
@@ -31,6 +37,9 @@ import { AuthModule } from './auth/auth.module';
       ],
     }),
     AuthModule,
+    ChildrenModule,
+    VocabularyModule,
+    ImagesModule,
   ],
 })
 export class AppModule {}
