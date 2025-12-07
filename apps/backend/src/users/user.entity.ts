@@ -9,7 +9,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ select: false }) // 👈 Hides password from all queries
   password: string;
 
   @OneToMany(() => Child, (child) => child.user)

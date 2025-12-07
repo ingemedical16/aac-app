@@ -41,7 +41,12 @@ export class AuthService {
   }
 
   async login(dto: LoginDto, lang = 'en') {
-    const user = await this.userRepo.findOne({ where: { email: dto.email } });
+    const user = await this.userRepo
+            .createQueryBuilder('user')
+            .addSelect('user.password') // 👈 explicitly load password only for login
+            .where('user.email = :email', { email: dto.email })
+            .getOne();
+
 
     if (!user) {
       throw new UnauthorizedException(

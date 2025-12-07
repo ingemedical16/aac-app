@@ -1,0 +1,31 @@
+### Create child for user (example userId = 1)
+POST http://localhost:4000/children/1
+Content-Type: application/json
+
+{
+  "name": "Adam",
+  "age": 5
+}
+
+###
+
+### Get all children for user
+GET http://localhost:4000/children/1
+
+###
+
+### Update child (childId = 1)
+PATCH http://localhost:4000/children/1
+Content-Type: application/json
+
+{
+  "name": "Adam Updated",
+  "age": 6
+}
+
+###
+
+### Delete child (childId = 1)
+DELETE http://localhost:4000/children/1
+
+###
