@@ -1,0 +1,32 @@
+### Create new vocabulary word
+POST http://localhost:4000/vocab
+Content-Type: application/json
+
+{
+  "word": "Hello",
+  "lang": "en",
+  "imageUrl": "https://example.com/hello.png",
+  "category": "greeting"
+}
+
+###
+
+### Get all vocab in English
+GET http://localhost:4000/vocab/en
+
+###
+
+### Update vocabulary (vocabId = 1)
+PATCH http://localhost:4000/vocab/1
+Content-Type: application/json
+
+{
+  "imageUrl": "https://example.com/new-hello.png"
+}
+
+###
+
+### Delete vocabulary (id = 1)
+DELETE http://localhost:4000/vocab/1
+
+###

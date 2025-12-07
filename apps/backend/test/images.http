@@ -1,0 +1,31 @@
+### Create image asset
+POST http://localhost:4000/images
+Content-Type: application/json
+
+{
+  "url": "https://example.com/cat.png",
+  "description": "A cat image",
+  "lang": "en"
+}
+
+###
+
+### Get all images for English
+GET http://localhost:4000/images/en
+
+###
+
+### Update image (imageId = 1)
+PATCH http://localhost:4000/images/1
+Content-Type: application/json
+
+{
+  "description": "Updated cat image"
+}
+
+###
+
+### Delete image
+DELETE http://localhost:4000/images/1
+
+###
