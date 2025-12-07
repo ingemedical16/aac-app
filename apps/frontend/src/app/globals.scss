@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  background: #f4f4f4;
+}
+
+button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  margin-right: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #e0e0e0;
+
+  &:hover {
+    background: #d0d0d0;
+  }
+}
