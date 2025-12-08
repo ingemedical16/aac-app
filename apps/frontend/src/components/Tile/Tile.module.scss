@@ -1,0 +1,35 @@
+.tile {
+  width: 120px;
+  height: 120px;
+  background: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 14px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  direction: var(--dir);
+}
+
+.image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.label {
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  direction: var(--dir);
+}

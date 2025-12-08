@@ -1,0 +1,26 @@
+'use client';
+
+import { use } from "react";
+import I18nProvider from "@/components/I18nProvider";
+import "../../styles/globals.scss";
+
+export default function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale?: string[] }>;
+}) {
+  const resolved = use(params);
+  const locale = resolved.locale?.[0] ?? "en";
+
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
+  return (
+    <html lang={locale} dir={dir}>
+      <body>
+        <I18nProvider>{children}</I18nProvider>
+      </body>
+    </html>
+  );
+}

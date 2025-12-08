@@ -1,0 +1,21 @@
+.switcher {
+  display: flex;
+  flex-direction: var(--flex-row-dir);
+  gap: 10px;
+  margin: 20px 0;
+
+  a {
+    padding: 6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background: white;
+    text-decoration: none;
+    color: black;
+
+    transition: 0.2s;
+
+    &:hover {
+      background: #e1e1e1;
+    }
+  }
+}

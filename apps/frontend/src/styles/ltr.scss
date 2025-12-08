@@ -1,0 +1,19 @@
+@import "./variables.scss";
+
+:root {
+  --dir: ltr;
+
+  --text-align-start: left;
+  --text-align-end: right;
+
+  --margin-start: margin-left;
+  --margin-end: margin-right;
+
+  --padding-start: padding-left;
+  --padding-end: padding-right;
+
+  --flex-row-dir: row;
+  --flex-row-reverse-dir: row-reverse;
+
+  --icon-scale-x: 1;
+}

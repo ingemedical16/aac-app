@@ -1,8 +1,32 @@
-$primary: #1e88e5;
-$secondary: #42a5f5;
-$accent: #ffca28;
+:root {
+  /* Direction (ltr or rtl) */
+  --dir: ltr;
 
-$tile-bg: #ffffff;
-$tile-border: #ddd;
+  /* Logical text alignment */
+  --text-align-start: left;
+  --text-align-end: right;
 
-$radius: 12px;
+  /* Logical inline spacing */
+  --margin-start: margin-left;
+  --margin-end: margin-right;
+
+  --padding-start: padding-left;
+  --padding-end: padding-right;
+
+  /* Flex direction helpers */
+  --flex-row-dir: row;
+  --flex-row-reverse-dir: row-reverse;
+
+  /* Icon flipping */
+  --icon-scale-x: 1;
+
+  /* Default colors */
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --tile-bg: #f4f4f4;
+  --tile-border: #dddddd;
+
+  /* Tile sizes */
+  --tile-size: 120px;
+  --tile-radius: 12px;
+}

@@ -1,0 +1,44 @@
+/* Default LTR */
+html[dir="ltr"] {
+  --dir: ltr;
+  --text-align-start: left;
+  --text-align-end: right;
+
+  --margin-start: margin-left;
+  --margin-end: margin-right;
+
+  --padding-start: padding-left;
+  --padding-end: padding-right;
+
+  --flex-row-dir: row;
+  --flex-row-reverse-dir: row-reverse;
+
+  --icon-scale-x: 1;
+}
+
+/* RTL override */
+html[dir="rtl"] {
+  --dir: rtl;
+  --text-align-start: right;
+  --text-align-end: left;
+
+  --margin-start: margin-right;
+  --margin-end: margin-left;
+
+  --padding-start: padding-right;
+  --padding-end: padding-left;
+
+  --flex-row-dir: row-reverse;
+  --flex-row-reverse-dir: row;
+
+  --icon-scale-x: -1;
+}
+
+/* Base */
+body {
+  direction: var(--dir);
+  text-align: var(--text-align-start);
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+}

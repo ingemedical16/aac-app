@@ -1,0 +1,8 @@
+.board {
+  display: grid;
+  gap: 16px;
+  padding: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+
+  direction: var(--dir);
+}
