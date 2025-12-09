@@ -1,0 +1,73 @@
+@import "@/styles/breakpoints.scss";
+
+.bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 8px 4px;
+  margin-bottom: 16px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 999px;
+  padding: 6px 12px;
+
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+
+  transition: background 0.15s, border-color 0.15s;
+
+  @include respond(tablet-portrait) {
+    font-size: 1rem;
+  }
+
+  @include respond(tablet-landscape) {
+    font-size: 1.1rem;
+  }
+
+  &:hover {
+    background: #f2f2f2;
+  }
+}
+
+.buttonActive {
+  @extend .button;
+
+  background: #2b6cb0;
+  color: #fff;
+  border-color: #2b6cb0;
+
+  &:hover {
+    background: #225a91;
+  }
+}
+
+.icon {
+  font-size: 1.2rem;
+
+  @include respond(tablet-landscape) {
+    font-size: 1.4rem;
+  }
+}
+
+.label {
+  direction: var(--dir);
+}

@@ -1,9 +1,20 @@
+@import "@/styles/breakpoints.scss";
+
 .tile {
-  width: 120px;
-  height: 120px;
-  background: #ffffff;
-  border: 2px solid #ccc;
-  border-radius: 14px;
+  /* --- GLOBAL TILE VARIABLES --- */
+  --tile-radius: 14px;
+  --tile-padding: 8px;
+  --image-size: 60%;
+  --label-size: 1rem;
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  border: 2px solid #d0d0d0;
+  border-radius: var(--tile-radius);
+  padding: var(--tile-padding);
+  margin: 0;
+  padding: 0;
 
   display: flex;
   flex-direction: column;
@@ -11,25 +22,67 @@
   align-items: center;
 
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: transform 0.12s ease;
 
-  &:hover {
-    transform: scale(1.05);
+  /* Prevent text overflow issues */
+  min-width: 0;
+
+  /* Hover scaling for desktop only */
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.04);
+    }
   }
 
+  /* RTL / LTR auto support */
   direction: var(--dir);
+  text-align: center;
+
+  /* --- BREAKPOINTS (Adjust variables) --- */
+  @include respond(tablet-portrait) {
+    --tile-radius: 16px;
+    --tile-padding: 10px;
+    --label-size: 1.1rem;
+  }
+
+  @include respond(tablet-landscape) {
+    --tile-radius: 18px;
+    --tile-padding: 12px;
+    --image-size: 65%;
+    --label-size: 1.2rem;
+  }
+
+  @include respond(desktop) {
+    --tile-radius: 20px;
+    --tile-padding: 14px;
+    --image-size: 70%;
+    --label-size: 1.3rem;
+  }
+
+  @include respond(wide) {
+    --tile-radius: 24px;
+    --tile-padding: 16px;
+    --label-size: 1.5rem;
+  }
 }
 
+/* --- IMAGE AREA --- */
 .image {
-  width: 60px;
-  height: 60px;
+  width: var(--image-size);
+  height: var(--image-size);
   object-fit: contain;
+  pointer-events: none;
 }
 
+/* --- LABEL TEXT --- */
 .label {
   margin-top: 8px;
-  font-size: 1rem;
+  font-size: var(--label-size);
   font-weight: 600;
   text-align: center;
-  direction: var(--dir);
+  line-height: 1.2;
+
+  /* Prevent overflow for long words, especially Arabic */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }

@@ -9,6 +9,7 @@ export default function LanguageSwitcher() {
       <Link href="/en">EN</Link>
       <Link href="/fr">FR</Link>
       <Link href="/ar">AR</Link>
+      <Link href="/ro">RO</Link>
     </div>
   );
 }

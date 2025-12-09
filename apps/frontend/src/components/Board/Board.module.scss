@@ -1,8 +1,54 @@
-.board {
-  display: grid;
-  gap: 16px;
-  padding: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+@import "@/styles/breakpoints.scss";
 
+.board {
+  /* Layout variables */
+  --gap: 1rem;
+  --padding: 0.75rem;
+  --tile-size: 110px;
+
+  display: grid;
+  gap: var(--gap);
+  padding: var(--padding);
   direction: var(--dir);
+  align-content: start;
+  justify-content: start;
+
+  /* Prevent children from overflowing */
+  * {
+    min-width: 0;
+  }
+
+  /* Base grid (auto-filled columns) */
+  grid-template-columns: repeat(auto-fill, minmax(var(--tile-size), 1fr));
+
+  /* Board padding improves on larger screens */
+  @include respond(tablet-portrait) {
+    --tile-size: 130px;
+    --gap: 1.1rem;
+    --padding: 1rem;
+  }
+
+  @include respond(tablet-landscape) {
+    --tile-size: 150px;
+    --gap: 1.2rem;
+    --padding: 1.25rem;
+  }
+
+  @include respond(desktop) {
+    --tile-size: 170px;
+    --gap: 1.3rem;
+    --padding: 1.5rem;
+  }
+
+  @include respond(wide) {
+    --tile-size: 200px;
+    --gap: 1.4rem;
+    --padding: 1.75rem;
+  }
+
+  @include respond(ultra) {
+    --tile-size: 240px;
+    --gap: 1.5rem;
+    --padding: 2rem;
+  }
 }
