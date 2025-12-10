@@ -10,30 +10,44 @@ export interface TileData {
   lang: string;
   category: string;
   order: number;
-  kind: "action" | "food" | "drink" | "feeling" | "people" | "helper";
 }
 
 interface TileProps {
   tile: TileData;
   locale: string;
   onSpeak: (text: string, locale: string) => void;
-  onSelect: () => void;
+  onSelect?: (tile: TileData) => void;
+  editMode?: boolean; // NEW
 }
 
-export default function Tile({ tile, locale, onSpeak, onSelect }: TileProps) {
+export default function Tile({
+  tile,
+  locale,
+  onSpeak,
+  onSelect,
+  editMode = false,
+}: TileProps) {
   const text = tile.translations?.[locale] || tile.word;
 
+  const handleClick = () => {
+    if (editMode) {
+      alert(`Edit mode: ${text}`);
+      console.log("Edit tile:", tile);
+      return;
+    }
+
+    onSpeak(text, locale);
+    onSelect?.(tile);
+  };
+
   return (
-    <div
-      className={styles.tile}
-      onClick={() => {
-        onSpeak(text, locale);
-        onSelect();
-      }}
-    >
+    <div className={styles.tile} onClick={handleClick}>
+      {editMode && <div className={styles.editBadge}>✎</div>}
+
       {tile.imageUrl && (
         <img src={tile.imageUrl} alt={text} className={styles.image} />
       )}
+
       <div className={styles.label}>{text}</div>
     </div>
   );

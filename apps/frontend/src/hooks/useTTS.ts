@@ -19,57 +19,59 @@ export default function useTTS() {
     window.speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
 
-  const speak = (text: string, locale: string) => {
-    if (!voicesLoaded) return;
+  const speak = (text: string, locale: string, onEnd?: () => void) => {
+    if (!voicesLoaded || !text) return;
 
     const utter = new SpeechSynthesisUtterance(text);
 
-    // Language prefix
-    const lang =
+    // Language prefix (broad, works better)
+    const langPrefix =
       locale === "ar" ? "ar"
       : locale === "fr" ? "fr"
       : locale === "ro" ? "ro"
       : "en";
-    utter.lang = lang;
 
-    // ------------------------------
-    // ⭐ CHILD-FRIENDLY VOICE LOGIC
-    // ------------------------------
+    utter.lang = langPrefix;
 
-    // First: Google voices (best quality)
+    // -------------------------------------
+    // ⭐ Voice selection (best to fallback)
+    // -------------------------------------
+
+    // 1. Google voices → highest quality
     let preferred = voices.find(v =>
-      v.lang.toLowerCase().startsWith(lang) &&
+      v.lang.toLowerCase().startsWith(langPrefix) &&
       v.name.toLowerCase().includes("google")
     );
 
-    // Second: any voice marked as "natural"
+    // 2. Natural voices
     if (!preferred) {
       preferred = voices.find(v =>
-        v.lang.toLowerCase().startsWith(lang) &&
+        v.lang.toLowerCase().startsWith(langPrefix) &&
         v.name.toLowerCase().includes("natural")
       );
     }
 
-    // Third: any matching voice by language prefix
+    // 3. Any voice with correct prefix (fixes French issue)
     if (!preferred) {
       preferred = voices.find(v =>
-        v.lang.toLowerCase().startsWith(lang)
+        v.lang.toLowerCase().startsWith(langPrefix)
       );
     }
 
-    // Apply voice
-    if (preferred) {
-      utter.voice = preferred;
-    }
+    if (preferred) utter.voice = preferred;
 
+    // -------------------------------------
     // Child-friendly tuning
-    utter.rate = 0.9;   // slower, easier to understand
-    utter.pitch = 1.1;  // softer, more child-like
-    utter.volume = 1.0; // full volume
+    // -------------------------------------
+    utter.rate = 0.9;   // slower
+    utter.pitch = 1.1;  // softer
+    utter.volume = 1.0;
 
-    window.speechSynthesis.cancel();
+    if (onEnd) utter.onend = onEnd;
+
+    window.speechSynthesis.cancel(); // stop previous speech
     window.speechSynthesis.speak(utter);
   };
 
-  return { speak };
+  return { speak, voicesLoaded };
 }

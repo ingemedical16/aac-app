@@ -5,6 +5,7 @@ import useTTS from "@/hooks/useTTS";
 import { buildSentence } from "@/lib/sentenceBuilder";
 import { TileData } from "@/components/Tile";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 interface Props {
   sentence: TileData[];
@@ -22,12 +23,23 @@ export default function SentenceBar({
   const { speak } = useTTS();
   const { t } = useTranslation("common");
 
-  // 🧠 Grammar Engine v3 — now using translation system
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
   const fullSentence = buildSentence(sentence, locale, t);
 
+  const handleSpeak = () => {
+    if (!fullSentence.trim()) return;
+
+    setIsSpeaking(true);
+
+    speak(fullSentence, locale, () => {
+      setIsSpeaking(false);
+    });
+  };
+
   return (
-    <div className={styles.bar}>
-      {/* --- Word List --- */}
+    <div className={`${styles.bar} ${isSpeaking ? styles.speaking : ""}`}>
+      {/* Selected tiles turned into sentence preview */}
       <div className={styles.words}>
         {sentence.map((tile) => (
           <span key={tile.id} className={styles.word}>
@@ -36,29 +48,16 @@ export default function SentenceBar({
         ))}
       </div>
 
-      {/* --- Buttons --- */}
       <div className={styles.buttons}>
-        <button
-          className={styles.speak}
-          disabled={!sentence.length}
-          onClick={() => speak(fullSentence, locale)}
-        >
+        <button className={styles.speak} onClick={handleSpeak}>
           🔊 {t("speak")}
         </button>
 
-        <button
-          className={styles.deleteLast}
-          disabled={!sentence.length}
-          onClick={onDeleteLast}
-        >
+        <button className={styles.deleteLast} onClick={onDeleteLast}>
           ⬅️ {t("deleteLast")}
         </button>
 
-        <button
-          className={styles.clear}
-          disabled={!sentence.length}
-          onClick={onClear}
-        >
+        <button className={styles.clear} onClick={onClear}>
           ❌ {t("clear")}
         </button>
       </div>
