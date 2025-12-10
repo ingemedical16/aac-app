@@ -5,5 +5,16 @@
   "tapToSpeak": "Atingeți o casetă pentru a vorbi",
   "speak": "Vorbește",
   "clear": "Șterge tot",
-  "deleteLast": "Șterge ultimul"
+  "deleteLast": "Șterge ultimul",
+  "iWant": "Vreau",
+  "iDontWant": "Nu vreau",
+  "iNeedHelp": "Am nevoie de ajutor",
+  "help": "Ajutor",
+  "iFeel": "Mă simt",
+  "stop": "Stop",
+  "more": "Încă",
+  "again": "Încă o dată",
+  "to": "să",
+  "toGoTo": "să merg la",
+  "period": "."
 }

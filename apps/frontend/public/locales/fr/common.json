@@ -5,5 +5,16 @@
   "tapToSpeak": "Touchez une case pour parler",
   "speak": "Lire",
   "clear": "Effacer",
-  "deleteLast": "Supprimer dernier"
+  "deleteLast": "Supprimer dernier",
+  "iWant": "Je veux",
+  "iDontWant": "Je ne veux pas",
+  "iNeedHelp": "J'ai besoin d'aide",
+  "help": "Aide",
+  "iFeel": "Je me sens",
+  "stop": "Stop",
+  "more": "Encore",
+  "again": "Encore",
+  "to": "",
+  "toGoTo": "aller à",
+  "period": "."
 }

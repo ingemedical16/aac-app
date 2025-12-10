@@ -5,5 +5,16 @@
   "tapToSpeak": "Tap a tile to speak",
   "speak": "Speak",
   "clear": "Clear",
-  "deleteLast": "Delete Last"
+  "deleteLast": "Delete Last",
+  "iWant": "I want",
+  "iDontWant": "I don't want",
+  "iNeedHelp": "I need help",
+  "help": "Help",
+  "iFeel": "I feel",
+  "stop": "Stop",
+  "more": "More",
+  "again": "Again",
+  "to": "to",
+  "toGoTo": "to go to",
+  "period": "."
 }
