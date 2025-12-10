@@ -2,5 +2,8 @@
   "appTitle": "AAC Communication Board",
   "language": "Language",
   "boardTitle": "Communication Board",
-  "tapToSpeak": "Tap a tile to speak"
+  "tapToSpeak": "Tap a tile to speak",
+  "speak": "Speak",
+  "clear": "Clear",
+  "deleteLast": "Delete Last"
 }

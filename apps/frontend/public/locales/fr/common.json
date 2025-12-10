@@ -2,5 +2,8 @@
   "appTitle": "Tableau de communication AAC",
   "language": "Langue",
   "boardTitle": "Tableau de communication",
-  "tapToSpeak": "Touchez une case pour parler"
+  "tapToSpeak": "Touchez une case pour parler",
+  "speak": "Lire",
+  "clear": "Effacer",
+  "deleteLast": "Supprimer dernier"
 }

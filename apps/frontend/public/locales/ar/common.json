@@ -2,5 +2,8 @@
   "appTitle": "لوحة تواصل للأطفال",
   "language": "اللغة",
   "boardTitle": "لوحة التواصل",
-  "tapToSpeak": "اضغط على الصورة للنطق"
+  "tapToSpeak": "اضغط على الصورة للنطق",
+  "speak": "نُطق",
+  "clear": "حذف",
+  "deleteLast": "حذف آخر كلمة"
 }

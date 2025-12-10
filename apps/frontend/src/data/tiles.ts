@@ -12,7 +12,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/bread.png",
       lang: "en-US",
       category: "food",
-      order: 1
+      order: 1,
+      kind: "food"
     },
     {
       id: 2,
@@ -21,7 +22,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/fruit.png",
       lang: "en-US",
       category: "food",
-      order: 2
+      order: 2,
+      kind: "food"
     },
     {
       id: 3,
@@ -30,7 +32,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/yogurt.png",
       lang: "en-US",
       category: "food",
-      order: 3
+      order: 3,
+      kind: "food"
     },
     {
       id: 4,
@@ -39,7 +42,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/rice.png",
       lang: "en-US",
       category: "food",
-      order: 4
+      order: 4,
+      kind: "food"
     },
     {
       id: 5,
@@ -48,7 +52,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/egg.png",
       lang: "en-US",
       category: "food",
-      order: 5
+      order: 5,
+      kind: "food"
     },
     {
       id: 6,
@@ -57,7 +62,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/soup.png",
       lang: "en-US",
       category: "food",
-      order: 6
+      order: 6,
+      kind: "food"
     }
   ],
 
@@ -72,7 +78,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/water.png",
       lang: "en-US",
       category: "drink",
-      order: 1
+      order: 1,
+      kind: "drink"
     },
     {
       id: 11,
@@ -81,7 +88,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/juice.png",
       lang: "en-US",
       category: "drink",
-      order: 2
+      order: 2,
+      kind: "drink"
     },
     {
       id: 12,
@@ -90,7 +98,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/milk.png",
       lang: "en-US",
       category: "drink",
-      order: 3
+      order: 3,
+      kind: "drink"
     },
     {
       id: 13,
@@ -99,7 +108,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/tea.png",
       lang: "en-US",
       category: "drink",
-      order: 4
+      order: 4,
+      kind: "drink"
     },
     {
       id: 14,
@@ -108,7 +118,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/soda.png",
       lang: "en-US",
       category: "drink",
-      order: 5
+      order: 5,
+      kind: "drink"
     }
   ],
 
@@ -123,7 +134,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/more.png",
       lang: "en-US",
       category: "more",
-      order: 1
+      order: 1,
+      kind: "helper"
     },
     {
       id: 31,
@@ -132,7 +144,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/again.png",
       lang: "en-US",
       category: "more",
-      order: 2
+      order: 2,
+      kind: "helper"
     }
   ],
 
@@ -147,7 +160,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/help.png",
       lang: "en-US",
       category: "help",
-      order: 1
+      order: 1,
+      kind: "helper"
     },
     {
       id: 21,
@@ -156,7 +170,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/stop.png",
       lang: "en-US",
       category: "help",
-      order: 2
+      order: 2,
+      kind: "helper"
     },
     {
       id: 22,
@@ -165,7 +180,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/want.png",
       lang: "en-US",
       category: "help",
-      order: 3
+      order: 3,
+      kind: "helper"
     },
     {
       id: 23,
@@ -174,7 +190,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/dontwant.png",
       lang: "en-US",
       category: "help",
-      order: 4
+      order: 4,
+      kind: "helper"
     }
   ],
 
@@ -189,7 +206,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/happy.png",
       lang: "en-US",
       category: "feelings",
-      order: 1
+      order: 1,
+      kind: "feeling"
     },
     {
       id: 41,
@@ -198,7 +216,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/sad.png",
       lang: "en-US",
       category: "feelings",
-      order: 2
+      order: 2,
+      kind: "feeling"
     },
     {
       id: 42,
@@ -207,7 +226,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/angry.png",
       lang: "en-US",
       category: "feelings",
-      order: 3
+      order: 3,
+      kind: "feeling"
     },
     {
       id: 43,
@@ -216,7 +236,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/tired.png",
       lang: "en-US",
       category: "feelings",
-      order: 4
+      order: 4,
+      kind: "feeling"
     }
   ],
 
@@ -231,7 +252,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/go.png",
       lang: "en-US",
       category: "actions",
-      order: 1
+      order: 1,
+      kind: "action"
     },
     {
       id: 51,
@@ -240,7 +262,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/come.png",
       lang: "en-US",
       category: "actions",
-      order: 2
+      order: 2,
+      kind: "action"
     },
     {
       id: 52,
@@ -249,7 +272,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/sit.png",
       lang: "en-US",
       category: "actions",
-      order: 3
+      order: 3,
+      kind: "action"
     },
     {
       id: 53,
@@ -258,7 +282,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/stand.png",
       lang: "en-US",
       category: "actions",
-      order: 4
+      order: 4,
+      kind: "action"
     }
   ],
 
@@ -273,7 +298,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/mom.png",
       lang: "en-US",
       category: "people",
-      order: 1
+      order: 1,
+      kind: "people"
     },
     {
       id: 61,
@@ -282,7 +308,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/dad.png",
       lang: "en-US",
       category: "people",
-      order: 2
+      order: 2,
+      kind: "people"
     },
     {
       id: 62,
@@ -291,7 +318,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/teacher.png",
       lang: "en-US",
       category: "people",
-      order: 3
+      order: 3,
+      kind: "people"
     },
     {
       id: 63,
@@ -300,7 +328,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       imageUrl: "/images/friend.png",
       lang: "en-US",
       category: "people",
-      order: 4
+      order: 4,
+      kind: "people"
     }
   ]
 };

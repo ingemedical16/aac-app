@@ -1,15 +1,16 @@
-'use client';
+"use client";
 
 import Tile, { TileData } from "@/components/Tile";
-import styles from "./Board.module.scss";
 import useTTS from "@/hooks/useTTS";
+import styles from "./Board.module.scss";
 
 interface BoardProps {
-  tiles: TileData[];     // loaded from API in the future
-  locale: string;        // passed from the route layout
+  tiles: TileData[];
+  locale: string;
+  onTileSelect: (tile: TileData) => void;
 }
 
-export default function Board({ tiles, locale }: BoardProps) {
+export default function Board({ tiles, locale, onTileSelect }: BoardProps) {
   const { speak } = useTTS();
 
   const handleSpeak = (text: string, locale: string) => {
@@ -26,6 +27,7 @@ export default function Board({ tiles, locale }: BoardProps) {
             tile={tile}
             locale={locale}
             onSpeak={handleSpeak}
+            onSelect={() => onTileSelect(tile)}
           />
         ))}
     </div>

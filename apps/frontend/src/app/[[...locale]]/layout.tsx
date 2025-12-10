@@ -18,9 +18,11 @@ export default function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <body>
-        <I18nProvider>{children}</I18nProvider>
-      </body>
+      
+    <body suppressHydrationWarning>
+      <I18nProvider locale={locale}>{children}</I18nProvider>
+    </body>
+  
     </html>
   );
 }

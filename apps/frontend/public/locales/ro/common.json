@@ -2,5 +2,8 @@
   "appTitle": "Tabel de comunicare AAC",
   "language": "Limbă",
   "boardTitle": "Tabel de comunicare",
-  "tapToSpeak": "Atingeți o casetă pentru a vorbi"
+  "tapToSpeak": "Atingeți o casetă pentru a vorbi",
+  "speak": "Vorbește",
+  "clear": "Șterge tot",
+  "deleteLast": "Șterge ultimul"
 }
