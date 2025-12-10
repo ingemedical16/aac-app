@@ -1,22 +1,7 @@
-import { TileData } from "@/components/Tile";
+import type { TFunction } from "i18next";
+import type { TileData } from "@/components/Tile";
 
-/**
- * Grammar Engine v3 (hybrid-ready)
- *
- * - Works offline with rules.
- * - Designed so later we can add real AI smoothing on backend.
- *
- * Examples:
- * - [I want] + [Water]               → "I want water."
- * - [I want] + [Drink] + [Water]     → "I want to drink water."
- * - [I want] + [Go] + [Mom]          → "I want to go to mom."
- * - [Happy]                          → "I feel happy."
- * - [Help] + [Sit]                   → "I need help to sit."
- * - [More] + [Water]                 → "I want more water."
- */
-
-export type Locale = "en" | "fr" | "ar" | "ro" | (string & {});
-export type TranslatorFn = (key: string) => string;
+type Locale = "en" | "fr" | "ar" | "ro" | string;
 
 interface PhraseSet {
   iWant: string;
@@ -27,330 +12,269 @@ interface PhraseSet {
   stop: string;
   more: string;
   again: string;
-  to: string;       // "to", "să", "أن", ""
-  toGoTo: string;   // "to go to", "să merg la", "أن أذهب إلى", ...
+  to: string;
+  toGoTo: string;
   period: string;
 }
 
-function fromT(
-  t: TranslatorFn | undefined,
-  key: string,
-  fallback: string
-): string {
-  if (!t) return fallback;
-  try {
-    const value = t(key);
-    // if i18next returns the key itself or empty, fallback
-    if (!value || value === key) return fallback;
-    return value;
-  } catch {
-    return fallback;
-  }
+/**
+ * Get phrases from i18n (common.json)
+ *
+ * Requires keys:
+ * - iWant, iDontWant, iNeedHelp, help, iFeel
+ * - stop, more, again, to, toGoTo, period
+ */
+function getPhrases(locale: Locale, t: TFunction<"common">): PhraseSet {
+  // Use the existing translation system. If a key is missing,
+  // t() will usually return the key itself, which is fine for now.
+  return {
+    iWant: t("iWant"),
+    iDontWant: t("iDontWant"),
+    iNeedHelp: t("iNeedHelp"),
+    help: t("help"),
+    iFeel: t("iFeel"),
+    stop: t("stop"),
+    more: t("more"),
+    again: t("again"),
+    to: t("to"),
+    toGoTo: t("toGoTo"),
+    period: t("period"),
+  };
 }
 
-function getPhrases(locale: Locale, t?: TranslatorFn): PhraseSet {
-  switch (locale) {
-    case "fr":
-      return {
-        iWant: fromT(t, "grammar.iWant", "Je veux"),
-        iDontWant: fromT(t, "grammar.iDontWant", "Je ne veux pas"),
-        iNeedHelp: fromT(t, "grammar.iNeedHelp", "J'ai besoin d'aide"),
-        help: fromT(t, "grammar.help", "Aide"),
-        iFeel: fromT(t, "grammar.iFeel", "Je me sens"),
-        stop: fromT(t, "grammar.stop", "Stop"),
-        more: fromT(t, "grammar.more", "Encore"),
-        again: fromT(t, "grammar.again", "Encore"),
-        to: fromT(t, "grammar.to", ""),
-        toGoTo: fromT(t, "grammar.toGoTo", "aller à"),
-        period: fromT(t, "grammar.period", "."),
-      };
-    case "ar":
-      return {
-        iWant: fromT(t, "grammar.iWant", "أريد"),
-        iDontWant: fromT(t, "grammar.iDontWant", "لا أريد"),
-        iNeedHelp: fromT(t, "grammar.iNeedHelp", "أحتاج مساعدة"),
-        help: fromT(t, "grammar.help", "مساعدة"),
-        iFeel: fromT(t, "grammar.iFeel", "أشعر أنني"),
-        stop: fromT(t, "grammar.stop", "توقف"),
-        more: fromT(t, "grammar.more", "المزيد"),
-        again: fromT(t, "grammar.again", "مرة أخرى"),
-        to: fromT(t, "grammar.to", "أن"),
-        toGoTo: fromT(t, "grammar.toGoTo", "أن أذهب إلى"),
-        period: fromT(t, "grammar.period", "."),
-      };
-    case "ro":
-      return {
-        iWant: fromT(t, "grammar.iWant", "Vreau"),
-        iDontWant: fromT(t, "grammar.iDontWant", "Nu vreau"),
-        iNeedHelp: fromT(t, "grammar.iNeedHelp", "Am nevoie de ajutor"),
-        help: fromT(t, "grammar.help", "Ajutor"),
-        iFeel: fromT(t, "grammar.iFeel", "Mă simt"),
-        stop: fromT(t, "grammar.stop", "Stop"),
-        more: fromT(t, "grammar.more", "Încă"),
-        again: fromT(t, "grammar.again", "Încă o dată"),
-        to: fromT(t, "grammar.to", "să"),
-        toGoTo: fromT(t, "grammar.toGoTo", "să merg la"),
-        period: fromT(t, "grammar.period", "."),
-      };
-    case "en":
-    default:
-      return {
-        iWant: fromT(t, "grammar.iWant", "I want"),
-        iDontWant: fromT(t, "grammar.iDontWant", "I don't want"),
-        iNeedHelp: fromT(t, "grammar.iNeedHelp", "I need help"),
-        help: fromT(t, "grammar.help", "Help"),
-        iFeel: fromT(t, "grammar.iFeel", "I feel"),
-        stop: fromT(t, "grammar.stop", "Stop"),
-        more: fromT(t, "grammar.more", "More"),
-        again: fromT(t, "grammar.again", "Again"),
-        to: fromT(t, "grammar.to", "to"),
-        toGoTo: fromT(t, "grammar.toGoTo", "to go to"),
-        period: fromT(t, "grammar.period", "."),
-      };
-  }
-}
-
+/**
+ * Choose display text for a tile in a given locale
+ */
 function textForTile(tile: TileData, locale: Locale): string {
   return tile.translations?.[locale] || tile.word;
 }
 
+/**
+ * Join tiles into a phrase string in the correct language
+ */
 function joinTiles(tiles: TileData[], locale: Locale): string {
   return tiles.map((t) => textForTile(t, locale)).join(" ");
 }
 
-function byCategory(tiles: TileData[], category: string): TileData[] {
-  return tiles.filter((t) => t.category === category);
-}
-
+/**
+ * Helper: find a tile by its base English "word" field (case-insensitive)
+ * This relies on your TileData.word values:
+ *  - "I want"
+ *  - "Don't want"
+ *  - "Help"
+ *  - "Stop"
+ *  - "More"
+ *  - "Again"
+ */
 function findByWord(tiles: TileData[], word: string): TileData | undefined {
   const lower = word.toLowerCase();
   return tiles.find((t) => t.word.toLowerCase() === lower);
 }
 
 /**
- * Main API used by SentenceBar
+ * Grammar Engine v3
+ *
+ * - Uses i18n keys from common.json (multi-language).
+ * - Uses AAC semantics: categories (food, drink, people, feelings, actions, help).
+ * - Stays simple and predictable for children / therapists.
  */
 export function buildSentence(
   tiles: TileData[],
   locale: Locale,
-  t?: TranslatorFn
+  t: TFunction<"common">
 ): string {
   if (!tiles.length) return "";
 
   const phrases = getPhrases(locale, t);
 
-  const feelings = byCategory(tiles, "feelings");
-  const actions = byCategory(tiles, "actions");
-  const foodAndDrink = [
-    ...byCategory(tiles, "food"),
-    ...byCategory(tiles, "drink"),
-  ];
-  const people = byCategory(tiles, "people");
+  // Clean up / copy array to avoid mutating callers
+  const allTiles = [...tiles];
 
-  const wantTile = findByWord(tiles, "I want");
-  const dontWantTile = findByWord(tiles, "Don't want");
-  const helpTile = findByWord(tiles, "Help");
-  const stopTile = findByWord(tiles, "Stop");
-  const moreTile = findByWord(tiles, "More");
-  const againTile = findByWord(tiles, "Again");
+  // --- Semantic groups by category ---
+  const byCategory = (category: string) =>
+    allTiles.filter((tile) => tile.category === category);
 
-  // -----------------------------
-  // 1) Feelings-only or dominant
-  // -----------------------------
-  if (
-    feelings.length &&
-    !helpTile &&
-    !stopTile &&
-    !moreTile &&
-    !againTile &&
-    !foodAndDrink.length &&
-    !actions.length
-  ) {
-    // Examples:
-    // [Happy] → "I feel happy."
-    const feelingsText = joinTiles(feelings, locale);
-    return `${phrases.iFeel} ${feelingsText}${phrases.period}`;
-  }
+  const feelings = byCategory("feelings");
+  const actions = byCategory("actions");
+  const food = byCategory("food");
+  const drink = byCategory("drink");
+  const people = byCategory("people");
 
-  // If user did [I want] + [Sad] only → treat as feelings
-  if (
-    feelings.length &&
-    (wantTile || dontWantTile) &&
-    tiles.length === feelings.length + 1
-  ) {
-    const feelingsText = joinTiles(feelings, locale);
-    return `${phrases.iFeel} ${feelingsText}${phrases.period}`;
-  }
+  // --- Special “word” tiles (control tiles) ---
+  const wantTile = findByWord(allTiles, "I want");
+  const dontWantTile = findByWord(allTiles, "Don't want");
+  const helpTile = findByWord(allTiles, "Help");
+  const stopTile = findByWord(allTiles, "Stop");
+  const moreTile = findByWord(allTiles, "More");
+  const againTile = findByWord(allTiles, "Again");
 
-  // ---------
-  // 2) HELP
-  // ---------
-  if (helpTile) {
-    const other = tiles.filter((t) => t !== helpTile);
-    if (!other.length) {
-      // Just [Help] → "Help!"
-      return `${phrases.help}!`;
-    }
+  // Tiles used as modifiers ("More", "Again") should not be the main content
+  const modifierSet = new Set<TileData>();
+  if (moreTile) modifierSet.add(moreTile);
+  if (againTile) modifierSet.add(againTile);
 
-    const helpActions = byCategory(other, "actions");
-    const others = other.filter((t) => t.category !== "actions");
-
-    if (helpActions.length) {
-      // "I need help to sit." / "Am nevoie de ajutor să stau jos."
-      const actionsText = joinTiles(helpActions, locale);
-      if (phrases.to) {
-        const base = `${phrases.iNeedHelp} ${phrases.to} ${actionsText}`;
-        const extra =
-          others.length > 0 ? ` ${joinTiles(others, locale)}` : "";
-        return `${base}${extra}${phrases.period}`;
-      } else {
-        const base = `${phrases.iNeedHelp} ${actionsText}`;
-        const extra =
-          others.length > 0 ? ` ${joinTiles(others, locale)}` : "";
-        return `${base}${extra}${phrases.period}`;
-      }
-    }
-
-    // Help + (object/feeling/etc.)
-    const targetText = joinTiles(other, locale);
-    return `${phrases.iNeedHelp} ${targetText}${phrases.period}`;
-  }
-
-  // ---------------
-  // 3) STOP only
-  // ---------------
-  if (stopTile && tiles.length === 1) {
-    return `${phrases.stop}${phrases.period}`;
-  }
-
-  // ------------------------------
-  // 4) MORE / AGAIN as modifiers
-  // ------------------------------
+  // --- Used later as emphasis at the end ---
   const extraWords: string[] = [];
   if (moreTile) extraWords.push(phrases.more);
   if (againTile) extraWords.push(phrases.again);
 
-  // Remove them from core logic list (they'll be appended later)
-  const coreTiles = tiles.filter(
-    (t) => t !== moreTile && t !== againTile
-  );
+  // Helper: tiles except some
+  const except = (toRemove: TileData[] = []) => {
+    const set = new Set(toRemove);
+    return allTiles.filter((t) => !set.has(t) && !modifierSet.has(t));
+  };
 
-  // ----------------------------------------
-  // 5) Implicit / explicit "I want" logic
-  // ----------------------------------------
+  // --------------------------------------------------
+  // 1) Feelings-only / feelings-dominant → "I feel happy."
+  // --------------------------------------------------
+  const hasCoreControlTiles = !!(wantTile || dontWantTile || helpTile);
+  if (feelings.length && !hasCoreControlTiles && allTiles.length === feelings.length) {
+    const feelingsText = joinTiles(feelings, locale);
+    // "I feel happy / Je me sens triste / أشعر أنني سعيد"
+    const base = phrases.iFeel || "I feel";
+    return `${base} ${feelingsText}${phrases.period}`;
+  }
+
+  // --------------------------------------------------
+  // 2) Explicit "Help"
+  // --------------------------------------------------
+  if (helpTile) {
+    const others = except([helpTile]);
+
+    // If only "Help" tile → "Help!"
+    if (!others.length) {
+      // let translation handle it (e.g. "Aide", "مساعدة")
+      const helpWord = phrases.help || textForTile(helpTile, locale);
+      return `${helpWord}!`;
+    }
+
+    // Else → "I need help sit." / "I need help water."
+    const targetText = joinTiles(others, locale);
+    const base = phrases.iNeedHelp || "I need help";
+    return `${base} ${targetText}${phrases.period}`;
+  }
+
+  // --------------------------------------------------
+  // 3) STOP-only request
+  // --------------------------------------------------
+  if (stopTile && allTiles.length === 1) {
+    const stopWord = phrases.stop || textForTile(stopTile, locale);
+    return `${stopWord}${phrases.period}`;
+  }
+
+  // --------------------------------------------------
+  // 4) Build "want / don't want" logic
+  // --------------------------------------------------
+  const wantableTiles = [
+    ...food,
+    ...drink,
+    ...people,
+    ...actions,
+    ...feelings,
+  ].filter((tile, index, self) => self.indexOf(tile) === index);
+
   let base: string;
   let hasExplicitWant = !!wantTile || !!dontWantTile;
 
   if (dontWantTile) {
-    base = phrases.iDontWant;
+    base = phrases.iDontWant || "I don't want";
   } else if (wantTile) {
-    base = phrases.iWant;
+    base = phrases.iWant || "I want";
   } else {
-    // No explicit want/don't want:
-    // If tiles contain something we can "want" → implicitly add "I want"
-    if (
-      byCategory(coreTiles, "food").length ||
-      byCategory(coreTiles, "drink").length ||
-      byCategory(coreTiles, "actions").length ||
-      byCategory(coreTiles, "people").length
-    ) {
-      base = phrases.iWant;
-      hasExplicitWant = true;
+    // No explicit "I want" tile:
+    // If the child chooses something “wantable”, we implicitly prepend "I want / Je veux / أريد / Vreau".
+    if (wantableTiles.length) {
+      base = phrases.iWant || "I want";
+      hasExplicitWant = false;
     } else {
-      // Nothing "wantable" → just read tiles in order
-      const fallback = joinTiles(coreTiles, locale);
-      const sentenceWithExtras = extraWords.length
-        ? `${fallback} ${extraWords.join(" ")}`
-        : fallback;
-      return `${sentenceWithExtras}${phrases.period}`;
+      // Fallback: just read selected tiles in order
+      const raw = joinTiles(except(), locale);
+      return raw ? `${raw}${phrases.period}` : "";
     }
   }
 
-  // Remove explicit want/don't from the list for rest building
-  const withoutWant = coreTiles.filter(
-    (t) => t !== wantTile && t !== dontWantTile
-  );
+  // --------------------------------------------------
+  // 5) Build main content of sentence
+  // --------------------------------------------------
+  const contentTiles = except([wantTile, dontWantTile].filter(Boolean) as TileData[]);
 
-  const restActions = byCategory(withoutWant, "actions");
-  const restFoodDrink = [
-    ...byCategory(withoutWant, "food"),
-    ...byCategory(withoutWant, "drink"),
-  ];
-  const restPeople = byCategory(withoutWant, "people");
-  const restFeelings = byCategory(withoutWant, "feelings").filter(
-    (t) => !feelings.includes(t)
-  );
-  const restOther = withoutWant.filter(
-    (t) =>
-      t.category !== "actions" &&
-      t.category !== "food" &&
-      t.category !== "drink" &&
-      t.category !== "people" &&
-      t.category !== "feelings"
-  );
+  const actionsOnly = actions.filter((t) => contentTiles.includes(t));
+  const foodAndDrink = [...food, ...drink].filter((t) => contentTiles.includes(t));
+  const peopleOnly = people.filter((t) => contentTiles.includes(t));
 
-  const restParts: string[] = [];
+  let restParts: string[] = [];
 
-  // Actions: "I want to sit", "I want to go to mom"
-  if (restActions.length) {
-    const goAction = restActions.find((a) =>
-      a.word.toLowerCase().includes("go")
-    );
+  // --- Actions (sit, go, come, stand...) ---
+  if (actionsOnly.length) {
+    const goAction = actionsOnly.find((a) => a.word.toLowerCase() === "go");
 
-    if (goAction && restPeople.length) {
-      const peopleText = joinTiles(restPeople, locale);
-      // "I want to go to mom."
+    if (goAction && peopleOnly.length) {
+      // e.g. "I want to go to mom."
+      const peopleText = joinTiles(peopleOnly, locale);
+
       if (phrases.toGoTo) {
         restParts.push(`${phrases.toGoTo} ${peopleText}`);
+      } else if (phrases.to) {
+        // fallback if toGoTo empty but "to" exists
+        const goText = textForTile(goAction, locale);
+        restParts.push(`${phrases.to} ${goText} ${peopleText}`);
       } else {
-        restParts.push(peopleText);
+        // bare: "go mom"
+        const goText = textForTile(goAction, locale);
+        restParts.push(`${goText} ${peopleText}`);
       }
     } else {
-      const actionsText = joinTiles(restActions, locale);
+      // General actions: "I want to sit", "I want to go"
+      const actionsText = joinTiles(actionsOnly, locale);
       if (phrases.to) {
         restParts.push(`${phrases.to} ${actionsText}`);
       } else {
+        // languages where we don't use "to" before verbs
         restParts.push(actionsText);
       }
     }
   }
 
-  // Objects of wanting: food/drink/people if not already used with a verb
-  if (restFoodDrink.length || (!restActions.length && restPeople.length)) {
-    const objectsText = joinTiles(
-      [
-        ...restFoodDrink,
-        ...(!restActions.length ? restPeople : []),
-      ],
-      locale
-    );
+  // --- Objects: food, drink / people as things we want ---
+  if (foodAndDrink.length || (!actionsOnly.length && peopleOnly.length)) {
+    const objects = [
+      ...foodAndDrink,
+      ...(!actionsOnly.length ? peopleOnly : []),
+    ];
+    const objectsText = joinTiles(objects, locale);
 
-    restParts.push(objectsText);
+    if (actionsOnly.length) {
+      // attach to verb: "I want to drink water"
+      restParts.push(objectsText);
+    } else {
+      // pure object: "I want water."
+      restParts.push(objectsText);
+    }
   }
 
-  // Feelings when combined with want: "I want to feel happy" is too complex.
-  // For now, just append as simple object: "I want happy"
-  if (restFeelings.length && !restActions.length && !restFoodDrink.length) {
-    const feelingsText = joinTiles(restFeelings, locale);
-    restParts.push(feelingsText);
-  }
-
-  if (restOther.length) {
-    restParts.push(joinTiles(restOther, locale));
-  }
-
-  // If we have no restParts (user only pressed "I want")
+  // --- If nothing meaningful built → fallback ---
   let sentence: string;
+
   if (!restParts.length) {
-    const raw = joinTiles(withoutWant, locale);
+    const filtered = contentTiles;
+    const raw = joinTiles(filtered, locale);
+
+    if (!raw) {
+      // If still nothing, just speak everything selected
+      const fallback = joinTiles(allTiles, locale);
+      return fallback ? `${fallback}${phrases.period}` : "";
+    }
+
     sentence = hasExplicitWant ? `${base} ${raw}`.trim() : raw;
   } else {
     sentence = `${base} ${restParts.join(" ")}`.trim();
   }
 
+  // --- Add "more / again" emphasis at the end ---
   if (extraWords.length) {
     sentence = `${sentence} ${extraWords.join(" ")}`.trim();
   }
 
+  // Final punctuation
   return `${sentence}${phrases.period}`;
 }
