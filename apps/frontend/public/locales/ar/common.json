@@ -16,5 +16,25 @@
   "again": "مرة أخرى",
   "to": "أن",
   "toGoTo": "أن أذهب إلى",
-  "period": "。"
+  "period": "。",
+
+  "all": "الكل",
+
+  "groups": {
+    "mealBasics": "وجبات أساسية",
+    "freshSnacks": "فواكه ووجبات خفيفة",
+    "everydayDrinks": "مشروبات يومية",
+    "treatDrinks": "عصائر ومشروبات غازية",
+    "hotDrinks": "مشروبات ساخنة",
+    "quantityControl": "زيادة / مرة أخرى",
+    "basicHelp": "مساعدة أساسية",
+    "preference": "أريد / لا أريد",
+    "positiveFeelings": "مشاعر إيجابية",
+    "negativeFeelings": "مشاعر سلبية",
+    "energyFeelings": "طاقة / تعب",
+    "movementActions": "حركة",
+    "positionActions": "وضعيات",
+    "family": "عائلة",
+    "schoolPeople": "مدرسة وأصدقاء"
+  }
 }

@@ -16,5 +16,23 @@
   "again": "Again",
   "to": "to",
   "toGoTo": "to go to",
-  "period": "."
+  "period": ".",
+  "all": "All",
+  "groups": {
+    "mealBasics": "Meals & basics",
+    "freshSnacks": "Fruit & snacks",
+    "everydayDrinks": "Everyday drinks",
+    "treatDrinks": "Juice & soda",
+    "hotDrinks": "Hot drinks",
+    "quantityControl": "More / again",
+    "basicHelp": "Basic help",
+    "preference": "I want / don't want",
+    "positiveFeelings": "Positive feelings",
+    "negativeFeelings": "Negative feelings",
+    "energyFeelings": "Energy / tired",
+    "movementActions": "Movement",
+    "positionActions": "Position",
+    "family": "Family",
+    "schoolPeople": "School & friends"
+  }
 }

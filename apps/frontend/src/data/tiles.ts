@@ -13,7 +13,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "food",
       order: 1,
-      kind: "food"
+      group: "mealBasics", // 🍞 staple food
     },
     {
       id: 2,
@@ -23,7 +23,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "food",
       order: 2,
-      kind: "food"
+      group: "freshSnacks", // 🍎 fresh / snack
     },
     {
       id: 3,
@@ -33,7 +33,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "food",
       order: 3,
-      kind: "food"
+      group: "freshSnacks",
     },
     {
       id: 4,
@@ -43,7 +43,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "food",
       order: 4,
-      kind: "food"
+      group: "mealBasics",
     },
     {
       id: 5,
@@ -53,7 +53,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "food",
       order: 5,
-      kind: "food"
+      group: "mealBasics",
     },
     {
       id: 6,
@@ -63,8 +63,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "food",
       order: 6,
-      kind: "food"
-    }
+      group: "mealBasics",
+    },
   ],
 
   // ===============================
@@ -79,7 +79,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "drink",
       order: 1,
-      kind: "drink"
+      group: "everydayDrinks", // 💧 everyday drink
     },
     {
       id: 11,
@@ -89,7 +89,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "drink",
       order: 2,
-      kind: "drink"
+      group: "treatDrinks", // 🧃 treat
     },
     {
       id: 12,
@@ -99,7 +99,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "drink",
       order: 3,
-      kind: "drink"
+      group: "everydayDrinks",
     },
     {
       id: 13,
@@ -109,7 +109,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "drink",
       order: 4,
-      kind: "drink"
+      group: "hotDrinks", // ☕ hot drinks
     },
     {
       id: 14,
@@ -119,8 +119,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "drink",
       order: 5,
-      kind: "drink"
-    }
+      group: "treatDrinks",
+    },
   ],
 
   // ===============================
@@ -135,7 +135,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "more",
       order: 1,
-      kind: "helper"
+      group: "quantityControl",
     },
     {
       id: 31,
@@ -145,8 +145,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "more",
       order: 2,
-      kind: "helper"
-    }
+      group: "quantityControl",
+    },
   ],
 
   // ===============================
@@ -161,7 +161,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "help",
       order: 1,
-      kind: "helper"
+      group: "basicHelp",
     },
     {
       id: 21,
@@ -171,7 +171,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "help",
       order: 2,
-      kind: "helper"
+      group: "basicHelp",
     },
     {
       id: 22,
@@ -181,7 +181,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "help",
       order: 3,
-      kind: "helper"
+      group: "preference",
     },
     {
       id: 23,
@@ -191,8 +191,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "help",
       order: 4,
-      kind: "helper"
-    }
+      group: "preference",
+    },
   ],
 
   // ===============================
@@ -207,7 +207,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "feelings",
       order: 1,
-      kind: "feeling"
+      group: "positiveFeelings",
     },
     {
       id: 41,
@@ -217,7 +217,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "feelings",
       order: 2,
-      kind: "feeling"
+      group: "negativeFeelings",
     },
     {
       id: 42,
@@ -227,7 +227,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "feelings",
       order: 3,
-      kind: "feeling"
+      group: "negativeFeelings",
     },
     {
       id: 43,
@@ -237,8 +237,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "feelings",
       order: 4,
-      kind: "feeling"
-    }
+      group: "energyFeelings",
+    },
   ],
 
   // ===============================
@@ -253,7 +253,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "actions",
       order: 1,
-      kind: "action"
+      group: "movementActions",
     },
     {
       id: 51,
@@ -263,7 +263,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "actions",
       order: 2,
-      kind: "action"
+      group: "movementActions",
     },
     {
       id: 52,
@@ -273,7 +273,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "actions",
       order: 3,
-      kind: "action"
+      group: "positionActions",
     },
     {
       id: 53,
@@ -283,8 +283,8 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "actions",
       order: 4,
-      kind: "action"
-    }
+      group: "positionActions",
+    },
   ],
 
   // ===============================
@@ -299,7 +299,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "people",
       order: 1,
-      kind: "people"
+      group: "family",
     },
     {
       id: 61,
@@ -309,7 +309,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "people",
       order: 2,
-      kind: "people"
+      group: "family",
     },
     {
       id: 62,
@@ -319,7 +319,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "people",
       order: 3,
-      kind: "people"
+      group: "schoolPeople",
     },
     {
       id: 63,
@@ -329,7 +329,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       lang: "en-US",
       category: "people",
       order: 4,
-      kind: "people"
-    }
-  ]
+      group: "schoolPeople",
+    },
+  ],
 };

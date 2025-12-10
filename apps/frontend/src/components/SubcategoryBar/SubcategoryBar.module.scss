@@ -1,0 +1,82 @@
+@use "../../styles/breakpoints.scss" as *;
+
+.subcategoryBar {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin: 8px 0 14px 0;
+  padding: 6px;
+  overflow-x: auto;
+
+  background: #f5f5f5;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+
+  // Hide ugly scrollbars on supporting browsers
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 999px;
+  }
+
+  @include respond(tablet-portrait) {
+    gap: 10px;
+    padding: 8px 10px;
+  }
+
+  @include respond(tablet-landscape) {
+    gap: 12px;
+    padding: 10px 12px;
+  }
+}
+
+.item {
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  background: white;
+  color: #333;
+  border: 1px solid #ddd;
+
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+
+  &:hover {
+    background: #e8f0ff;
+  }
+
+  @include respond(tablet-portrait) {
+    padding: 8px 14px;
+    font-size: 1rem;
+  }
+
+  @include respond(tablet-landscape) {
+    padding: 10px 16px;
+    font-size: 1.05rem;
+  }
+}
+
+.active {
+  background: #2f6bff;
+  color: #fff;
+  border-color: #2f6bff;
+  transform: translateY(-1px);
+
+  &:hover {
+    background: #2554c5;
+  }
+}

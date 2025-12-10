@@ -1,13 +1,15 @@
-'use client';
+"use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 import CategoryBar from "@/components/CategoryBar";
+import SubcategoryBar from "@/components/SubcategoryBar";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import Board from "@/components/Board";
 import SentenceBar from "@/components/SentenceBar";
+
 import { TILES_BY_CATEGORY } from "@/data/tiles";
 import { TileData } from "@/components/Tile";
 
@@ -19,13 +21,41 @@ export default function LocalePage({
   const resolved = use(params);
   const locale = resolved.locale?.[0] ?? "en";
 
+  const { t } = useTranslation("common");
+
   // -----------------------------------------
   // STATE
   // -----------------------------------------
-  const [activeCategory, setActiveCategory] = useState("food");
+  const [activeCategory, setActiveCategory] = useState<string>("food");
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const [sentence, setSentence] = useState<TileData[]>([]);
 
-  const tiles = TILES_BY_CATEGORY[activeCategory] ?? [];
+  // All tiles for current category
+  const categoryTiles = useMemo(
+    () => TILES_BY_CATEGORY[activeCategory] ?? [],
+    [activeCategory]
+  );
+
+  // Semantic groups (computed "AI-style" from tile.group)
+  const availableGroups = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          categoryTiles
+            .map((t) => t.group)
+            .filter((g): g is string => !!g)
+        )
+      ),
+    [categoryTiles]
+  );
+
+  // Filter tiles by activeGroup if exists
+  const visibleTiles = useMemo(() => {
+    if (activeGroup && availableGroups.includes(activeGroup)) {
+      return categoryTiles.filter((t) => t.group === activeGroup);
+    }
+    return categoryTiles;
+  }, [categoryTiles, activeGroup, availableGroups]);
 
   // -----------------------------------------
   // LANGUAGE SYNC
@@ -34,7 +64,11 @@ export default function LocalePage({
     i18next.changeLanguage(locale);
   }, [locale]);
 
-  const { t } = useTranslation("common");
+  // Reset subcategory + sentence when category changes
+  useEffect(() => {
+    setActiveGroup(null);
+    setSentence([]);
+  }, [activeCategory]);
 
   // -----------------------------------------
   // HANDLERS
@@ -42,13 +76,13 @@ export default function LocalePage({
   function handleTileClick(tile: TileData) {
     setSentence((prev) => [...prev, tile]);
   }
-  function handleDeleteLast() {
-  setSentence(prev => prev.slice(0, -1));
-}
-
 
   function handleClear() {
     setSentence([]);
+  }
+
+  function handleDeleteLast() {
+    setSentence((prev) => prev.slice(0, -1));
   }
 
   // -----------------------------------------
@@ -60,13 +94,22 @@ export default function LocalePage({
 
         <LanguageSwitcher />
 
+        {/* MAIN CATEGORIES */}
         <CategoryBar
           locale={locale}
           activeCategory={activeCategory}
           onSelect={(cat) => setActiveCategory(cat)}
         />
 
-        {/* 🟦 Sentence Builder Bar */}
+        {/* AUTO-GENERATED SUBCATEGORIES FROM TILE GROUPS */}
+        <SubcategoryBar
+          locale={locale}
+          groups={availableGroups}
+          activeGroup={activeGroup}
+          onSelect={setActiveGroup}
+        />
+
+        {/* SENTENCE BUILDER BAR */}
         <SentenceBar
           sentence={sentence}
           locale={locale}
@@ -74,9 +117,9 @@ export default function LocalePage({
           onDeleteLast={handleDeleteLast}
         />
 
-        {/* 🟩 AAC Tile Grid */}
+        {/* AAC TILE GRID */}
         <Board
-          tiles={tiles}
+          tiles={visibleTiles}
           locale={locale}
           onTileSelect={handleTileClick}
         />

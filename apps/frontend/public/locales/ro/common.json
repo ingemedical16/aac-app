@@ -16,5 +16,25 @@
   "again": "Încă o dată",
   "to": "să",
   "toGoTo": "să merg la",
-  "period": "."
+  "period": ".",
+
+  "all": "Toate",
+
+  "groups": {
+    "mealBasics": "Mâncăruri de bază",
+    "freshSnacks": "Fructe & gustări",
+    "everydayDrinks": "Băuturi zilnice",
+    "treatDrinks": "Sucuri & băuturi",
+    "hotDrinks": "Băuturi calde",
+    "quantityControl": "Încă / din nou",
+    "basicHelp": "Ajutor de bază",
+    "preference": "Vreau / Nu vreau",
+    "positiveFeelings": "Emoții pozitive",
+    "negativeFeelings": "Emoții negative",
+    "energyFeelings": "Energie / Obosit",
+    "movementActions": "Mișcare",
+    "positionActions": "Poziții",
+    "family": "Familie",
+    "schoolPeople": "Școală & prieteni"
+  }
 }

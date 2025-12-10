@@ -1,13 +1,13 @@
 "use client";
 
 import Tile, { TileData } from "@/components/Tile";
-import useTTS from "@/hooks/useTTS";
 import styles from "./Board.module.scss";
+import useTTS from "@/hooks/useTTS";
 
 interface BoardProps {
-  tiles: TileData[];
-  locale: string;
-  onTileSelect: (tile: TileData) => void;
+  tiles: TileData[];                 // loaded from data / API
+  locale: string;                    // current UI language
+  onTileSelect?: (tile: TileData) => void; // optional: used by SentenceBar
 }
 
 export default function Board({ tiles, locale, onTileSelect }: BoardProps) {
@@ -20,6 +20,7 @@ export default function Board({ tiles, locale, onTileSelect }: BoardProps) {
   return (
     <div className={styles.board}>
       {tiles
+        .slice()
         .sort((a, b) => a.order - b.order)
         .map((tile) => (
           <Tile
@@ -27,7 +28,11 @@ export default function Board({ tiles, locale, onTileSelect }: BoardProps) {
             tile={tile}
             locale={locale}
             onSpeak={handleSpeak}
-            onSelect={() => onTileSelect(tile)}
+            onSelect={
+              onTileSelect
+                ? () => onTileSelect(tile)
+                : undefined
+            }
           />
         ))}
     </div>
