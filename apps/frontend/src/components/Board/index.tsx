@@ -5,12 +5,18 @@ import styles from "./Board.module.scss";
 import useTTS from "@/hooks/useTTS";
 
 interface BoardProps {
-  tiles: TileData[];                 // loaded from data / API
-  locale: string;                    // current UI language
-  onTileSelect?: (tile: TileData) => void; // optional: used by SentenceBar
+  tiles: TileData[];
+  locale: string;
+  onTileSelect: (tile: TileData) => void;
+  onTileLongPress: (tile: TileData) => void;
 }
 
-export default function Board({ tiles, locale, onTileSelect }: BoardProps) {
+export default function Board({
+  tiles,
+  locale,
+  onTileSelect,
+  onTileLongPress,
+}: BoardProps) {
   const { speak } = useTTS();
 
   const handleSpeak = (text: string, locale: string) => {
@@ -20,21 +26,21 @@ export default function Board({ tiles, locale, onTileSelect }: BoardProps) {
   return (
     <div className={styles.board}>
       {tiles
-        .slice()
         .sort((a, b) => a.order - b.order)
-        .map((tile) => (
-          <Tile
-            key={tile.id}
-            tile={tile}
-            locale={locale}
-            onSpeak={handleSpeak}
-            onSelect={
-              onTileSelect
-                ? () => onTileSelect(tile)
-                : undefined
-            }
-          />
-        ))}
+        .map((tile) => {
+          const text = tile.translations?.[locale] || tile.word;
+
+          return (
+            <Tile
+              key={tile.id}
+              tile={tile}
+              locale={locale}
+              onSpeak={() => handleSpeak(text, locale)}
+              onSelect={() => onTileSelect(tile)}
+              onLongPress={() => onTileLongPress(tile)}
+            />
+          );
+        })}
     </div>
   );
 }

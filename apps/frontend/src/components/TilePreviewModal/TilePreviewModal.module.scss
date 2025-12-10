@@ -1,0 +1,125 @@
+@use "../../styles/breakpoints.scss" as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+}
+
+.modal {
+  background: white;
+  width: 92%;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  animation: popIn 0.25s ease;
+
+  @include respond(tablet-portrait) {
+    max-width: 480px;
+    padding: 28px;
+  }
+
+  @include respond(desktop) {
+    max-width: 540px;
+    padding: 32px;
+  }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #eee;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  &:hover {
+    background: #ddd;
+  }
+}
+
+.image {
+  width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+  margin-bottom: 14px;
+
+  @include respond(tablet-landscape) {
+    max-height: 300px;
+  }
+}
+
+.title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+
+  @include respond(desktop) {
+    font-size: 1.8rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  @include respond(tablet-landscape) {
+    flex-direction: row;
+  }
+}
+
+.speak {
+  background: #4a8cff;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background: #3a6edc;
+  }
+}
+
+.add {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    background: #0d8f67;
+  }
+}
+
+.editDisabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  color: #555;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1.2rem;
+}
