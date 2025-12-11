@@ -1,9 +1,8 @@
+// apps/frontend/src/lib/sentenceBuilder.ts
+
 import { TileData } from "@/components/Tile";
 
-/**
- * Shared Grammar Types
- */
-
+/** TYPES **/
 export type Locale = "en" | "fr" | "ar" | "ro" | (string & {});
 export type GrammarMode = "simple" | "full";
 
@@ -16,8 +15,8 @@ export interface PhraseSet {
   stop: string;
   more: string;
   again: string;
-  to: string;
-  toGoTo: string;
+  to: string;      // e.g. "to", "să", "أن", "" (FR)
+  toGoTo: string;  // e.g. "to go to", "aller à", "أن أذهب إلى", "să merg la"
   period: string;
 }
 
@@ -28,205 +27,285 @@ interface SentenceContext {
   mode: GrammarMode;
 }
 
-/**
- * Helpers
- */
-
-function textForTile(tile: TileData, locale: Locale): string {
+/** HELPERS **/
+function tf(tile: TileData, locale: Locale): string {
   return tile.translations?.[locale] || tile.word;
 }
 
-function joinTiles(tiles: TileData[], locale: Locale): string {
-  return tiles.map((t) => textForTile(t, locale)).join(" ");
+function join(tiles: TileData[], locale: Locale): string {
+  return tiles.map((t) => tf(t, locale)).join(" ");
 }
 
-function byCategory(tiles: TileData[], category: string): TileData[] {
-  return tiles.filter((t) => t.category === category);
+function cat(tiles: TileData[], c: string) {
+  return tiles.filter((t) => t.category === c);
 }
 
-function findByWord(tiles: TileData[], word: string): TileData | undefined {
-  return tiles.find((t) => t.word.toLowerCase() === word.toLowerCase());
+function isWord(tile: TileData, w: string) {
+  return tile.word.toLowerCase() === w.toLowerCase();
 }
+
+function find(tiles: TileData[], w: string) {
+  return tiles.find((t) => isWord(t, w));
+}
+
+/** --------------------------
+ *  1) FULL MODE MORPHOLOGY
+ * ------------------------- **/
+
+function applyEnglishMorphology(action: string, object: string | null): string {
+  // We keep it very simple and safe.
+  const infinitives: Record<string, string> = {
+    Go: "go",
+    Sit: "sit",
+    Stand: "stand",
+    Eat: "eat",
+    Drink: "drink",
+  };
+
+  const base = infinitives[action] || action.toLowerCase();
+
+  // For now we do not change form based on object, just return the verb.
+  if (!object) return base;
+  return base;
+}
+
+function applyFrenchMorphology(action: string): string {
+  // Use infinitive forms where helpful.
+  const infinitives: Record<string, string> = {
+    Go: "aller",
+    Sit: "s’asseoir",
+    Stand: "se lever",
+    Eat: "manger",
+    Drink: "boire",
+  };
+  return infinitives[action] || action.toLowerCase();
+}
+
+function applyRomanianMorphology(action: string): string {
+  // Forms already contain "să", so we must avoid adding it again later.
+  const forms: Record<string, string> = {
+    Go: "să merg",
+    Sit: "să stau jos",
+    Stand: "să mă ridic",
+    Eat: "să mănânc",
+    Drink: "să beau",
+  };
+  return forms[action] || action.toLowerCase();
+}
+
+function applyArabicMorphology(action: string): string {
+  // Forms already contain "أن", so we must avoid adding it again later.
+  const forms: Record<string, string> = {
+    Go: "أن أذهب",
+    Sit: "أن أجلس",
+    Stand: "أن أقف",
+    Eat: "أن آكل",
+    Drink: "أن أشرب",
+  };
+  return forms[action] || action;
+}
+
+function applyMorphology(
+  locale: Locale,
+  actions: TileData[],
+  objects: TileData[]
+): string {
+  if (!actions.length) return "";
+
+  const first = actions[0].word;
+  const objectText = objects.length ? objects[0].word : null;
+
+  switch (locale) {
+    case "en":
+      return applyEnglishMorphology(first, objectText);
+    case "fr":
+      return applyFrenchMorphology(first);
+    case "ro":
+      return applyRomanianMorphology(first);
+    case "ar":
+      return applyArabicMorphology(first);
+    default:
+      // Fallback: lowercased English label
+      return first.toLowerCase();
+  }
+}
+
+/** ------------------------------
+ *  2) DESTINATION PREPOSITIONS
+ * ------------------------------ **/
 
 /**
- * Core engine (language-agnostic, driven by PhraseSet)
- *
- * This is our "plugin-ready" base:
- * - All language specifics come from PhraseSet (i18n) and, later, optional per-language hooks.
+ * Normalize destination like "Mom", "Dad", "Teacher", "Friend"
+ * using the *translated* word in each language and proper preposition.
  */
+function normalizeDestination(locale: Locale, personTile: TileData): string {
+  const label = tf(personTile, locale); // localized label
+
+  switch (locale) {
+    case "en":
+      // "my mom", "my dad", "my teacher", "my friend"
+      return `my ${label.toLowerCase()}`;
+    case "fr": {
+      // Keep it simple: "chez maman", "chez papa", "chez le professeur", "chez mon ami"
+      const lower = label.toLowerCase();
+      if (lower.includes("maman")) return "chez maman";
+      if (lower.includes("papa")) return "chez papa";
+      if (lower.includes("prof")) return "chez le professeur";
+      if (lower.includes("ami")) return "chez mon ami";
+      return `chez ${lower}`;
+    }
+    case "ro": {
+      // "la mama", "la tata", "la profesor", "la prieten"
+      const lower = label.toLowerCase();
+      if (lower.includes("mama")) return "la mama";
+      if (lower.includes("tata")) return "la tata";
+      if (lower.includes("profesor")) return "la profesor";
+      if (lower.includes("prieten")) return "la prieten";
+      return `la ${lower}`;
+    }
+    case "ar": {
+      // Arabic labels already in Arabic; prefix with "إلى"
+      // e.g. "إلى أمي", "إلى أبي", "إلى المعلمة", "إلى صديقي"
+      return `إلى ${label}`;
+    }
+    default:
+      return label;
+  }
+}
+
+/** -------------------------------------
+ *  MAIN GRAMMAR ENGINE
+ * ------------------------------------ **/
 
 function buildFromContext(ctx: SentenceContext): string {
-  const { tiles, locale, phrases } = ctx;
-
+  const { tiles, locale, phrases, mode } = ctx;
   if (!tiles.length) return "";
 
-  // --- Categorization ---
-  const feelings = byCategory(tiles, "feelings");
-  const actions = byCategory(tiles, "actions");
-  const foodAndDrink = [...byCategory(tiles, "food"), ...byCategory(tiles, "drink")];
-  const people = byCategory(tiles, "people");
+  const feelings = cat(tiles, "feelings");
+  const actions = cat(tiles, "actions");
+  const foodDrinks = [...cat(tiles, "food"), ...cat(tiles, "drink")];
+  const people = cat(tiles, "people");
 
-  // --- Special tiles (by English base word) ---
-  const wantTile = findByWord(tiles, "I want");
-  const dontWantTile = findByWord(tiles, "Don't want");
-  const helpTile = findByWord(tiles, "Help");
-  const stopTile = findByWord(tiles, "Stop");
-  const moreTile = findByWord(tiles, "More");
-  const againTile = findByWord(tiles, "Again");
+  const wantTile = find(tiles, "I want");
+  const dontWantTile = find(tiles, "Don't want");
+  const helpTile = find(tiles, "Help");
+  const stopTile = find(tiles, "Stop");
+  const moreTile = find(tiles, "More");
+  const againTile = find(tiles, "Again");
 
-  // --------------------------------------------------
-  // 1) Feelings-only → "I feel happy."
-  // --------------------------------------------------
+  /** FEELINGS → “I feel happy.” */
   if (feelings.length && !wantTile && !dontWantTile && !helpTile) {
-    const feelingsText = joinTiles(feelings, locale);
-    return `${phrases.iFeel} ${feelingsText}${phrases.period}`;
+    return `${phrases.iFeel} ${join(feelings, locale)}${phrases.period}`;
   }
 
-  // --------------------------------------------------
-  // 2) Explicit HELP
-  // --------------------------------------------------
+  /** HELP */
   if (helpTile) {
-    const otherTiles = tiles.filter((t) => t !== helpTile);
-    if (!otherTiles.length) {
-      // Just "Help!"
-      return `${phrases.help}!`;
-    } else {
-      const targetText = joinTiles(otherTiles, locale);
-      return `${phrases.iNeedHelp} ${targetText}${phrases.period}`;
-    }
+    const others = tiles.filter((t) => t !== helpTile);
+    if (!others.length) return `${phrases.help}!`;
+
+    return `${phrases.iNeedHelp} ${join(others, locale)}${phrases.period}`;
   }
 
-  // --------------------------------------------------
-  // 3) STOP tile alone
-  // --------------------------------------------------
+  /** STOP */
   if (stopTile && tiles.length === 1) {
     return `${phrases.stop}${phrases.period}`;
   }
 
-  // --------------------------------------------------
-  // 4) "More" / "Again" emphasis
-  // --------------------------------------------------
-  const extraWords: string[] = [];
-  if (moreTile) extraWords.push(phrases.more);
-  if (againTile) extraWords.push(phrases.again);
+  /** MORE/AGAIN emphasis */
+  const extra: string[] = [];
+  if (moreTile) extra.push(phrases.more);
+  if (againTile) extra.push(phrases.again);
 
-  // --------------------------------------------------
-  // 5) "I want" / "Don't want" / implicit want
-  // --------------------------------------------------
+  /** WANT / DON'T WANT / implicit want */
   let base: string;
-  let hasExplicitWant = !!wantTile || !!dontWantTile;
+  // explicit is kept for future use if needed
+  const explicit = !!wantTile || !!dontWantTile;
 
-  if (dontWantTile) {
-    base = phrases.iDontWant;
-  } else if (wantTile) {
-    base = phrases.iWant;
-  } else {
-    // No explicit "I want" tile:
-    // If we selected something we can want (food/drink/actions/people),
-    // we implicitly prepend "I want / Je veux / أريد / Vreau".
-    if (foodAndDrink.length || actions.length || people.length) {
-      base = phrases.iWant;
-      hasExplicitWant = true;
-    } else {
-      // Fallback: just read tiles in order
-      const fallback = joinTiles(tiles, locale);
-      return `${fallback}${phrases.period}`;
-    }
-  }
+  if (dontWantTile) base = phrases.iDontWant;
+  else if (wantTile) base = phrases.iWant;
+  else base = phrases.iWant;
 
-  // --------------------------------------------------
-  // 6) Build the rest of the phrase
-  // --------------------------------------------------
-  let restParts: string[] = [];
-
-  // Actions with "to" / "să" / "أن" etc.
+  /** FULL MODE: special handling for GO + PEOPLE (destination) */
+  let actionPart = "";
   if (actions.length) {
-    const goAction = actions.find((a) => a.word === "Go");
+    if (mode === "full") {
+      const morph = applyMorphology(locale, actions, foodDrinks);
+      actionPart = morph;
 
-    if (goAction && people.length) {
-      // "I want to go to mom."
-      const peopleText = joinTiles(people, locale);
-      const segment = phrases.toGoTo
-        ? `${phrases.toGoTo} ${peopleText}`
-        : peopleText;
-
-      restParts.push(segment.trim());
-    } else {
-      // General action: "I want to sit", "I want to go"
-      const actionsText = joinTiles(actions, locale);
-
-      if (phrases.to) {
-        restParts.push(`${phrases.to} ${actionsText}`.trim());
-      } else {
-        // Languages where we do not inject "to"
-        restParts.push(actionsText);
+      // GO + PERSON → "I want to go to my mom", "Je veux aller chez maman", ...
+      if (people.length) {
+        const personTile = people[0];
+        const dest = normalizeDestination(locale, personTile);
+        // Use toGoTo phrase (already localized)
+        return `${base} ${phrases.toGoTo} ${dest}${phrases.period}`;
       }
-    }
-  }
-
-  // Food / drink / people as objects we want
-  if (foodAndDrink.length || (!actions.length && people.length)) {
-    const objectTargets = [
-      ...foodAndDrink,
-      ...(!actions.length ? people : []),
-    ];
-    const objectsText = joinTiles(objectTargets, locale);
-
-    if (actions.length) {
-      // "I want to drink water"
-      restParts.push(objectsText);
     } else {
-      // Pure object: "I want water", "I don't want soup"
-      restParts.push(objectsText);
+      /** SIMPLE MODE: just use tile labels in that language */
+      actionPart = join(actions, locale);
     }
   }
 
-  // If we have no restParts (very short request like just "I want"),
-  // just spell out tiles in order.
-  let sentence: string;
-  if (!restParts.length) {
-    const raw = joinTiles(
-      tiles.filter((t) => t !== wantTile && t !== dontWantTile),
-      locale
-    );
-    sentence = hasExplicitWant ? `${base} ${raw}`.trim() : raw.trim();
-  } else {
-    sentence = `${base} ${restParts.join(" ")}`.trim();
+  /** OBJECTS (food, drink, people in some cases) */
+  let objectPart = "";
+  if (foodDrinks.length) {
+    objectPart = join(foodDrinks, locale);
+  } else if (!actions.length && people.length) {
+    // No verb, only person → "I want mom / Je veux maman / أريد أمي / Vreau mama"
+    const personTile = people[0];
+    if (mode === "full") {
+      objectPart = normalizeDestination(locale, personTile);
+    } else {
+      objectPart = tf(personTile, locale);
+    }
   }
 
-  // Add "more" / "again" at the end if present
-  if (extraWords.length) {
-    sentence = `${sentence} ${extraWords.join(" ")}`.trim();
+  /** Build final sentence with morphology-aware "to" behaviour */
+  let result = `${base}`;
+
+  if (actionPart) {
+    // Avoid duplicating "to / să / أن" for RO + AR when the form already includes it.
+    const toToken = phrases.to?.trim();
+    const hasLeadingTo =
+      toToken &&
+      actionPart.startsWith(toToken) &&
+      (actionPart === toToken || actionPart.startsWith(toToken + " "));
+
+    if (mode === "full" && toToken) {
+      if (hasLeadingTo) {
+        // Already contains "să" / "أن" etc: just append the verb phrase.
+        result += ` ${actionPart}`;
+      } else {
+        // Needs explicit "to" / "să" / "أن"...
+        result += ` ${toToken} ${actionPart}`;
+      }
+    } else if (mode === "simple" && toToken) {
+      result += ` ${toToken} ${actionPart}`;
+    } else {
+      // No explicit connector word
+      result += ` ${actionPart}`;
+    }
   }
 
-  return `${sentence}${phrases.period}`;
+  if (objectPart) {
+    result += ` ${objectPart}`;
+  }
+
+  if (extra.length) {
+    result += ` ${extra.join(" ")}`;
+  }
+
+  return result.trim() + phrases.period;
 }
 
-/**
- * Public API
- *
- * NOTE: mode ("simple" | "full") is already part of the signature
- * so we can extend behavior later without changing components.
- */
-
+/** PUBLIC API **/
 export function buildSentence(
   tiles: TileData[],
   locale: Locale,
   phrases: PhraseSet,
   mode: GrammarMode = "simple"
 ): string {
-  const ctx: SentenceContext = {
-    tiles,
-    locale,
-    phrases,
-    mode,
-  };
-
-  // In the future we can route to per-language plugins here:
-  // e.g. englishGrammar.build(ctx), frenchGrammar.build(ctx), etc.
-  // For now all languages share the same base engine, driven by PhraseSet.
+  const ctx: SentenceContext = { tiles, locale, phrases, mode };
   return buildFromContext(ctx);
 }
 
-// Re-export types for UI components (SentenceBar, etc.)
 export type { PhraseSet as SentencePhraseSet };
