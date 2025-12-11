@@ -29,6 +29,8 @@ export default function LocalePage({
   const [activeCategory, setActiveCategory] = useState<string>("food");
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const [sentence, setSentence] = useState<TileData[]>([]);
+  const [grammarMode, setGrammarMode] = useState<GrammarMode>("simple");
+
 
   // All tiles for current category
   const categoryTiles = useMemo(
@@ -115,7 +117,9 @@ export default function LocalePage({
           locale={locale}
           onClear={handleClear}
           onDeleteLast={handleDeleteLast}
+          grammarMode={grammarMode}
         />
+
 
         {/* AAC TILE GRID */}
         <Board
