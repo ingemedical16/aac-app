@@ -1,10 +1,14 @@
-// apps/frontend/src/components/SentenceBar/index.tsx
 "use client";
 
 import { useState } from "react";
 import styles from "./SentenceBar.module.scss";
+
 import useTTS from "@/hooks/useTTS";
-import { buildSentence, PhraseSet } from "@/lib/sentenceBuilder";
+import {
+  buildSentence,
+  type SentencePhraseSet,
+  type GrammarMode,
+} from "@/lib/sentenceBuilder";
 import { TileData } from "@/components/Tile";
 import { useTranslation } from "react-i18next";
 
@@ -13,6 +17,8 @@ interface Props {
   locale: string;
   onClear: () => void;
   onDeleteLast: () => void;
+  // Ready for Option C: both modes (simple / full).
+  grammarMode?: GrammarMode;
 }
 
 export default function SentenceBar({
@@ -20,14 +26,14 @@ export default function SentenceBar({
   locale,
   onClear,
   onDeleteLast,
+  grammarMode = "simple", // we can later expose a toggle in the UI
 }: Props) {
   const { speak } = useTTS();
   const { t } = useTranslation("common");
-
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  // Build phrase set from i18n (React hook usage is here, not in the engine)
-  const phrases: PhraseSet = {
+  // Build phrase set from i18n → multilingual parity EN / FR / AR / RO
+  const phrases: SentencePhraseSet = {
     iWant: t("iWant"),
     iDontWant: t("iDontWant"),
     iNeedHelp: t("iNeedHelp"),
@@ -41,12 +47,11 @@ export default function SentenceBar({
     period: t("period"),
   };
 
-  const fullSentence = buildSentence(sentence, locale, phrases);
+  const fullSentence = buildSentence(sentence, locale, phrases, grammarMode);
 
   const handleSpeak = () => {
     if (!fullSentence) return;
     setIsSpeaking(true);
-    // useTTS supports onEnd callback (visual feedback)
     speak(fullSentence, locale, () => {
       setIsSpeaking(false);
     });
@@ -54,8 +59,9 @@ export default function SentenceBar({
 
   return (
     <div
-      className={`${styles.bar} ${isSpeaking ? styles.speaking : ""}`}
-      aria-label={t("boardTitle")}
+      className={`${styles.bar} ${
+        isSpeaking ? styles.barSpeaking : ""
+      }`}
     >
       {/* WORD LIST */}
       <div className={styles.words}>
@@ -65,10 +71,10 @@ export default function SentenceBar({
           </span>
         ))}
 
-        {/* Small hint for therapists / parents */}
+        {/* Optional hint for therapists (future dashboard) */}
         {sentence.length === 0 && (
           <span className={styles.hint}>
-            {t("tapToSpeak", "Tap tiles to build a sentence")}
+            {t("tapToSpeak")}
           </span>
         )}
       </div>
@@ -77,7 +83,6 @@ export default function SentenceBar({
       <div className={styles.buttons}>
         <button
           className={styles.speak}
-          type="button"
           onClick={handleSpeak}
           disabled={!fullSentence}
         >
@@ -86,7 +91,6 @@ export default function SentenceBar({
 
         <button
           className={styles.deleteLast}
-          type="button"
           onClick={onDeleteLast}
           disabled={sentence.length === 0}
         >
@@ -95,7 +99,6 @@ export default function SentenceBar({
 
         <button
           className={styles.clear}
-          type="button"
           onClick={onClear}
           disabled={sentence.length === 0}
         >
