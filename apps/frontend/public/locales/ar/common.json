@@ -1,11 +1,13 @@
 {
-  "appTitle": "لوحة تواصل للأطفال",
+  "appTitle": "لوحة تواصل AAC",
   "language": "اللغة",
   "boardTitle": "لوحة التواصل",
   "tapToSpeak": "اضغط على الصورة للنطق",
   "speak": "نُطق",
   "clear": "حذف",
   "deleteLast": "حذف آخر كلمة",
+  "addToSentence": "إضافة للجملة",
+  "edit": "تعديل",
   "iWant": "أريد",
   "iDontWant": "لا أريد",
   "iNeedHelp": "أحتاج مساعدة",
@@ -17,24 +19,23 @@
   "to": "أن",
   "toGoTo": "أن أذهب إلى",
   "period": "。",
-
   "all": "الكل",
 
   "groups": {
-    "mealBasics": "وجبات أساسية",
-    "freshSnacks": "فواكه ووجبات خفيفة",
+    "mealBasics": "الوجبات الأساسية",
+    "freshSnacks": "الفواكه والوجبات الخفيفة",
     "everydayDrinks": "مشروبات يومية",
     "treatDrinks": "عصائر ومشروبات غازية",
     "hotDrinks": "مشروبات ساخنة",
-    "quantityControl": "زيادة / مرة أخرى",
+    "quantityControl": "المزيد / مرة أخرى",
     "basicHelp": "مساعدة أساسية",
     "preference": "أريد / لا أريد",
     "positiveFeelings": "مشاعر إيجابية",
     "negativeFeelings": "مشاعر سلبية",
     "energyFeelings": "طاقة / تعب",
-    "movementActions": "حركة",
-    "positionActions": "وضعيات",
-    "family": "عائلة",
-    "schoolPeople": "مدرسة وأصدقاء"
+    "movementActions": "الحركة",
+    "positionActions": "الوضعية",
+    "family": "العائلة",
+    "schoolPeople": "المدرسة والأصدقاء"
   }
 }

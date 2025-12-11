@@ -24,32 +24,22 @@ export default function TilePreviewModal({ tile, locale, onClose, onAdd }: Props
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         
-        {/* CLOSE BUTTON */}
         <button className={styles.close} onClick={onClose}>
           ✖
         </button>
 
-        {/* IMAGE */}
         <img src={tile.imageUrl} alt={text} className={styles.image} />
 
-        {/* LABEL */}
         <h2 className={styles.title}>{text}</h2>
 
-        {/* BUTTONS */}
         <div className={styles.buttons}>
-          <button
-            className={styles.speak}
-            onClick={() => speak(text, locale)}
-          >
+          <button className={styles.speak} onClick={() => speak(text, locale)}>
             🔊 {t("speak")}
           </button>
 
           <button
             className={styles.add}
-            onClick={() => {
-              onAdd(tile);
-              onClose();
-            }}
+            onClick={() => onAdd(tile)}
           >
             ➕ {t("addToSentence")}
           </button>

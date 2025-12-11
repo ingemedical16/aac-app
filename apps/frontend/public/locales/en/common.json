@@ -6,6 +6,8 @@
   "speak": "Speak",
   "clear": "Clear",
   "deleteLast": "Delete Last",
+  "addToSentence": "Add to sentence",
+  "edit": "Edit",
   "iWant": "I want",
   "iDontWant": "I don't want",
   "iNeedHelp": "I need help",
@@ -18,6 +20,7 @@
   "toGoTo": "to go to",
   "period": ".",
   "all": "All",
+
   "groups": {
     "mealBasics": "Meals & basics",
     "freshSnacks": "Fruit & snacks",
