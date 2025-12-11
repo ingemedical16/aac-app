@@ -1,35 +1,12 @@
-// apps/frontend/src/lib/sentenceBuilder.ts
-
 import { TileData } from "@/components/Tile";
 
 /**
- * Grammar Engine v3 (Enterprise)
- *
- * - No React hooks here (pure TypeScript utilities).
- * - Multilingual plugin-ready architecture.
- * - Works with externalized UI phrases (i18n).
- *
- * The engine is:
- *   - Locale-aware (en, fr, ar, ro, + fallback)
- *   - Category-aware (help, feelings, actions, food, drink, people, etc.)
- *   - Extensible via GrammarPlugin (for morphology / special cases later)
+ * Shared Grammar Types
  */
 
-// --------------------------------------------------
-// TYPES
-// --------------------------------------------------
+export type Locale = "en" | "fr" | "ar" | "ro" | (string & {});
+export type GrammarMode = "simple" | "full";
 
-export type CoreLocale = "en" | "fr" | "ar" | "ro";
-export type Locale = CoreLocale | (string & {});
-
-/**
- * Phrases are provided by the UI layer (i18n),
- * so the engine does NOT depend on React or i18next.
- *
- * These keys should match what you expose in common.json:
- *   "iWant", "iDontWant", "iNeedHelp", "help", "iFeel",
- *   "stop", "more", "again", "to", "toGoTo", "period"
- */
 export interface PhraseSet {
   iWant: string;
   iDontWant: string;
@@ -44,148 +21,19 @@ export interface PhraseSet {
   period: string;
 }
 
-export interface GrammarContext {
-  locale: Locale;
+interface SentenceContext {
   tiles: TileData[];
+  locale: Locale;
   phrases: PhraseSet;
+  mode: GrammarMode;
 }
 
-export interface GrammarPlugin {
-  /**
-   * Simple identifier, useful for debugging / metrics.
-   */
-  id: string;
-
-  /**
-   * Decide whether this plugin applies to a given locale.
-   * Example: locale startsWith("en") or equals "fr".
-   */
-  matches(locale: Locale): boolean;
-
-  /**
-   * Optional hook to transform an action verb depending on context
-   * (future feature: morphology, e.g., "go" → "going").
-   */
-  morphAction?(verb: string, ctx: GrammarContext): string;
-
-  /**
-   * Optional full override: if plugin returns a non-null string,
-   * the base engine is skipped, allowing fully custom grammar.
-   *
-   * For most cases, you will return null and let the base engine run.
-   */
-  buildCustomSentence?(ctx: GrammarContext): string | null;
-}
-
-// --------------------------------------------------
-// PLUGIN REGISTRY (for future advanced behaviour)
-// --------------------------------------------------
-
-const englishPlugin: GrammarPlugin = {
-  id: "en-basic",
-  matches(locale) {
-    return locale.toLowerCase().startsWith("en");
-  },
-  morphAction(verb, ctx) {
-    // Placeholder for future morphology, currently no change.
-    // Example for future: if ctx.mode === "progressive" ⇒ verb + "ing"
-    return verb;
-  },
-  buildCustomSentence() {
-    // For now, we let the base engine handle English.
-    return null;
-  },
-};
-
-const frenchPlugin: GrammarPlugin = {
-  id: "fr-basic",
-  matches(locale) {
-    return locale.toLowerCase().startsWith("fr");
-  },
-  morphAction(verb) {
-    // For French demo, keep verbs as they are (infinitive / command).
-    return verb;
-  },
-  buildCustomSentence() {
-    return null;
-  },
-};
-
-const arabicPlugin: GrammarPlugin = {
-  id: "ar-basic",
-  matches(locale) {
-    return locale.toLowerCase().startsWith("ar");
-  },
-  morphAction(verb) {
-    return verb;
-  },
-  buildCustomSentence() {
-    return null;
-  },
-};
-
-const romanianPlugin: GrammarPlugin = {
-  id: "ro-basic",
-  matches(locale) {
-    return locale.toLowerCase().startsWith("ro");
-  },
-  morphAction(verb) {
-    return verb;
-  },
-  buildCustomSentence() {
-    return null;
-  },
-};
-
-const fallbackPlugin: GrammarPlugin = {
-  id: "fallback",
-  matches() {
-    return true;
-  },
-  morphAction(verb) {
-    return verb;
-  },
-  buildCustomSentence() {
-    return null;
-  },
-};
-
-const PLUGINS: GrammarPlugin[] = [
-  englishPlugin,
-  frenchPlugin,
-  arabicPlugin,
-  romanianPlugin,
-  fallbackPlugin,
-];
-
-function resolvePlugin(locale: Locale): GrammarPlugin {
-  return (
-    PLUGINS.find((p) => {
-      try {
-        return p.matches(locale);
-      } catch {
-        return false;
-      }
-    }) ?? fallbackPlugin
-  );
-}
-
-// --------------------------------------------------
-// INTERNAL HELPERS
-// --------------------------------------------------
-
-function normalizeLocale(locale: Locale): string {
-  return locale.toLowerCase().slice(0, 2);
-}
+/**
+ * Helpers
+ */
 
 function textForTile(tile: TileData, locale: Locale): string {
-  const lc = normalizeLocale(locale);
-  // Try exact (en, fr, ar, ro) first, then fallback to raw word
-  return (
-    tile.translations?.[lc] ||
-    tile.translations?.[locale] ||
-    tile.word
-  );
+  return tile.translations?.[locale] || tile.word;
 }
 
 function joinTiles(tiles: TileData[], locale: Locale): string {
@@ -196,55 +44,51 @@ function byCategory(tiles: TileData[], category: string): TileData[] {
   return tiles.filter((t) => t.category === category);
 }
 
-function findWord(tiles: TileData[], word: string): TileData | undefined {
-  const lower = word.toLowerCase();
-  return tiles.find((t) => t.word.toLowerCase() === lower);
+function findByWord(tiles: TileData[], word: string): TileData | undefined {
+  return tiles.find((t) => t.word.toLowerCase() === word.toLowerCase());
 }
 
-// --------------------------------------------------
-// BASE ENGINE (LANGUAGE-NEUTRAL STRATEGY + LOCALE CONFIG)
-// --------------------------------------------------
+/**
+ * Core engine (language-agnostic, driven by PhraseSet)
+ *
+ * This is our "plugin-ready" base:
+ * - All language specifics come from PhraseSet (i18n) and, later, optional per-language hooks.
+ */
 
-function baseBuildSentence(ctx: GrammarContext, plugin: GrammarPlugin): string {
+function buildFromContext(ctx: SentenceContext): string {
   const { tiles, locale, phrases } = ctx;
 
   if (!tiles.length) return "";
 
-  const lc = normalizeLocale(locale);
-
+  // --- Categorization ---
   const feelings = byCategory(tiles, "feelings");
   const actions = byCategory(tiles, "actions");
   const foodAndDrink = [...byCategory(tiles, "food"), ...byCategory(tiles, "drink")];
   const people = byCategory(tiles, "people");
 
-  const wantTile = findWord(tiles, "I want");
-  const dontWantTile = findWord(tiles, "Don't want");
-  const helpTile = findWord(tiles, "Help");
-  const stopTile = findWord(tiles, "Stop");
-  const moreTile = findWord(tiles, "More");
-  const againTile = findWord(tiles, "Again");
+  // --- Special tiles (by English base word) ---
+  const wantTile = findByWord(tiles, "I want");
+  const dontWantTile = findByWord(tiles, "Don't want");
+  const helpTile = findByWord(tiles, "Help");
+  const stopTile = findByWord(tiles, "Stop");
+  const moreTile = findByWord(tiles, "More");
+  const againTile = findByWord(tiles, "Again");
 
-  const extraWords: string[] = [];
-  if (moreTile) extraWords.push(phrases.more);
-  if (againTile) extraWords.push(phrases.again);
-
-  // ------------------------------------------
-  // 1) Feelings dominant → "I feel happy."
-  // ------------------------------------------
-
+  // --------------------------------------------------
+  // 1) Feelings-only → "I feel happy."
+  // --------------------------------------------------
   if (feelings.length && !wantTile && !dontWantTile && !helpTile) {
     const feelingsText = joinTiles(feelings, locale);
     return `${phrases.iFeel} ${feelingsText}${phrases.period}`;
   }
 
-  // ------------------------------------------
-  // 2) HELP cases
-  // ------------------------------------------
-
+  // --------------------------------------------------
+  // 2) Explicit HELP
+  // --------------------------------------------------
   if (helpTile) {
     const otherTiles = tiles.filter((t) => t !== helpTile);
     if (!otherTiles.length) {
-      // Single "Help" tile
+      // Just "Help!"
       return `${phrases.help}!`;
     } else {
       const targetText = joinTiles(otherTiles, locale);
@@ -252,18 +96,23 @@ function baseBuildSentence(ctx: GrammarContext, plugin: GrammarPlugin): string {
     }
   }
 
-  // ------------------------------------------
-  // 3) STOP alone
-  // ------------------------------------------
-
+  // --------------------------------------------------
+  // 3) STOP tile alone
+  // --------------------------------------------------
   if (stopTile && tiles.length === 1) {
     return `${phrases.stop}${phrases.period}`;
   }
 
-  // ------------------------------------------
-  // 4) WANT / DON'T WANT logic
-  // ------------------------------------------
+  // --------------------------------------------------
+  // 4) "More" / "Again" emphasis
+  // --------------------------------------------------
+  const extraWords: string[] = [];
+  if (moreTile) extraWords.push(phrases.more);
+  if (againTile) extraWords.push(phrases.again);
 
+  // --------------------------------------------------
+  // 5) "I want" / "Don't want" / implicit want
+  // --------------------------------------------------
   let base: string;
   let hasExplicitWant = !!wantTile || !!dontWantTile;
 
@@ -272,76 +121,80 @@ function baseBuildSentence(ctx: GrammarContext, plugin: GrammarPlugin): string {
   } else if (wantTile) {
     base = phrases.iWant;
   } else {
-    // Implicit desire: if user selects something "wantable"
+    // No explicit "I want" tile:
+    // If we selected something we can want (food/drink/actions/people),
+    // we implicitly prepend "I want / Je veux / أريد / Vreau".
     if (foodAndDrink.length || actions.length || people.length) {
       base = phrases.iWant;
       hasExplicitWant = true;
     } else {
-      // Nothing to "want", just read tiles
+      // Fallback: just read tiles in order
       const fallback = joinTiles(tiles, locale);
       return `${fallback}${phrases.period}`;
     }
   }
 
-  // ------------------------------------------
-  // 5) Build rest of phrase
-  // ------------------------------------------
+  // --------------------------------------------------
+  // 6) Build the rest of the phrase
+  // --------------------------------------------------
+  let restParts: string[] = [];
 
-  const restParts: string[] = [];
-
-  // Actions
+  // Actions with "to" / "să" / "أن" etc.
   if (actions.length) {
-    const goAction = actions.find((a) => a.word.toLowerCase() === "go");
-
-    const actionsTextRaw = joinTiles(actions, locale);
-    const actionsText =
-      plugin.morphAction?.(actionsTextRaw, ctx) ?? actionsTextRaw;
+    const goAction = actions.find((a) => a.word === "Go");
 
     if (goAction && people.length) {
-      // Example: "I want to go to mom"
+      // "I want to go to mom."
       const peopleText = joinTiles(people, locale);
-      if (phrases.toGoTo) {
-        restParts.push(`${phrases.toGoTo} ${peopleText}`);
-      } else {
-        restParts.push(peopleText);
-      }
+      const segment = phrases.toGoTo
+        ? `${phrases.toGoTo} ${peopleText}`
+        : peopleText;
+
+      restParts.push(segment.trim());
     } else {
-      // Generic action: "I want to sit", "Je veux assis"
+      // General action: "I want to sit", "I want to go"
+      const actionsText = joinTiles(actions, locale);
+
       if (phrases.to) {
-        restParts.push(`${phrases.to} ${actionsText}`);
+        restParts.push(`${phrases.to} ${actionsText}`.trim());
       } else {
+        // Languages where we do not inject "to"
         restParts.push(actionsText);
       }
     }
   }
 
-  // Objects (food, drink, people if not already used with "to go to")
+  // Food / drink / people as objects we want
   if (foodAndDrink.length || (!actions.length && people.length)) {
-    const objects = [...foodAndDrink, ...(!actions.length ? people : [])];
-    const objectsText = joinTiles(objects, locale);
+    const objectTargets = [
+      ...foodAndDrink,
+      ...(!actions.length ? people : []),
+    ];
+    const objectsText = joinTiles(objectTargets, locale);
 
     if (actions.length) {
       // "I want to drink water"
       restParts.push(objectsText);
     } else {
-      // "I want water"
+      // Pure object: "I want water", "I don't want soup"
       restParts.push(objectsText);
     }
   }
 
-  // If nothing in restParts, we may just have "I want" and maybe feelings, etc.
+  // If we have no restParts (very short request like just "I want"),
+  // just spell out tiles in order.
   let sentence: string;
   if (!restParts.length) {
     const raw = joinTiles(
       tiles.filter((t) => t !== wantTile && t !== dontWantTile),
       locale
     );
-    sentence = hasExplicitWant ? `${base} ${raw}`.trim() : raw;
+    sentence = hasExplicitWant ? `${base} ${raw}`.trim() : raw.trim();
   } else {
     sentence = `${base} ${restParts.join(" ")}`.trim();
   }
 
-  // Extra emphasis words at the end ("More", "Again")
+  // Add "more" / "again" at the end if present
   if (extraWords.length) {
     sentence = `${sentence} ${extraWords.join(" ")}`.trim();
   }
@@ -349,38 +202,31 @@ function baseBuildSentence(ctx: GrammarContext, plugin: GrammarPlugin): string {
   return `${sentence}${phrases.period}`;
 }
 
-// --------------------------------------------------
-// PUBLIC API
-// --------------------------------------------------
-
 /**
- * Main entry point.
+ * Public API
  *
- * The UI (SentenceBar) is responsible for:
- *   - providing the locale (e.g., "en", "fr", "ar", "ro"),
- *   - providing a PhraseSet taken from i18next translations.
+ * NOTE: mode ("simple" | "full") is already part of the signature
+ * so we can extend behavior later without changing components.
  */
+
 export function buildSentence(
   tiles: TileData[],
   locale: Locale,
-  phrases: PhraseSet
+  phrases: PhraseSet,
+  mode: GrammarMode = "simple"
 ): string {
-  if (!tiles.length) return "";
-
-  const ctx: GrammarContext = {
+  const ctx: SentenceContext = {
     tiles,
     locale,
     phrases,
+    mode,
   };
 
-  const plugin = resolvePlugin(locale);
-
-  // If plugin wants to fully control sentence creation, it can.
-  const custom = plugin.buildCustomSentence?.(ctx);
-  if (typeof custom === "string" && custom.trim().length > 0) {
-    return custom;
-  }
-
-  // Otherwise, use shared base engine with plugin hooks (for morphology).
-  return baseBuildSentence(ctx, plugin);
+  // In the future we can route to per-language plugins here:
+  // e.g. englishGrammar.build(ctx), frenchGrammar.build(ctx), etc.
+  // For now all languages share the same base engine, driven by PhraseSet.
+  return buildFromContext(ctx);
 }
+
+// Re-export types for UI components (SentenceBar, etc.)
+export type { PhraseSet as SentencePhraseSet };
