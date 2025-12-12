@@ -1,39 +1,112 @@
+@use "../../styles/breakpoints.scss" as *;
+
+/* ------------------------------------------
+   TILE WRAPPER
+--------------------------------------------*/
 .tile {
-  position: relative;
-  background: white;
-  border-radius: 12px;
-  border: 2px solid #ddd;
-  padding: 10px;
+ background: var(--tile-bg, #fff);
+  border: 3px solid var(--tile-border, #ddd);
+  border-radius: var(--tile-radius, 16px);
+
+  min-width: 0;
+  height: auto;
+  //min-height: 100%; /* ✅ critical */
+
+  overflow: hidden;
+  padding: 12px;
+
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 8px;
+
+  justify-items: center;
+  align-items: center;
+
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
 
   &:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    border-color: #9bbcff;
+    background: #eef4ff;
   }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  direction: var(--dir);
 }
 
+/* ------------------------------------------
+   TILE IMAGE (STRICTLY CONSTRAINED)
+--------------------------------------------*/
 .image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-width: 90%;
+  max-height: 100%;
   object-fit: contain;
 }
 
+/* ------------------------------------------
+   TILE LABEL
+--------------------------------------------*/
 .label {
-  margin-top: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  width: 100%;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-color, #333);
+  line-height: 1.15;
   text-align: center;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @include respond(tablet-portrait) {
+    font-size: 1.25rem;
+  }
+
+  @include respond(tablet-landscape) {
+    font-size: 1.35rem;
+  }
+
+  @include respond(desktop) {
+    font-size: 1.45rem;
+  }
+
+  @include respond(wide) {
+    font-size: 1.6rem;
+  }
 }
 
-.editBadge {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background: #ffd85c;
-  color: #333;
-  padding: 4px 6px;
-  font-size: 0.75rem;
-  border-radius: 6px;
-  pointer-events: none;
+/* ------------------------------------------
+   HIGH CONTRAST MODE
+--------------------------------------------*/
+.highContrastTile {
+  background: #000 !important;
+  border-color: #ffeb3b !important;
+
+  .label {
+    color: #ffeb3b !important;
+  }
+
+  &:hover {
+    background: #111 !important;
+    border-color: #ffee58 !important;
+  }
+}
+
+/* ------------------------------------------
+   LONG PRESS FEEDBACK
+--------------------------------------------*/
+.longPress {
+  animation: longpressPulse 1s infinite ease-in-out;
+}
+
+@keyframes longpressPulse {
+  0% { box-shadow: 0 0 4px rgba(74, 140, 255, 0.3); }
+  50% { box-shadow: 0 0 18px rgba(74, 140, 255, 0.6); }
+  100% { box-shadow: 0 0 4px rgba(74, 140, 255, 0.3); }
 }

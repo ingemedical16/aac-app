@@ -1,54 +1,71 @@
 "use client";
+import { useHighContrast } from "@/context/HighContrastContext";
 
-import { useRef } from "react";
 import styles from "./Tile.module.scss";
-import { TileData } from "@/components/Tile";
 
-interface TileProps {
-  tile: TileData;
-  locale: string;
-  onSpeak: (text: string, locale: string) => void;
-  onSelect: (tile: TileData) => void;
-  onLongPress: (tile: TileData) => void;
+export interface TileData {
+  id: number;
+  word: string;
+  translations: Record<string, string>;
+  imageUrl?: string;
+  lang: string;
+  category: string;
+  order: number;
+  group?: string;
 }
 
-export default function Tile({ tile, locale, onSpeak, onSelect, onLongPress }: TileProps) {
-  const text = tile.translations?.[locale] || tile.word;
-  const pressTimer = useRef<NodeJS.Timeout | null>(null);
+interface Props {
+  tile: TileData;
+  locale: string;
+  onSpeak?: (text: string) => void;
+  onSelect?: (tile: TileData) => void;
+  onLongPress?: (tile: TileData) => void;
+}
 
-  const handlePressStart = () => {
-    pressTimer.current = setTimeout(() => {
-      onLongPress(tile); // OPEN PREVIEW MODAL
-    }, 500); // 500ms long press
-  };
+export default function Tile({
+  tile,
+  locale,
+  onSpeak,
+  onSelect,
+  onLongPress,
+}: Props) {
+  const text = tile.translations?.[locale] ?? tile.word;
+  const { highContrast } = useHighContrast();
 
-  const handlePressEnd = () => {
-    if (pressTimer.current) {
-      clearTimeout(pressTimer.current);
-      pressTimer.current = null;
-    }
-  };
+  let pressTimer: any;
 
-  const handleClick = () => {
-    // If long press already triggered, do nothing
-    if (pressTimer.current === null) return;
+  function handleDown() {
+    pressTimer = setTimeout(() => {
+      onLongPress?.(tile);
+    }, 450);
+  }
 
-    onSpeak(text, locale);
-    onSelect(tile);
-  };
+  function handleUp() {
+    clearTimeout(pressTimer);
+  }
+
+  function handleClick() {
+    onSpeak?.(text);
+    onSelect?.(tile);
+  }
 
   return (
     <div
-      className={styles.tile}
-      onMouseDown={handlePressStart}
-      onMouseUp={handlePressEnd}
-      onMouseLeave={handlePressEnd}
-      onTouchStart={handlePressStart}
-      onTouchEnd={handlePressEnd}
+      className={`${styles.tile} ${highContrast ? styles.highContrastTile : ""}`}
+      onMouseDown={handleDown}
+      onMouseUp={handleUp}
+      onMouseLeave={handleUp}
+      onTouchStart={handleDown}
+      onTouchEnd={handleUp}
       onClick={handleClick}
     >
       {tile.imageUrl && (
-        <img src={tile.imageUrl} alt={text} className={styles.image} />
+        <img
+          src={tile.imageUrl}
+          alt={text}
+          className={styles.image}  
+          draggable={false}
+        />
       )}
 
       <div className={styles.label}>{text}</div>

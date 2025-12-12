@@ -4,15 +4,20 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
+
   margin: 8px 0 14px 0;
   padding: 6px;
-  overflow-x: auto;
 
-  background: #f5f5f5;
+  overflow-x: auto;
+  direction: var(--dir); // RTL support
+
+  background: var(--tile-bg, #f5f5f5);
   border-radius: 999px;
   border: 1px solid #ddd;
 
-  // Hide ugly scrollbars on supporting browsers
+  scroll-behavior: smooth;
+
+  /* Scrollbar cleanup */
   scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
 
@@ -29,25 +34,39 @@
     border-radius: 999px;
   }
 
+  /* Tablet Portrait */
   @include respond(tablet-portrait) {
     gap: 10px;
     padding: 8px 10px;
   }
 
+  /* Tablet Landscape */
   @include respond(tablet-landscape) {
     gap: 12px;
     padding: 10px 12px;
+  }
+
+  /* High Contrast Mode */
+  &.highContrast{
+    background: #000;
+    border-color: #ff0;
+
+    &::-webkit-scrollbar-thumb {
+      background: #ff0;
+    }
   }
 }
 
 .item {
   flex: 0 0 auto;
-  border: none;
+  padding: 6px 12px;
   border-radius: 999px;
-  padding: 6px 10px;
+
   font-size: 0.9rem;
   font-weight: 600;
+
   cursor: pointer;
+  white-space: nowrap;
 
   background: white;
   color: #333;
@@ -55,10 +74,12 @@
 
   transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 
+  /* Hover */
   &:hover {
     background: #e8f0ff;
   }
 
+  /* Larger screens */
   @include respond(tablet-portrait) {
     padding: 8px 14px;
     font-size: 1rem;
@@ -67,6 +88,17 @@
   @include respond(tablet-landscape) {
     padding: 10px 16px;
     font-size: 1.05rem;
+  }
+
+  /* High Contrast Mode */
+  .highContrast & {
+    background: #000;
+    color: #ff0;
+    border-color: #ff0;
+
+    &:hover {
+      background: #111;
+    }
   }
 }
 
@@ -78,5 +110,16 @@
 
   &:hover {
     background: #2554c5;
+  }
+
+  /* High Contrast Active */
+  &.highContrast {
+    background: #ff0;
+    color: #000;
+    border-color: #ff0;
+
+    &:hover {
+      background: #e6d200;
+    }
   }
 }

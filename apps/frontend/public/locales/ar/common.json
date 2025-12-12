@@ -1,5 +1,6 @@
 {
   "appTitle": "لوحة تواصل AAC",
+  "appTitleShort": "لوحة AAC",
   "language": "اللغة",
   "boardTitle": "لوحة التواصل",
   "tapToSpeak": "اضغط على الصورة للنطق",
@@ -37,5 +38,6 @@
     "positionActions": "الوضعية",
     "family": "العائلة",
     "schoolPeople": "المدرسة والأصدقاء"
+    
   }
 }

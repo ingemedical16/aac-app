@@ -10,6 +10,7 @@ import {
   type GrammarMode,
 } from "@/lib/sentenceBuilder";
 import { TileData } from "@/components/Tile";
+import { useHighContrast } from "@/context/HighContrastContext";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -31,6 +32,7 @@ export default function SentenceBar({
   const { speak } = useTTS();
   const { t } = useTranslation("common");
   const [isSpeaking, setIsSpeaking] = useState(false);
+   const { highContrast } = useHighContrast();
 
   // Build phrase set from i18n → multilingual parity EN / FR / AR / RO
   const phrases: SentencePhraseSet = {
@@ -59,7 +61,7 @@ export default function SentenceBar({
 
   return (
     <div
-      className={`${styles.bar} ${
+      className={`${styles.bar} ${highContrast ? styles.highContrast : ""} ${
         isSpeaking ? styles.barSpeaking : ""
       }`}
     >

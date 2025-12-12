@@ -1,3 +1,6 @@
+@use "../../styles/breakpoints.scss" as *;
+
+/* OVERLAY */
 .overlay {
   position: fixed;
   inset: 0;
@@ -6,67 +9,171 @@
   justify-content: center;
   align-items: center;
   z-index: 2000;
+
+  /* Fade-in animation */
+  animation: fadeIn 0.25s ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
 }
 
+/* MODAL CARD */
 .modal {
-  background: white;
+  background: var(--bg-color);
+  color: var(--text-color);
+
   padding: 24px;
-  border-radius: 14px;
-  max-width: 380px;
+  border-radius: 16px;
   width: 90%;
+  max-width: 420px;
   position: relative;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+  transform: scale(0.92);
+  animation: popIn 0.25s ease forwards;
+
+  @keyframes popIn {
+    to { transform: scale(1); }
+  }
+
+  @include respond(tablet-portrait) {
+    padding: 28px;
+    max-width: 460px;
+  }
+
+  @include respond(desktop) {
+    padding: 32px;
+    max-width: 500px;
+  }
 }
 
+/* CLOSE BUTTON */
 .close {
   position: absolute;
   top: 10px;
-  right: 12px;
-  font-size: 22px;
+  inset-inline-end: 12px; /* RTL aware */
+  font-size: 24px;
   background: none;
   border: none;
   cursor: pointer;
+  color: var(--text-color);
+  padding: 6px;
+
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.15);
+  }
 }
 
+/* IMAGE */
 .image {
   width: 70%;
-  margin: 10px auto;
+  margin: 16px auto;
+
+  @include respond(tablet-portrait) {
+    width: 60%;
+  }
+
+  @include respond(desktop) {
+    width: 50%;
+  }
 }
 
+/* TITLE */
 .title {
   font-size: 1.6rem;
   margin: 15px 0;
-  font-weight: bold;
+  font-weight: 700;
+  direction: var(--dir);
+  color: var(--text-color);
+
+  @include respond(tablet-portrait) {
+    font-size: 1.8rem;
+  }
 }
 
+/* BUTTON WRAPPER */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 10px;
+
+  @include respond(tablet-portrait) {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
+/* BASE BUTTON STYLES */
 .speak,
 .add,
 .editDisabled {
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 1.15rem;
   cursor: pointer;
   border: none;
+  font-weight: 600;
+
+  @include respond(tablet-portrait) {
+    padding: 16px 20px;
+    font-size: 1.2rem;
+  }
 }
 
+/* ACTION COLORS */
 .speak {
   background: #4a8cff;
   color: white;
+
+  &:hover {
+    background: #3a71d8;
+  }
 }
 
 .add {
   background: #4caf50;
   color: white;
+
+  &:hover {
+    background: #3d9a42;
+  }
 }
 
 .editDisabled {
   background: #ccc;
+  color: #666;
   cursor: not-allowed;
+}
+
+/* HIGH CONTRAST MODE */
+:global(.high-contrast-mode) {
+  .modal {
+    background: #000 !important;
+    color: #ff0 !important;
+  }
+
+  .close {
+    color: #ff0 !important;
+  }
+
+  .speak {
+    background: #ff0 !important;
+    color: #000 !important;
+  }
+
+  .add {
+    background: #0f0 !important;
+    color: #000 !important;
+  }
+
+  .editDisabled {
+    background: #555 !important;
+    color: #999 !important;
+  }
 }

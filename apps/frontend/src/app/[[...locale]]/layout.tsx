@@ -1,7 +1,10 @@
-'use client';
+"use client";
 
 import { use } from "react";
 import I18nProvider from "@/components/I18nProvider";
+import AppHeader from "@/components/AppHeader";
+import { HighContrastProvider } from "@/context/HighContrastContext";
+import { UserProfileProvider } from "@/context/UserProfileContext";
 import "../../styles/globals.scss";
 
 export default function LocaleLayout({
@@ -13,16 +16,20 @@ export default function LocaleLayout({
 }) {
   const resolved = use(params);
   const locale = resolved.locale?.[0] ?? "en";
-
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir}>
-      
-    <body suppressHydrationWarning>
-      <I18nProvider locale={locale}>{children}</I18nProvider>
-    </body>
-  
+    <html lang={locale} dir={dir} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <UserProfileProvider>
+          <HighContrastProvider>
+            <I18nProvider locale={locale}>
+              <AppHeader />
+              {children}
+            </I18nProvider>
+          </HighContrastProvider>
+        </UserProfileProvider>
+      </body>
     </html>
   );
 }

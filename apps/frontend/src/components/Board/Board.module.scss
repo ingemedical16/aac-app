@@ -1,54 +1,38 @@
 @import "@/styles/breakpoints.scss";
 
 .board {
-  /* Layout variables */
-  --gap: 1rem;
-  --padding: 0.75rem;
-  --tile-size: 110px;
+  --gap: 16px;              // ✅ FORCE spacing
+  --padding: 16px;
+  --tile-size: 120px;
 
   display: grid;
-  gap: var(--gap);
-  padding: var(--padding);
-  direction: var(--dir);
-  align-content: start;
-  justify-content: start;
-
-  /* Prevent children from overflowing */
-  * {
-    min-width: 0;
-  }
-
-  /* Base grid (auto-filled columns) */
   grid-template-columns: repeat(auto-fill, minmax(var(--tile-size), 1fr));
 
-  /* Board padding improves on larger screens */
+  gap: var(--gap);          // ✅ REAL GAP
+  padding: var(--padding);
+
+  align-items: stretch;
+  justify-items: stretch;
+
+  direction: var(--dir);
+
   @include respond(tablet-portrait) {
-    --tile-size: 130px;
-    --gap: 1.1rem;
-    --padding: 1rem;
+    --tile-size: 140px;
   }
 
   @include respond(tablet-landscape) {
-    --tile-size: 150px;
-    --gap: 1.2rem;
-    --padding: 1.25rem;
+    --tile-size: 160px;
   }
 
   @include respond(desktop) {
-    --tile-size: 170px;
-    --gap: 1.3rem;
-    --padding: 1.5rem;
+    --tile-size: 180px;
   }
 
   @include respond(wide) {
-    --tile-size: 200px;
-    --gap: 1.4rem;
-    --padding: 1.75rem;
+    --tile-size: 210px;
   }
 
   @include respond(ultra) {
     --tile-size: 240px;
-    --gap: 1.5rem;
-    --padding: 2rem;
   }
 }

@@ -1,21 +1,98 @@
+@import "@/styles/breakpoints.scss";
+
 .switcher {
   display: flex;
   flex-direction: var(--flex-row-dir);
   gap: 10px;
   margin: 20px 0;
+  direction: var(--dir);
+  overflow-x: auto;
+  padding-bottom: 4px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #bbb transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 4px;
+  }
+}
+
+/* ✅ HIGH CONTRAST MODE */
+.highContrast {
+  background: #000;
+
+  &::-webkit-scrollbar-thumb {
+    background: #ff0;
+  }
 
   a {
-    padding: 6px 12px;
-    border: 1px solid #aaa;
-    border-radius: 6px;
-    background: white;
-    text-decoration: none;
-    color: black;
+    background: #000 !important;
+    color: #ff0 !important;
+    border-color: #ff0 !important;
+  }
 
-    transition: 0.2s;
+  a:hover {
+    background: #222 !important;
+  }
 
-    &:hover {
-      background: #e1e1e1;
-    }
+  .active {
+    background: #ff0 !important;
+    color: #000 !important;
+  }
+}
+
+/* LANGUAGE BUTTON */
+.switcher a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 14px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+
+  background: var(--tile-bg, white);
+  color: var(--text-color, black);
+  text-decoration: none;
+
+  min-width: 48px;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+
+  &:hover {
+    background: #e5e5e5;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  @include respond(tablet-portrait) {
+    padding: 10px 16px;
+    font-size: 1rem;
+  }
+
+  @include respond(tablet-landscape) {
+    padding: 12px 18px;
+    font-size: 1.1rem;
+  }
+}
+
+/* ACTIVE LANGUAGE */
+.active {
+  border-color: #2b6cb0;
+  background: #2b6cb0;
+  color: white;
+  font-weight: 600;
+
+  &:hover {
+    background: #245b94;
   }
 }

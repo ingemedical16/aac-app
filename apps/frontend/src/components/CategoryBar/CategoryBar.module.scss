@@ -1,53 +1,102 @@
 @import "@/styles/breakpoints.scss";
 
+/* WRAPPER BAR — category strip */
 .bar {
   display: flex;
+  flex-direction: var(--flex-row-dir);
   gap: 10px;
+
   overflow-x: auto;
+  white-space: nowrap;
+
   padding: 8px 4px;
   margin-bottom: 16px;
 
+  scroll-behavior: smooth;
+
   scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
+  scrollbar-color: #bbb transparent;
+
+  /* iOS/Android kinetic scroll */
+  -webkit-overflow-scrolling: touch;
+
+  /* RTL mirroring */
+  direction: var(--dir);
 
   &::-webkit-scrollbar {
     height: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: #bbb;
     border-radius: 4px;
+  }
+
+  /* High Contrast */
+  &.highContrast {
+    background: #000;
+
+    &::-webkit-scrollbar-thumb {
+      background: #ff0;
+    }
   }
 }
 
+/* BASE BUTTON */
 .button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
 
-  background: #ffffff;
-  border: 1px solid #cccccc;
+  background: var(--tile-bg, #fff);
+  border: 1px solid var(--tile-border, #ccc);
   border-radius: 999px;
-  padding: 6px 12px;
+
+  padding: 8px 14px;
+  min-height: 40px;
 
   font-size: 0.9rem;
-  color: #333;
+  font-weight: 500;
+  color: var(--text-color, #333);
+
   cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s ease;
 
-  transition: background 0.15s, border-color 0.15s;
-
-  @include respond(tablet-portrait) {
-    font-size: 1rem;
-  }
-
-  @include respond(tablet-landscape) {
-    font-size: 1.1rem;
+  /* High contrast mode */
+  .highContrast & {
+    background: #000;
+    color: #ff0;
+    border-color: #ff0;
   }
 
   &:hover {
     background: #f2f2f2;
+
+    .highContrast & {
+      background: #222;
+    }
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  /* Larger buttons for tablets/desktops */
+  @include respond(tablet-portrait) {
+    font-size: 1rem;
+    padding: 10px 16px;
+    min-height: 44px;
+  }
+
+  @include respond(tablet-landscape) {
+    font-size: 1.1rem;
+    padding: 12px 18px;
+    min-height: 48px;
   }
 }
 
+/* ACTIVE BUTTON (selected category) */
 .buttonActive {
   @extend .button;
 
@@ -55,19 +104,32 @@
   color: #fff;
   border-color: #2b6cb0;
 
+  font-weight: 600;
+
   &:hover {
     background: #225a91;
   }
+
+  /* High contrast override */
+  .highContrast & {
+    background: #ff0;
+    color: #000;
+    border-color: #ff0;
+  }
 }
 
+/* ICON inside category buttons */
 .icon {
   font-size: 1.2rem;
+  flex-shrink: 0;
+  transform: scaleX(var(--icon-scale-x));
 
   @include respond(tablet-landscape) {
     font-size: 1.4rem;
   }
 }
 
+/* LABEL respects RTL direction */
 .label {
   direction: var(--dir);
 }

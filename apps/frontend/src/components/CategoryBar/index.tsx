@@ -2,6 +2,7 @@
 
 import styles from "./CategoryBar.module.scss";
 import { CATEGORIES } from "./categories";
+import { useHighContrast } from "@/context/HighContrastContext";
 
 interface Props {
   locale: string;
@@ -9,13 +10,19 @@ interface Props {
   onSelect: (categoryId: string) => void;
 }
 
-export default function CategoryBar({ locale, activeCategory, onSelect }: Props) {
-  // Set direction for RTL/LTR support
+export default function CategoryBar({
+  locale,
+  activeCategory,
+  onSelect,
+}: Props) {
+  const { highContrast } = useHighContrast();
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
     <div
-      className={styles.bar}
+      className={`${styles.bar} ${
+        highContrast ? styles.highContrast : ""
+      }`}
       style={{ direction: dir }}
     >
       {CATEGORIES.map((cat) => {
@@ -28,7 +35,9 @@ export default function CategoryBar({ locale, activeCategory, onSelect }: Props)
             onClick={() => onSelect(cat.id)}
           >
             <span className={styles.icon}>{cat.icon}</span>
-            <span className={styles.label}>{cat.label[locale] ?? cat.label.en}</span>
+            <span className={styles.label}>
+              {cat.label[locale] ?? cat.label.en}
+            </span>
           </button>
         );
       })}
