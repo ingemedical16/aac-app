@@ -1,122 +1,12 @@
 @use "@/styles/breakpoints.scss" as *;
 
-/* =================================================
-   CATEGORY BAR (MAIN LEVEL)
-================================================= */
 .bar {
   display: flex;
   flex-direction: var(--flex-row-dir);
-  align-items: center;
-
-  gap: var(--gap-md);
-
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-
-  padding: var(--padding-sm) var(--padding-md);
-  margin-block: var(--gap-md);
-
-  background: var(--tile-bg);
-  border: 2px solid var(--border);
-  border-radius: 999px;
-
-  direction: var(--dir);
-
-  transition: background 0.2s ease, border-color 0.2s ease;
-
-  /* Scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 999px;
-  }
-}
-
-/* =================================================
-   CATEGORY BUTTON (BASE)
-================================================= */
-.button {
-  display: inline-flex;
-  align-items: center;
   gap: var(--gap-sm);
-
-  min-height: 48px;
-  padding: var(--padding-sm) var(--padding-lg);
-
-  border-radius: 999px;
-  border: 2px solid var(--border);
-
-  background: var(--bg);
-  color: var(--text);
-
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
-
-  cursor: pointer;
-  user-select: none;
-
-  transform: scaleX(var(--icon-scale-x));
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.1s ease;
-
-  &:hover {
-    background: var(--bg-hover);
-    border-color: var(--border-hover);
-  }
-
-  &:active {
-    transform: scale(0.96);
-  }
-
-  @include respond(tablet-portrait) {
-    font-size: var(--font-size-lg);
-    padding: var(--padding-md) var(--padding-lg);
-  }
-}
-
-/* =================================================
-   ACTIVE CATEGORY
-================================================= */
-.buttonActive {
-  @extend .button;
-
-  background: var(--accent);
-  color: var(--accent-text);
-  border-color: var(--accent);
-
-  &:hover {
-    background: var(--accent-hover);
-    border-color: var(--accent-hover);
-  }
-}
-
-/* =================================================
-   ICON
-================================================= */
-.icon {
-  font-size: 1.25rem;
-  flex-shrink: 0;
-  transform: scaleX(var(--icon-scale-x));
-
-  @include respond(tablet-portrait) {
-    font-size: 1.4rem;
-  }
-}
-
-/* =================================================
-   LABEL
-================================================= */
-.label {
   direction: var(--dir);
-  white-space: nowrap;
+
+  @include respond(mobile) {
+    display: none; /* ✅ replaced by menu later */
+  }
 }

@@ -4,11 +4,7 @@ import { useState } from "react";
 import styles from "./SentenceBar.module.scss";
 
 import useTTS from "@/hooks/useTTS";
-import {
-  buildSentence,
-  type SentencePhraseSet,
-  type GrammarMode,
-} from "@/lib/sentenceBuilder";
+import { buildSentence, type GrammarMode } from "@/lib/sentenceBuilder";
 import { TileData } from "@/components/Tile";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
@@ -30,25 +26,11 @@ export default function SentenceBar({
 }: Props) {
   const { speak } = useTTS();
   const { t } = useTranslation("common");
-  const { profile } = useUserProfile(); // ✅ NEW SOURCE OF TRUTH
+  const { profile } = useUserProfile();
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  /** Build localized phrase set */
-  const phrases: SentencePhraseSet = {
-    iWant: t("iWant"),
-    iDontWant: t("iDontWant"),
-    iNeedHelp: t("iNeedHelp"),
-    help: t("help"),
-    iFeel: t("iFeel"),
-    stop: t("stop"),
-    more: t("more"),
-    again: t("again"),
-    to: t("to"),
-    toGoTo: t("toGoTo"),
-    period: t("period"),
-  };
-
-  const fullSentence = buildSentence(sentence, locale, phrases, grammarMode);
+  // ✅ Correct call (3 args only)
+  const fullSentence = buildSentence(sentence, locale as any, grammarMode);
 
   const handleSpeak = () => {
     if (!fullSentence) return;
@@ -57,21 +39,19 @@ export default function SentenceBar({
   };
 
   return (
-   
     <div
       className={[
         "aac-row",
         styles.bar,
         profile.highContrast ? styles.highContrast : "",
         isSpeaking ? styles.barSpeaking : "",
-       
       ].join(" ")}
     >
       {/* WORD LIST */}
       <div className={styles.words}>
         {sentence.map((tile) => (
           <span key={tile.id} className={styles.word}>
-            {tile.translations?.[locale] || tile.word}
+            {(tile.translations?.[locale] || tile.word) + " "}
           </span>
         ))}
 
@@ -107,6 +87,5 @@ export default function SentenceBar({
         </button>
       </div>
     </div>
-    
   );
 }

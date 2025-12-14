@@ -1,48 +1,26 @@
 @use "./breakpoints.scss" as *;
 
-/* ==========================================
-   AAC SHARED LAYOUT WRAPPER
-   Used by:
-   - CategoryBar
-   - SubcategoryBar
-   - SentenceBar
-   ========================================== */
+/* =========================================
+   GLOBAL LAYOUT RULES
+========================================= */
 
-.aacRow {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-
-  /* Logical padding for LTR / RTL */
-  padding-inline: 12px;
-
-  /* MOBILE → default */
-  @include respond(mobile) {
-    padding-inline: 12px;
+/* MOBILE FIRST (≤ 600px) */
+@include respond(mobile) {
+  body {
+    font-size: var(--font-size-md);
   }
 
-  /* TABLET PORTRAIT */
-  @include respond(tablet-portrait) {
-    padding-inline: 16px;
+  /* Stack everything vertically */
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
   }
+}
 
-  /* TABLET LANDSCAPE */
-  @include respond(tablet-landscape) {
-    padding-inline: 20px;
-  }
-
-  /* DESKTOP */
-  @include respond(desktop) {
-    padding-inline: 24px;
-  }
-
-  /* WIDE */
-  @include respond(wide) {
-    padding-inline: 28px;
-  }
-
-  /* ULTRA / LARGE SCREENS */
-  @include respond(ultra) {
-    padding-inline: 32px;
+/* TABLET AND UP */
+@include respond(tablet-portrait) {
+  main {
+    gap: var(--gap-lg);
   }
 }

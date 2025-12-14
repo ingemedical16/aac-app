@@ -3,12 +3,14 @@
   "appTitleShort": "AAC Board",
   "language": "Language",
   "boardTitle": "Communication Board",
+
   "tapToSpeak": "Tap a tile to speak",
   "speak": "Speak",
   "clear": "Clear",
   "deleteLast": "Delete Last",
   "addToSentence": "Add to sentence",
   "edit": "Edit",
+
   "iWant": "I want",
   "iDontWant": "I don't want",
   "iNeedHelp": "I need help",
@@ -20,11 +22,20 @@
   "to": "to",
   "toGoTo": "to go to",
   "period": ".",
+
   "all": "All",
+
   "normalMode": "Normal",
   "highContrast": "High contrast",
-  "exitFullscreen": "Exit fullscreen",
+  "bigButtons": "Big buttons",
+  "normalButtons": "Normal buttons",
+
   "enterFullscreen": "Fullscreen",
+  "exitFullscreen": "Exit fullscreen",
+
+  "menu": "Menu",
+  "openMenu": "Open menu",
+  "close": "Close",
 
   "groups": {
     "mealBasics": "Meals & basics",

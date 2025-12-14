@@ -1,83 +1,11 @@
 @use "@/styles/breakpoints.scss" as *;
 
-/* ==============================
-   SUBCATEGORY BAR (SECOND LEVEL)
-================================ */
 .subcategoryBar {
   display: flex;
-  flex-direction: var(--flex-row-dir);
-  gap: 10px;
-
-  overflow-x: auto;
-  white-space: nowrap;
-
-  padding: 8px 12px;
-  margin-block: 10px;
-
-  background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: 999px;
-
+  gap: var(--gap-sm);
   direction: var(--dir);
 
-  -webkit-overflow-scrolling: touch;
-
-  scrollbar-width: thin;
-  scrollbar-color: #ff0 transparent;
-
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #ff0;
-    border-radius: 999px;
-  }
-}
-
-/* ==============================
-   SUBCATEGORY ITEM
-================================ */
-.item {
-  flex: 0 0 auto;
-
-  padding: 8px 16px;
-  min-height: 44px;
-
-  border-radius: 999px;
-  border: 2px solid var(--border);
-
-  background: var(--bg);
-  color: var(--text);;
-
-  font-size: 0.95rem;
-  font-weight: 600;
-
-  cursor: pointer;
-  transition: transform 0.12s ease, background 0.15s ease;
-
-  &:hover {
-    background: var(--bg-hover);
-    color: var(--text);
-    border-color: var(--border-hover);
-  }
-
-  &:active {
-    transform: scale(0.96);
-  }
-
-  @include respond(tablet-portrait) {
-    font-size: 1.05rem;
-    padding: 10px 18px;
-  }
-}
-
-/* ACTIVE SUBCATEGORY */
-.active {
-  background: var(--accent);
-  color: var(--accent-text);
-
-  &:hover {
-    background: var(--accent-hover);
+  @include respond(mobile) {
+    display: none; /* ✅ replaced by menu later */
   }
 }

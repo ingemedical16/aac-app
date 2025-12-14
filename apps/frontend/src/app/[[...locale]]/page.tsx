@@ -1,6 +1,8 @@
 "use client";
 
 import { use, useEffect, useMemo, useState } from "react";
+import AppHeader from "@/components/AppHeader";
+import MobileMenu from "@/components/MobileMenu";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
@@ -41,8 +43,19 @@ export default function LocalePage({
     if (!activeGroup) return tiles;
     return tiles.filter((t) => t.group === activeGroup);
   }, [tiles, activeGroup]);
-
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
+    <>
+    <AppHeader onOpenMenu={() => setMenuOpen(true)} />
+
+      <MobileMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        locale="en"
+        categoryProps={{ /* existing props */ }}
+        subcategoryProps={{ /* existing props */ }}
+      />
+
     <main style={{ padding: 20 }}>
       {/* The visible title is now small and belongs to the header */}
       <CategoryBar
@@ -74,5 +87,6 @@ export default function LocalePage({
         onTileSelect={(tile) => setSentence((prev) => [...prev, tile])}
       />
     </main>
+    </>
   );
 }

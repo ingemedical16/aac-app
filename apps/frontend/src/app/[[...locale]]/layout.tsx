@@ -27,7 +27,6 @@ function Shell({
         ].join(" ")}
       >
         <I18nProvider locale={locale}>
-          <AppHeader />
           {children}
         </I18nProvider>
       </body>
