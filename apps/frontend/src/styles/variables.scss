@@ -1,20 +1,15 @@
 :root {
-  /* =====================================================
-     DIRECTION & LAYOUT (DEFAULT = LTR)
-  ===================================================== */
+  /* =========================
+     DIRECTION (DEFAULT LTR)
+  ========================== */
   --dir: ltr;
-
-  --text-align-start: left;
-  --text-align-end: right;
-
   --flex-row-dir: row;
   --flex-row-reverse-dir: row-reverse;
-
   --icon-scale-x: 1;
 
-  /* =====================================================
-     COLORS — NORMAL MODE
-  ===================================================== */
+  /* =========================
+     COLORS – NORMAL MODE
+  ========================== */
   --bg: #f7f7f7;
   --bg-hover: #eef4ff;
 
@@ -30,7 +25,6 @@
 
   --header-bg: #ffffff;
 
-  /* Accent */
   --accent: #4a8cff;
   --accent-hover: #3c70d8;
   --accent-text: #ffffff;
@@ -41,9 +35,9 @@
   --warning: #ffd763;
   --warning-hover: #f1c652;
 
-  /* =====================================================
+  /* =========================
      TYPOGRAPHY
-  ===================================================== */
+  ========================== */
   --font-size-sm: 0.9rem;
   --font-size-md: 1.05rem;
   --font-size-lg: 1.2rem;
@@ -52,9 +46,9 @@
   --font-weight-normal: 500;
   --font-weight-bold: 700;
 
-  /* =====================================================
+  /* =========================
      SPACING & SHAPE
-  ===================================================== */
+  ========================== */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -67,50 +61,40 @@
   --padding-md: 12px;
   --padding-lg: 16px;
 
-  /* =====================================================
-     BOARD / TILE BASELINES
-  ===================================================== */
+  /* =========================
+     BOARD / TILE
+  ========================== */
   --tile-size: 120px;
   --tile-min: 120px;
   --tile-row-min: 120px;
 }
 
-/* =====================================================
-   RTL MODE (Arabic)
-===================================================== */
+/* =========================
+   RTL MODE
+========================= */
 body.rtl {
   --dir: rtl;
-
-  --text-align-start: right;
-  --text-align-end: left;
-
   --flex-row-dir: row-reverse;
   --flex-row-reverse-dir: row;
-
   --icon-scale-x: -1;
 }
 
-/* =====================================================
-   LTR MODE (Explicit)
-===================================================== */
+/* =========================
+   LTR MODE (EXPLICIT)
+========================= */
 body.ltr {
   --dir: ltr;
-
-  --text-align-start: left;
-  --text-align-end: right;
-
   --flex-row-dir: row;
   --flex-row-reverse-dir: row-reverse;
-
   --icon-scale-x: 1;
 }
 
-/* =====================================================
-   HIGH CONTRAST MODE (AAC)
-===================================================== */
+/* =========================
+   HIGH CONTRAST (AAC)
+========================= */
 body.hc {
-  --bg: #000000;
-  --bg-hover: #111111;
+  --bg: #000;
+  --bg-hover: #111;
 
   --border: #ffeb3b;
   --border-hover: #ffee58;
@@ -118,15 +102,15 @@ body.hc {
   --text: #ffeb3b;
   --text-muted: #ffe082;
 
-  --tile-bg: #000000;
-  --tile-bg-hover: #111111;
+  --tile-bg: #000;
+  --tile-bg-hover: #111;
   --tile-border: #ffeb3b;
 
-  --header-bg: #000000;
+  --header-bg: #000;
 
   --accent: #ffeb3b;
   --accent-hover: #ffe082;
-  --accent-text: #000000;
+  --accent-text: #000;
 
   --danger: #ffeb3b;
   --danger-hover: #ffe082;
@@ -135,9 +119,9 @@ body.hc {
   --warning-hover: #ffe082;
 }
 
-/* =====================================================
-   BIG BUTTON MODE (Motor accessibility)
-===================================================== */
+/* =========================
+   BIG BUTTON MODE
+========================= */
 body.big {
   --font-size-sm: 1rem;
   --font-size-md: 1.2rem;

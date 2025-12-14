@@ -1,29 +1,18 @@
 @use "../../styles/breakpoints.scss" as *;
 
-/* ---------------------------------------
-   HEADER WRAPPER
----------------------------------------- */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: var(--flex-row-dir);
   direction: var(--dir);
 
-  background: var(--bg);
+  background: var(--header-bg);
   color: var(--text);
 
   height: 60px;
   padding: 0 var(--padding-md);
-
-  flex-direction: var(--flex-row-dir);
-  direction: var(--dir);
-
   border-bottom: 1px solid var(--border);
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
 
   @include respond(tablet-portrait) {
     height: 70px;
@@ -32,81 +21,44 @@
 
   @include respond(desktop) {
     height: 80px;
-    padding: 0 calc(var(--padding-lg) * 1.5);
   }
 }
 
-/* ---------------------------------------
-   LEFT + RIGHT GROUPS
----------------------------------------- */
 .left,
 .right {
   display: flex;
-  align-items: center;
   gap: var(--gap-sm);
+  align-items: center;
   min-width: 96px;
-
-  direction: var(--dir);
-
-  @include respond(desktop) {
-    gap: var(--gap-md);
-    min-width: 120px;
-  }
 }
 
-/* ---------------------------------------
-   CENTER TITLE
----------------------------------------- */
 .center {
   flex: 1;
   text-align: center;
-
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
-  color: var(--text);
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  @include respond(tablet-portrait) {
-    font-size: var(--font-size-xl);
-  }
 }
 
-/* ---------------------------------------
-   HEADER BUTTONS
----------------------------------------- */
-/* ---------------------------------------
-   HEADER BUTTONS (NORMALIZED)
----------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  min-height: 48px;
-  min-width: 48px;
-
   padding: var(--padding-sm) var(--padding-md);
   border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
 
-  background: var(--bg);
+  background: var(--tile-bg);
   color: var(--text);
 
-  border: 2px solid var(--border);
-
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
-
   cursor: pointer;
-  user-select: none;
 
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.1s ease;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
 
   &:hover {
     background: var(--bg-hover);
@@ -117,21 +69,9 @@
     transform: scale(0.96);
   }
 
-  /* ACTIVE (TOGGLE ON) */
   &.active {
     background: var(--accent);
     color: var(--accent-text);
     border-color: var(--accent);
-
-    &:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-    }
-  }
-
-  @include respond(tablet-portrait) {
-    font-size: var(--font-size-md);
-    padding: var(--padding-md) var(--padding-lg);
   }
 }
-

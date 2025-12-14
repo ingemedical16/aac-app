@@ -3,45 +3,25 @@
 /* =================================================
    LANGUAGE SWITCHER
 ================================================= */
+
 .switcher {
   display: flex;
   flex-direction: var(--flex-row-dir);
-  align-items: center;
-
   gap: var(--gap-sm);
   direction: var(--dir);
 
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-
   padding-block: var(--padding-sm);
-
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 999px;
-  }
 }
 
-/* =================================================
-   LANGUAGE BUTTON
-================================================= */
 .switcher a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   min-width: 48px;
   min-height: 48px;
 
   padding: var(--padding-sm) var(--padding-md);
-
   border-radius: var(--radius-sm);
   border: 2px solid var(--border);
 
@@ -50,15 +30,9 @@
 
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-
   text-decoration: none;
-  cursor: pointer;
-  user-select: none;
 
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.1s ease;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
 
   &:hover {
     background: var(--bg-hover);
@@ -68,23 +42,10 @@
   &:active {
     transform: scale(0.96);
   }
-
-  @include respond(tablet-portrait) {
-    font-size: var(--font-size-md);
-    padding: var(--padding-md) var(--padding-lg);
-  }
 }
 
-/* =================================================
-   ACTIVE LANGUAGE
-================================================= */
 .switcher a.active {
   background: var(--accent);
   color: var(--accent-text);
   border-color: var(--accent);
-
-  &:hover {
-    background: var(--accent-hover);
-    border-color: var(--accent-hover);
-  }
 }

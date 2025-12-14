@@ -1,58 +1,14 @@
 @use "@/styles/breakpoints.scss" as *;
 
 .board {
-  /* spacing requirement: 10–20px */
-  --gap: clamp(
-    var(--board-gap-min),
-    1.6vw,
-    var(--board-gap-max)
-  );
-
-  --padding: clamp(
-    var(--board-padding-min),
-    1.6vw,
-    var(--board-padding-max)
-  );
-
-  background: transparent;
-
   display: grid;
-  gap: var(--gap);
-  padding: var(--padding);
+  gap: clamp(10px, 1.6vw, 20px);
+  padding: clamp(10px, 1.6vw, 20px);
 
   direction: var(--dir);
 
-  /* IMPORTANT: auto-fit prevents vertical stacking */
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(var(--tile-min), 1fr)
-  );
-
-  /* Stable row height */
+  grid-template-columns: repeat(auto-fit, minmax(var(--tile-min), 1fr));
   grid-auto-rows: minmax(var(--tile-row-min), 1fr);
 
   align-content: start;
-  justify-items: stretch;
-  align-items: stretch;
-
-  /* Breakpoints */
-  @include respond(tablet-portrait) {
-    --tile-min: var(--tile-min-tablet);
-  }
-
-  @include respond(tablet-landscape) {
-    --tile-min: var(--tile-min-landscape);
-  }
-
-  @include respond(desktop) {
-    --tile-min: var(--tile-min-desktop);
-  }
-
-  @include respond(wide) {
-    --tile-min: var(--tile-min-wide);
-  }
-
-  @include respond(ultra) {
-    --tile-min: var(--tile-min-ultra);
-  }
 }
