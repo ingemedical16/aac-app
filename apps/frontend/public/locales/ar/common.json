@@ -21,6 +21,10 @@
   "toGoTo": "أن أذهب إلى",
   "period": "。",
   "all": "الكل",
+  "normalMode": "الوضع العادي",
+  "highContrast": "تباين عالٍ",
+  "exitFullscreen": "الخروج من ملء الشاشة",
+  "enterFullscreen": "ملء الشاشة",
 
   "groups": {
     "mealBasics": "الوجبات الأساسية",

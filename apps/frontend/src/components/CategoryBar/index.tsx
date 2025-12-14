@@ -2,7 +2,7 @@
 
 import styles from "./CategoryBar.module.scss";
 import { CATEGORIES } from "./categories";
-import { useHighContrast } from "@/context/HighContrastContext";
+import { useUserProfile } from "@/context/UserProfileContext";
 
 interface Props {
   locale: string;
@@ -10,37 +10,28 @@ interface Props {
   onSelect: (categoryId: string) => void;
 }
 
-export default function CategoryBar({
-  locale,
-  activeCategory,
-  onSelect,
-}: Props) {
-  const { highContrast } = useHighContrast();
-  const dir = locale === "ar" ? "rtl" : "ltr";
+export default function CategoryBar({ locale, activeCategory, onSelect }: Props) {
+  const { profile } = useUserProfile();
 
   return (
+   
     <div
-      className={`${styles.bar} ${
-        highContrast ? styles.highContrast : ""
-      }`}
-      style={{ direction: dir }}
+      className={`aac-row ${styles.bar} ${profile.highContrast ? styles.highContrast : ""}`}
+      style={{ direction: locale === "ar" ? "rtl" : "ltr" }}
     >
-      {CATEGORIES.map((cat) => {
-        const isActive = cat.id === activeCategory;
-
-        return (
-          <button
-            key={cat.id}
-            className={isActive ? styles.buttonActive : styles.button}
-            onClick={() => onSelect(cat.id)}
-          >
-            <span className={styles.icon}>{cat.icon}</span>
-            <span className={styles.label}>
-              {cat.label[locale] ?? cat.label.en}
-            </span>
-          </button>
-        );
-      })}
+      {CATEGORIES.map((cat) => (
+        <button
+          key={cat.id}
+          className={cat.id === activeCategory ? styles.buttonActive : styles.button}
+          onClick={() => onSelect(cat.id)}
+        >
+          <span className={styles.icon}>{cat.icon}</span>
+          <span className={styles.label}>
+            {cat.label[locale] ?? cat.label.en}
+          </span>
+        </button>
+      ))}
     </div>
+    
   );
 }

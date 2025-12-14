@@ -10,7 +10,7 @@ import {
   type GrammarMode,
 } from "@/lib/sentenceBuilder";
 import { TileData } from "@/components/Tile";
-import { useHighContrast } from "@/context/HighContrastContext";
+import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -18,7 +18,6 @@ interface Props {
   locale: string;
   onClear: () => void;
   onDeleteLast: () => void;
-  // Ready for Option C: both modes (simple / full).
   grammarMode?: GrammarMode;
 }
 
@@ -27,14 +26,14 @@ export default function SentenceBar({
   locale,
   onClear,
   onDeleteLast,
-  grammarMode = "simple", // we can later expose a toggle in the UI
+  grammarMode = "simple",
 }: Props) {
   const { speak } = useTTS();
   const { t } = useTranslation("common");
+  const { profile } = useUserProfile(); // ✅ NEW SOURCE OF TRUTH
   const [isSpeaking, setIsSpeaking] = useState(false);
-   const { highContrast } = useHighContrast();
 
-  // Build phrase set from i18n → multilingual parity EN / FR / AR / RO
+  /** Build localized phrase set */
   const phrases: SentencePhraseSet = {
     iWant: t("iWant"),
     iDontWant: t("iDontWant"),
@@ -54,16 +53,19 @@ export default function SentenceBar({
   const handleSpeak = () => {
     if (!fullSentence) return;
     setIsSpeaking(true);
-    speak(fullSentence, locale, () => {
-      setIsSpeaking(false);
-    });
+    speak(fullSentence, locale, () => setIsSpeaking(false));
   };
 
   return (
+   
     <div
-      className={`${styles.bar} ${highContrast ? styles.highContrast : ""} ${
-        isSpeaking ? styles.barSpeaking : ""
-      }`}
+      className={[
+        "aac-row",
+        styles.bar,
+        profile.highContrast ? styles.highContrast : "",
+        isSpeaking ? styles.barSpeaking : "",
+       
+      ].join(" ")}
     >
       {/* WORD LIST */}
       <div className={styles.words}>
@@ -73,11 +75,8 @@ export default function SentenceBar({
           </span>
         ))}
 
-        {/* Optional hint for therapists (future dashboard) */}
         {sentence.length === 0 && (
-          <span className={styles.hint}>
-            {t("tapToSpeak")}
-          </span>
+          <span className={styles.hint}>{t("tapToSpeak")}</span>
         )}
       </div>
 
@@ -108,5 +107,6 @@ export default function SentenceBar({
         </button>
       </div>
     </div>
+    
   );
 }

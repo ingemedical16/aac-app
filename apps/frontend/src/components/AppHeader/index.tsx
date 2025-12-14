@@ -2,24 +2,25 @@
 
 import { useState, useEffect } from "react";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { useHighContrast } from "@/context/HighContrastContext";
 import styles from "./AppHeader.module.scss";
 import { useTranslation } from "react-i18next";
+import { useUserProfile } from "@/context/UserProfileContext";
 
 export default function AppHeader() {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const { highContrast, toggleHighContrast } = useHighContrast();
+  const { t } = useTranslation("common");
 
-    const { t } = useTranslation("common");
+  // ✅ CORRECT API USAGE
+  const { profile, toggleHighContrast } = useUserProfile();
 
-  /** FULLSCREEN LOGIC */
+  /* -----------------------------
+     FULLSCREEN LOGIC
+  -------------------------------- */
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
-      setIsFullscreen(true);
     } else {
       document.exitFullscreen();
-      setIsFullscreen(false);
     }
   };
 
@@ -38,23 +39,26 @@ export default function AppHeader() {
 
       {/* CENTER */}
       <div className={styles.center}>
-         <h1>{t("appTitleShort")}</h1>
+        <h1>{t("appTitleShort")}</h1>
       </div>
 
       {/* RIGHT */}
       <div className={styles.right}>
-
-        {/* HIGH CONTRAST MODE */}
+        {/* HIGH CONTRAST */}
         <button
-          className={`${styles.btn} ${highContrast ? styles.active : ""}`}
+          className={styles.btn} 
           onClick={toggleHighContrast}
         >
-          {highContrast ? "☀ Normal" : "⚠ High Contrast"}
+          {profile.highContrast
+            ? "* " + t("normalMode")
+            : "⚠ " + t("highContrast")}
         </button>
 
         {/* FULL SCREEN */}
         <button className={styles.btn} onClick={toggleFullscreen}>
-          {isFullscreen ? "⤢ Exit Full" : "⛶ Fullscreen"}
+          {isFullscreen
+            ? "⤢ " + t("exitFullscreen")
+            : "⛶ " + t("enterFullscreen")}
         </button>
       </div>
     </header>

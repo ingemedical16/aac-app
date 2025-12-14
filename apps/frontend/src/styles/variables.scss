@@ -1,32 +1,152 @@
 :root {
-  /* Direction (ltr or rtl) */
+  /* =====================================================
+     DIRECTION & LAYOUT (DEFAULT = LTR)
+  ===================================================== */
   --dir: ltr;
 
-  /* Logical text alignment */
   --text-align-start: left;
   --text-align-end: right;
 
-  /* Logical inline spacing */
-  --margin-start: margin-left;
-  --margin-end: margin-right;
-
-  --padding-start: padding-left;
-  --padding-end: padding-right;
-
-  /* Flex direction helpers */
   --flex-row-dir: row;
   --flex-row-reverse-dir: row-reverse;
 
-  /* Icon flipping */
   --icon-scale-x: 1;
 
-  /* Default colors */
-  --bg-color: #ffffff;
-  --text-color: #222222;
-  --tile-bg: #f4f4f4;
+  /* =====================================================
+     NORMAL MODE COLORS
+  ===================================================== */
+  --bg: #f7f7f7;
+  --bg-hover: #eef4ff;
+
+  --border: #dddddd;
+  --border-hover: #9bbcff;
+
+  --text: #222222;
+  --text-muted: #666666;
+
+  --tile-bg: #ffffff;
+  --tile-bg-hover: #eef4ff;
   --tile-border: #dddddd;
 
-  /* Tile sizes */
-  --tile-size: 120px;
-  --tile-radius: 12px;
+  --header-bg: #ffffff;
+
+  /* Accent */
+  --accent: #4a8cff;
+  --accent-hover: #3c70d8;
+  --accent-text: #ffffff;
+
+  --danger: #ff5c5c;
+  --danger-hover: #d94848;
+
+  --warning: #ffd763;
+  --warning-hover: #f1c652;
+
+  /* =====================================================
+     TYPOGRAPHY
+  ===================================================== */
+  --font-size-sm: 0.9rem;
+  --font-size-md: 1.05rem;
+  --font-size-lg: 1.2rem;
+  --font-size-xl: 1.4rem;
+
+  --font-weight-normal: 500;
+  --font-weight-bold: 700;
+
+  /* =====================================================
+     SPACING & SHAPE
+  ===================================================== */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --gap-sm: 8px;
+  --gap-md: 12px;
+  --gap-lg: 16px;
+
+  --padding-sm: 8px;
+  --padding-md: 12px;
+  --padding-lg: 16px;
+
+  /* =====================================================
+     GRID & BOARD LAYOUT
+  ===================================================== */
+  --board-gap-min: 10px;
+  --board-gap-max: 20px;
+  --board-padding-min: 10px;
+  --board-padding-max: 20px;
+
+  --tile-min: 120px;
+  --tile-min-tablet: 140px;
+  --tile-min-landscape: 160px;
+  --tile-min-desktop: 180px;
+  --tile-min-wide: 200px;
+  --tile-min-ultra: 220px;
+
+  --tile-row-min: 120px;
+}
+
+/* =====================================================
+   RTL MODE (Arabic)
+===================================================== */
+body[dir="rtl"] {
+  --dir: rtl;
+
+  --text-align-start: right;
+  --text-align-end: left;
+
+  --flex-row-dir: row-reverse;
+  --flex-row-reverse-dir: row;
+
+  --icon-scale-x: -1;
+}
+
+/* =====================================================
+   HIGH CONTRAST MODE (AAC)
+===================================================== */
+body.hc {
+  --bg: #000000;
+  --bg-hover: #111111;
+
+  --border: #ffeb3b;
+  --border-hover: #ffee58;
+
+  --text: #ffeb3b;
+  --text-muted: #ffe082;
+
+  --tile-bg: #000000;
+  --tile-bg-hover: #111111;
+  --tile-border: #ffeb3b;
+
+  --header-bg: #000000;
+
+  --accent: #ffeb3b;
+  --accent-hover: #ffe082;
+  --accent-text: #000000;
+
+  --danger: #ffeb3b;
+  --danger-hover: #ffe082;
+
+  --warning: #ffeb3b;
+  --warning-hover: #ffe082;
+}
+
+/* =====================================================
+   BIG BUTTON MODE (Motor accessibility)
+===================================================== */
+body.big {
+  --font-size-sm: 1rem;
+  --font-size-md: 1.2rem;
+  --font-size-lg: 1.4rem;
+  --font-size-xl: 1.6rem;
+
+  --padding-sm: 10px;
+  --padding-md: 14px;
+  --padding-lg: 18px;
+
+  --gap-sm: 10px;
+  --gap-md: 14px;
+  --gap-lg: 18px;
+
+  --tile-min: 150px;
+  --tile-row-min: 150px;
 }

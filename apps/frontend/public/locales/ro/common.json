@@ -21,6 +21,10 @@
   "toGoTo": "să merg la",
   "period": ".",
   "all": "Tot",
+  "normalMode": "Mod normal",
+  "highContrast": "Contrast ridicat",
+  "exitFullscreen": "Ieșire din ecran complet",
+  "enterFullscreen": "Ecran complet",
 
   "groups": {
     "mealBasics": "Mese & bază",

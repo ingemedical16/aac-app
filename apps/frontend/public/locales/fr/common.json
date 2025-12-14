@@ -21,6 +21,10 @@
   "toGoTo": "aller à",
   "period": ".",
   "all": "Tout",
+  "normalMode": "Mode normal",
+  "highContrast": "Contraste élevé",
+  "exitFullscreen": "Quitter le plein écran",
+  "enterFullscreen": "Plein écran",
 
   "groups": {
     "mealBasics": "Repas & bases",

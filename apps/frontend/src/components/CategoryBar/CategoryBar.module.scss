@@ -1,135 +1,122 @@
-@import "@/styles/breakpoints.scss";
+@use "@/styles/breakpoints.scss" as *;
 
-/* WRAPPER BAR — category strip */
+/* =================================================
+   CATEGORY BAR (MAIN LEVEL)
+================================================= */
 .bar {
   display: flex;
   flex-direction: var(--flex-row-dir);
-  gap: 10px;
+  align-items: center;
+
+  gap: var(--gap-md);
 
   overflow-x: auto;
   white-space: nowrap;
-
-  padding: 8px 4px;
-  margin-bottom: 16px;
-
-  scroll-behavior: smooth;
-
-  scrollbar-width: thin;
-  scrollbar-color: #bbb transparent;
-
-  /* iOS/Android kinetic scroll */
   -webkit-overflow-scrolling: touch;
 
-  /* RTL mirroring */
+  padding: var(--padding-sm) var(--padding-md);
+  margin-block: var(--gap-md);
+
+  background: var(--tile-bg);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+
   direction: var(--dir);
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  /* Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 
   &::-webkit-scrollbar {
     height: 6px;
   }
+
   &::-webkit-scrollbar-thumb {
-    background: #bbb;
-    border-radius: 4px;
-  }
-
-  /* High Contrast */
-  &.highContrast {
-    background: #000;
-
-    &::-webkit-scrollbar-thumb {
-      background: #ff0;
-    }
+    background: var(--border);
+    border-radius: 999px;
   }
 }
 
-/* BASE BUTTON */
+/* =================================================
+   CATEGORY BUTTON (BASE)
+================================================= */
 .button {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
+  gap: var(--gap-sm);
 
-  background: var(--tile-bg, #fff);
-  border: 1px solid var(--tile-border, #ccc);
+  min-height: 48px;
+  padding: var(--padding-sm) var(--padding-lg);
+
   border-radius: 999px;
+  border: 2px solid var(--border);
 
-  padding: 8px 14px;
-  min-height: 40px;
+  background: var(--bg);
+  color: var(--text);
 
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-color, #333);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
 
   cursor: pointer;
   user-select: none;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s ease;
 
-  /* High contrast mode */
-  .highContrast & {
-    background: #000;
-    color: #ff0;
-    border-color: #ff0;
-  }
+  transform: scaleX(var(--icon-scale-x));
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
 
   &:hover {
-    background: #f2f2f2;
-
-    .highContrast & {
-      background: #222;
-    }
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
   }
 
   &:active {
     transform: scale(0.96);
   }
 
-  /* Larger buttons for tablets/desktops */
   @include respond(tablet-portrait) {
-    font-size: 1rem;
-    padding: 10px 16px;
-    min-height: 44px;
-  }
-
-  @include respond(tablet-landscape) {
-    font-size: 1.1rem;
-    padding: 12px 18px;
-    min-height: 48px;
+    font-size: var(--font-size-lg);
+    padding: var(--padding-md) var(--padding-lg);
   }
 }
 
-/* ACTIVE BUTTON (selected category) */
+/* =================================================
+   ACTIVE CATEGORY
+================================================= */
 .buttonActive {
   @extend .button;
 
-  background: #2b6cb0;
-  color: #fff;
-  border-color: #2b6cb0;
-
-  font-weight: 600;
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
 
   &:hover {
-    background: #225a91;
-  }
-
-  /* High contrast override */
-  .highContrast & {
-    background: #ff0;
-    color: #000;
-    border-color: #ff0;
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
   }
 }
 
-/* ICON inside category buttons */
+/* =================================================
+   ICON
+================================================= */
 .icon {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   flex-shrink: 0;
   transform: scaleX(var(--icon-scale-x));
 
-  @include respond(tablet-landscape) {
+  @include respond(tablet-portrait) {
     font-size: 1.4rem;
   }
 }
 
-/* LABEL respects RTL direction */
+/* =================================================
+   LABEL
+================================================= */
 .label {
   direction: var(--dir);
+  white-space: nowrap;
 }

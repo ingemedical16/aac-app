@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
@@ -11,7 +11,11 @@ import SentenceBar from "@/components/SentenceBar";
 import { TILES_BY_CATEGORY } from "@/data/tiles";
 import { TileData } from "@/components/Tile";
 
-export default function LocalePage({ params }: any) {
+export default function LocalePage({
+  params,
+}: {
+  params: Promise<{ locale?: string[] }>;
+}) {
   const resolved = use(params);
   const locale = resolved.locale?.[0] ?? "en";
 
@@ -21,31 +25,32 @@ export default function LocalePage({ params }: any) {
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const [sentence, setSentence] = useState<TileData[]>([]);
 
-  const tiles = TILES_BY_CATEGORY[activeCategory] ?? [];
-
-  // ✅ UNIQUE GROUPS FOR SUBCATEGORY BAR
-  const groups = Array.from(
-    new Set(
-      tiles
-        .map((t) => t.group)
-        .filter(Boolean)
-    )
-  ) as string[];
-
   useEffect(() => {
     i18next.changeLanguage(locale);
   }, [locale]);
 
-  return (
-    <main style={{ padding: 16 }}>
-      <h1>{t("appTitle")}</h1>
+  const tiles = TILES_BY_CATEGORY[activeCategory] ?? [];
 
+  const groups = useMemo(() => {
+    const set = new Set<string>();
+    for (const tile of tiles) if (tile.group) set.add(tile.group);
+    return Array.from(set);
+  }, [tiles]);
+
+  const filteredTiles = useMemo(() => {
+    if (!activeGroup) return tiles;
+    return tiles.filter((t) => t.group === activeGroup);
+  }, [tiles, activeGroup]);
+
+  return (
+    <main style={{ padding: 20 }}>
+      {/* The visible title is now small and belongs to the header */}
       <CategoryBar
         locale={locale}
         activeCategory={activeCategory}
         onSelect={(cat) => {
           setActiveCategory(cat);
-          setActiveGroup(null); // reset group on category change
+          setActiveGroup(null);
         }}
       />
 
@@ -64,15 +69,9 @@ export default function LocalePage({ params }: any) {
       />
 
       <Board
-        tiles={
-          activeGroup
-            ? tiles.filter((t) => t.group === activeGroup)
-            : tiles
-        }
+        tiles={filteredTiles}
         locale={locale}
-        onTileSelect={(tile) =>
-          setSentence((prev) => [...prev, tile])
-        }
+        onTileSelect={(tile) => setSentence((prev) => [...prev, tile])}
       />
     </main>
   );

@@ -2,54 +2,45 @@
 
 import styles from "./SubcategoryBar.module.scss";
 import { useTranslation } from "react-i18next";
-import { useHighContrast } from "@/context/HighContrastContext";
+import { useUserProfile } from "@/context/UserProfileContext";
 
 interface Props {
   locale: string;
-  groups?: string[];              // ✅ optional (defensive)
+  groups?: string[];
   activeGroup: string | null;
   onSelect: (group: string | null) => void;
 }
 
 export default function SubcategoryBar({
-  groups = [],                    // ✅ default value prevents crash
+  groups = [],
   activeGroup,
   onSelect,
 }: Props) {
   const { t } = useTranslation("common");
-   const { highContrast } = useHighContrast();
+  const { profile } = useUserProfile();
 
-  if (groups.length === 0) return null;
+  if (!groups.length) return null;
 
   return (
-    <nav className={`${styles.subcategoryBar} ${highContrast ? styles.highContrast : ""}`}>
-      {/* ALL */}
+   
+    <nav className={`aac-row ${styles.subcategoryBar} ${profile.highContrast ? styles.highContrast : ""}`}>
       <button
-        type="button"
-        className={
-          activeGroup === null
-            ? `${styles.item} ${styles.active}`
-            : styles.item
-        }
+        className={activeGroup === null ? `${styles.item} ${styles.active}` : styles.item}
         onClick={() => onSelect(null)}
       >
         {t("all")}
       </button>
 
-      {groups.map((groupKey) => (
+      {groups.map((g) => (
         <button
-          key={groupKey}
-          type="button"
-          className={
-            activeGroup === groupKey
-              ? `${styles.item} ${styles.active}`
-              : styles.item
-          }
-          onClick={() => onSelect(groupKey)}
+          key={g}
+          className={activeGroup === g ? `${styles.item} ${styles.active}` : styles.item}
+          onClick={() => onSelect(g)}
         >
-          {t(`groups.${groupKey}`, { defaultValue: groupKey })}
+          {t(`groups.${g}`, { defaultValue: g })}
         </button>
       ))}
     </nav>
+    
   );
 }

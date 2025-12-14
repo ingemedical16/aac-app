@@ -1,7 +1,7 @@
 "use client";
-import { useHighContrast } from "@/context/HighContrastContext";
 
 import styles from "./Tile.module.scss";
+import { useUserProfile } from "@/context/UserProfileContext";
 
 export interface TileData {
   id: number;
@@ -29,8 +29,8 @@ export default function Tile({
   onSelect,
   onLongPress,
 }: Props) {
+  const { profile } = useUserProfile();
   const text = tile.translations?.[locale] ?? tile.word;
-  const { highContrast } = useHighContrast();
 
   let pressTimer: any;
 
@@ -51,23 +51,17 @@ export default function Tile({
 
   return (
     <div
-      className={`${styles.tile} ${highContrast ? styles.highContrastTile : ""}`}
+      className={`${styles.tile} ${profile.highContrast ? styles.highContrastTile : ""}`}
       onMouseDown={handleDown}
       onMouseUp={handleUp}
       onMouseLeave={handleUp}
       onTouchStart={handleDown}
       onTouchEnd={handleUp}
       onClick={handleClick}
+      role="button"
+      tabIndex={0}
     >
-      {tile.imageUrl && (
-        <img
-          src={tile.imageUrl}
-          alt={text}
-          className={styles.image}  
-          draggable={false}
-        />
-      )}
-
+      {tile.imageUrl && <img className={styles.image} src={tile.imageUrl} alt={text} />}
       <div className={styles.label}>{text}</div>
     </div>
   );

@@ -98,6 +98,21 @@
   }
 }
 
+/* Big buttons mode (from body.big) */
+:global(body.big) .tile {
+  border-width: 4px;
+  padding: 14px;
+  gap: 10px;
+}
+
+:global(body.big) .image {
+  width: min(85%, 170px);
+}
+
+:global(body.big) .label {
+  font-size: 1.25rem;
+}
+
 /* ------------------------------------------
    LONG PRESS FEEDBACK
 --------------------------------------------*/

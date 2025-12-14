@@ -1,38 +1,58 @@
-@import "@/styles/breakpoints.scss";
+@use "@/styles/breakpoints.scss" as *;
 
 .board {
-  --gap: 16px;              // ✅ FORCE spacing
-  --padding: 16px;
-  --tile-size: 120px;
+  /* spacing requirement: 10–20px */
+  --gap: clamp(
+    var(--board-gap-min),
+    1.6vw,
+    var(--board-gap-max)
+  );
+
+  --padding: clamp(
+    var(--board-padding-min),
+    1.6vw,
+    var(--board-padding-max)
+  );
+
+  background: transparent;
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--tile-size), 1fr));
-
-  gap: var(--gap);          // ✅ REAL GAP
+  gap: var(--gap);
   padding: var(--padding);
-
-  align-items: stretch;
-  justify-items: stretch;
 
   direction: var(--dir);
 
+  /* IMPORTANT: auto-fit prevents vertical stacking */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--tile-min), 1fr)
+  );
+
+  /* Stable row height */
+  grid-auto-rows: minmax(var(--tile-row-min), 1fr);
+
+  align-content: start;
+  justify-items: stretch;
+  align-items: stretch;
+
+  /* Breakpoints */
   @include respond(tablet-portrait) {
-    --tile-size: 140px;
+    --tile-min: var(--tile-min-tablet);
   }
 
   @include respond(tablet-landscape) {
-    --tile-size: 160px;
+    --tile-min: var(--tile-min-landscape);
   }
 
   @include respond(desktop) {
-    --tile-size: 180px;
+    --tile-min: var(--tile-min-desktop);
   }
 
   @include respond(wide) {
-    --tile-size: 210px;
+    --tile-min: var(--tile-min-wide);
   }
 
   @include respond(ultra) {
-    --tile-size: 240px;
+    --tile-min: var(--tile-min-ultra);
   }
 }

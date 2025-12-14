@@ -1,73 +1,68 @@
-@import "@/styles/breakpoints.scss";
+@use "@/styles/breakpoints.scss" as *;
 
+/* =================================================
+   LANGUAGE SWITCHER
+================================================= */
 .switcher {
   display: flex;
   flex-direction: var(--flex-row-dir);
-  gap: 10px;
-  margin: 20px 0;
+  align-items: center;
+
+  gap: var(--gap-sm);
   direction: var(--dir);
+
   overflow-x: auto;
-  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+
+  padding-block: var(--padding-sm);
 
   scrollbar-width: thin;
-  scrollbar-color: #bbb transparent;
+  scrollbar-color: var(--border) transparent;
 
   &::-webkit-scrollbar {
     height: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #bbb;
-    border-radius: 4px;
+    background: var(--border);
+    border-radius: 999px;
   }
 }
 
-/* ✅ HIGH CONTRAST MODE */
-.highContrast {
-  background: #000;
-
-  &::-webkit-scrollbar-thumb {
-    background: #ff0;
-  }
-
-  a {
-    background: #000 !important;
-    color: #ff0 !important;
-    border-color: #ff0 !important;
-  }
-
-  a:hover {
-    background: #222 !important;
-  }
-
-  .active {
-    background: #ff0 !important;
-    color: #000 !important;
-  }
-}
-
-/* LANGUAGE BUTTON */
+/* =================================================
+   LANGUAGE BUTTON
+================================================= */
 .switcher a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  padding: 8px 14px;
-  border: 1px solid #aaa;
-  border-radius: 8px;
-
-  background: var(--tile-bg, white);
-  color: var(--text-color, black);
-  text-decoration: none;
-
   min-width: 48px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  min-height: 48px;
 
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  padding: var(--padding-sm) var(--padding-md);
+
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
 
   &:hover {
-    background: #e5e5e5;
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
   }
 
   &:active {
@@ -75,24 +70,21 @@
   }
 
   @include respond(tablet-portrait) {
-    padding: 10px 16px;
-    font-size: 1rem;
-  }
-
-  @include respond(tablet-landscape) {
-    padding: 12px 18px;
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
+    padding: var(--padding-md) var(--padding-lg);
   }
 }
 
-/* ACTIVE LANGUAGE */
-.active {
-  border-color: #2b6cb0;
-  background: #2b6cb0;
-  color: white;
-  font-weight: 600;
+/* =================================================
+   ACTIVE LANGUAGE
+================================================= */
+.switcher a.active {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
 
   &:hover {
-    background: #245b94;
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
   }
 }
