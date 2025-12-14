@@ -13,7 +13,7 @@
   --icon-scale-x: 1;
 
   /* =====================================================
-     NORMAL MODE COLORS
+     COLORS — NORMAL MODE
   ===================================================== */
   --bg: #f7f7f7;
   --bg-hover: #eef4ff;
@@ -68,27 +68,17 @@
   --padding-lg: 16px;
 
   /* =====================================================
-     GRID & BOARD LAYOUT
+     BOARD / TILE BASELINES
   ===================================================== */
-  --board-gap-min: 10px;
-  --board-gap-max: 20px;
-  --board-padding-min: 10px;
-  --board-padding-max: 20px;
-
+  --tile-size: 120px;
   --tile-min: 120px;
-  --tile-min-tablet: 140px;
-  --tile-min-landscape: 160px;
-  --tile-min-desktop: 180px;
-  --tile-min-wide: 200px;
-  --tile-min-ultra: 220px;
-
   --tile-row-min: 120px;
 }
 
 /* =====================================================
    RTL MODE (Arabic)
 ===================================================== */
-body[dir="rtl"] {
+body.rtl {
   --dir: rtl;
 
   --text-align-start: right;
@@ -98,6 +88,21 @@ body[dir="rtl"] {
   --flex-row-reverse-dir: row;
 
   --icon-scale-x: -1;
+}
+
+/* =====================================================
+   LTR MODE (Explicit)
+===================================================== */
+body.ltr {
+  --dir: ltr;
+
+  --text-align-start: left;
+  --text-align-end: right;
+
+  --flex-row-dir: row;
+  --flex-row-reverse-dir: row-reverse;
+
+  --icon-scale-x: 1;
 }
 
 /* =====================================================
@@ -147,6 +152,7 @@ body.big {
   --gap-md: 14px;
   --gap-lg: 18px;
 
+  --tile-size: 150px;
   --tile-min: 150px;
   --tile-row-min: 150px;
 }
