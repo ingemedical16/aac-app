@@ -6,7 +6,7 @@
   gap: var(--gap-sm);
 }
 
-/* BREADCRUMB (Phase 4.7) */
+/* BREADCRUMB */
 .breadcrumb {
   display: none;
   font-size: var(--font-size-sm);
@@ -27,10 +27,10 @@
   }
 }
 
-/* SENTENCE BAR */
+/* BAR */
 .bar {
   display: flex;
-  flex-direction: row; /* default: desktop/tablet */
+  flex-direction: row;
   align-items: center;
   gap: var(--gap-md);
   padding: var(--padding-md);
@@ -39,7 +39,7 @@
   background: var(--tile-bg);
 }
 
-/* MOBILE: SPLIT INTO 2 ROWS */
+/* MOBILE → STACK */
 @include respond(mobile) {
   .bar {
     flex-direction: column;
@@ -47,14 +47,32 @@
   }
 }
 
+/* AUTO-SCROLL WORD ROW */
 .words {
   flex: 1;
-  min-height: 2.4em;
-  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+
+  padding-bottom: 4px;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.words::-webkit-scrollbar {
+  height: 6px;
+}
+
+.words::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
 }
 
 .word {
-  white-space: nowrap;
+  margin-right: 4px;
 }
 
 .hint {
@@ -62,6 +80,7 @@
   font-weight: var(--font-weight-normal);
 }
 
+/* BUTTONS */
 .buttons {
   display: flex;
   gap: var(--gap-sm);
@@ -69,7 +88,7 @@
   flex-wrap: wrap;
 }
 
-/* MOBILE: BUTTONS FULL WIDTH */
+/* MOBILE → BIG TOUCH TARGETS */
 @include respond(mobile) {
   .buttons {
     justify-content: space-between;

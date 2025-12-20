@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./SentenceBar.module.scss";
 
 import useTTS from "@/hooks/useTTS";
@@ -16,7 +16,6 @@ interface Props {
   onDeleteLast: () => void;
   grammarMode?: GrammarMode;
 
-  /* From Phase 4.7 */
   activeCategoryLabel?: string;
   activeGroupLabel?: string | null;
 }
@@ -35,11 +34,22 @@ export default function SentenceBar({
   const { profile } = useUserProfile();
   const [isSpeaking, setIsSpeaking] = useState(false);
 
+  const wordsRef = useRef<HTMLDivElement | null>(null);
+
   const fullSentence = buildSentence(
     sentence,
     locale as any,
     grammarMode
   );
+
+  /* ✅ AUTO-SCROLL TO END WHEN SENTENCE CHANGES */
+  useEffect(() => {
+    if (!wordsRef.current) return;
+    wordsRef.current.scrollTo({
+      left: wordsRef.current.scrollWidth,
+      behavior: "smooth",
+    });
+  }, [sentence]);
 
   const handleSpeak = () => {
     if (!fullSentence) return;
@@ -54,7 +64,7 @@ export default function SentenceBar({
         profile.highContrast ? styles.highContrast : "",
       ].join(" ")}
     >
-      {/* MOBILE BREADCRUMB (Phase 4.7) */}
+      {/* BREADCRUMB (mobile) */}
       {(activeCategoryLabel || activeGroupLabel) && (
         <div className={styles.breadcrumb}>
           <span>{activeCategoryLabel}</span>
@@ -67,15 +77,14 @@ export default function SentenceBar({
         </div>
       )}
 
-      {/* SENTENCE BAR */}
       <div
         className={[
           styles.bar,
           isSpeaking ? styles.barSpeaking : "",
         ].join(" ")}
       >
-        {/* ROW 1 — SENTENCE TEXT */}
-        <div className={styles.words}>
+        {/* ROW 1 — AUTO-SCROLLING SENTENCE */}
+        <div ref={wordsRef} className={styles.words}>
           {sentence.map((tile) => (
             <span key={tile.id} className={styles.word}>
               {(tile.translations?.[locale] || tile.word) + " "}
