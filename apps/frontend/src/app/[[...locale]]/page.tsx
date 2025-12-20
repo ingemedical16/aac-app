@@ -49,7 +49,7 @@ export default function LocalePage({
     <>
       <AppHeader onOpenMenu={() => setMenuOpen(true)} />
 
-      {/* MOBILE MENU */}
+      {/* MOBILE MENU (single source of truth on mobile) */}
       <MobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
@@ -61,16 +61,16 @@ export default function LocalePage({
         onSelectCategory={(cat) => {
           setActiveCategory(cat);
           setActiveGroup(null);
-          if (groups.length === 0) setMenuOpen(false); // ✅ Phase 4.6
+          if (groups.length === 0) setMenuOpen(false);
         }}
         onSelectGroup={(g) => {
           setActiveGroup(g);
-          setMenuOpen(false); // ✅ close after final choice
+          setMenuOpen(false);
         }}
       />
 
       <main style={{ padding: 20 }}>
-        {/* DESKTOP / TABLET ONLY */}
+        {/* DESKTOP / TABLET ONLY (hidden on mobile via CSS) */}
         <CategoryBar
           locale={locale}
           activeCategory={activeCategory}
@@ -92,12 +92,7 @@ export default function LocalePage({
           locale={locale}
           onClear={() => setSentence([])}
           onDeleteLast={() => setSentence((s) => s.slice(0, -1))}
-          activeCategoryLabel={
-            CATEGORIES.find((c) => c.id === activeCategory)?.label[locale]
-          }
-          activeGroupLabel={activeGroup}
         />
-
 
         <Board
           tiles={filteredTiles}

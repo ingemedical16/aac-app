@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./SentenceBar.module.scss";
 
 import useTTS from "@/hooks/useTTS";
-import { buildSentence, type GrammarMode } from "@/lib/sentenceBuilder";
+import { buildSentence, type GrammarMode, type Locale } from "@/lib/sentenceBuilder";
 import { TileData } from "@/components/Tile";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
 
 interface Props {
   sentence: TileData[];
-  locale: string;
+  locale: Locale;
   onClear: () => void;
   onDeleteLast: () => void;
   grammarMode?: GrammarMode;
@@ -36,13 +36,9 @@ export default function SentenceBar({
 
   const wordsRef = useRef<HTMLDivElement | null>(null);
 
-  const fullSentence = buildSentence(
-    sentence,
-    locale as any,
-    grammarMode
-  );
+  const fullSentence = buildSentence(sentence, locale, grammarMode);
 
-  /* ✅ AUTO-SCROLL TO END WHEN SENTENCE CHANGES */
+  /* AUTO-SCROLL */
   useEffect(() => {
     if (!wordsRef.current) return;
     wordsRef.current.scrollTo({
@@ -64,14 +60,15 @@ export default function SentenceBar({
         profile.highContrast ? styles.highContrast : "",
       ].join(" ")}
     >
-      {/* BREADCRUMB (mobile) */}
+      {/* MOBILE BREADCRUMB */}
       {(activeCategoryLabel || activeGroupLabel) && (
         <div className={styles.breadcrumb}>
-          <span>{activeCategoryLabel}</span>
+          {activeCategoryLabel && <span>{activeCategoryLabel}</span>}
+
           {activeGroupLabel && (
             <>
               <span className={styles.sep}>›</span>
-              <span>{activeGroupLabel}</span>
+              <span>{t(`groups.${activeGroupLabel}`)}</span>
             </>
           )}
         </div>
@@ -83,7 +80,7 @@ export default function SentenceBar({
           isSpeaking ? styles.barSpeaking : "",
         ].join(" ")}
       >
-        {/* ROW 1 — AUTO-SCROLLING SENTENCE */}
+        {/* ROW 1 — SENTENCE */}
         <div ref={wordsRef} className={styles.words}>
           {sentence.map((tile) => (
             <span key={tile.id} className={styles.word}>
@@ -96,7 +93,7 @@ export default function SentenceBar({
           )}
         </div>
 
-        {/* ROW 2 — ACTION BUTTONS */}
+        {/* ROW 2 — ACTIONS */}
         <div className={styles.buttons}>
           <button
             className={styles.speak}

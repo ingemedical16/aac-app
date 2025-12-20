@@ -41,39 +41,47 @@ export default function MobileMenu({
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.menu} onClick={(e) => e.stopPropagation()}>
-        <LanguageSwitcher />
+      <aside className={styles.menu} onClick={(e) => e.stopPropagation()}>
+        
+        {/* SCROLLABLE CONTENT */}
+        <div className={styles.content}>
+          <LanguageSwitcher />
 
-        {/* STEP 1: CATEGORY */}
-        <CategoryBar
-          locale={locale}
-          activeCategory={activeCategory}
-          onSelect={onSelectCategory}
-          isMobile
-        />
-
-        {/* STEP 2: SUBCATEGORY */}
-        {groups.length > 0 && (
-          <SubcategoryBar
+          <CategoryBar
             locale={locale}
-            groups={groups}
-            activeGroup={activeGroup}
-            onSelect={onSelectGroup}
+            activeCategory={activeCategory}
+            onSelect={(id) => {
+              onSelectCategory(id);
+            }}
             isMobile
           />
-        )}
 
-        {/* ACCESSIBILITY */}
-        <button onClick={toggleHighContrast}>
-          {profile.highContrast ? t("normalMode") : t("highContrast")}
-        </button>
+          {groups.length > 0 && (
+            <SubcategoryBar
+              locale={locale}
+              groups={groups}
+              activeGroup={activeGroup}
+              onSelect={onSelectGroup}
+              isMobile
+            />
+          )}
+        </div>
 
-        <button onClick={toggleBigButtons}>{t("bigButtons")}</button>
+        {/* FIXED FOOTER */}
+        <div className={styles.footer}>
+          <button onClick={toggleHighContrast}>
+            {profile.highContrast ? t("normalMode") : t("highContrast")}
+          </button>
 
-        <button className={styles.close} onClick={onClose}>
-          ✕
-        </button>
-      </div>
+          <button onClick={toggleBigButtons}>
+            {profile.bigButtons ? t("normalButtons") : t("bigButtons")}
+          </button>
+
+          <button className={styles.close} onClick={onClose}>
+            ✕ {t("close")}
+          </button>
+        </div>
+      </aside>
     </div>
   );
 }

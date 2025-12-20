@@ -4,10 +4,14 @@
   display: flex;
   gap: var(--gap-sm);
   direction: var(--dir);
-
+  margin-top: 10px;
   @include respond(mobile) {
     display: none; /* replaced by mobile menu */
   }
+}
+
+.mobile {
+  display: flex;
 }
 
 .button {
@@ -26,6 +30,7 @@
   &:hover {
     background: var(--bg-hover);
     border-color: var(--border-hover);
+    color: var(--text-hover);
   }
 }
 

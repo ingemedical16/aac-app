@@ -6,7 +6,9 @@
   gap: var(--gap-sm);
 }
 
-/* BREADCRUMB */
+/* =========================
+   BREADCRUMB (MOBILE)
+========================= */
 .breadcrumb {
   display: none;
   font-size: var(--font-size-sm);
@@ -19,7 +21,6 @@
   margin-inline: 6px;
 }
 
-/* MOBILE ONLY */
 @include respond(mobile) {
   .breadcrumb {
     display: flex;
@@ -27,12 +28,15 @@
   }
 }
 
-/* BAR */
+/* =========================
+   SENTENCE BAR
+========================= */
 .bar {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-md);
+
   padding: var(--padding-md);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -47,14 +51,15 @@
   }
 }
 
-/* AUTO-SCROLL WORD ROW */
+/* =========================
+   WORD ROW (AUTO SCROLL)
+========================= */
 .words {
   flex: 1;
   display: flex;
   align-items: center;
   overflow-x: auto;
   white-space: nowrap;
-  scroll-behavior: smooth;
 
   padding-bottom: 4px;
 
@@ -80,7 +85,9 @@
   font-weight: var(--font-weight-normal);
 }
 
-/* BUTTONS */
+/* =========================
+   BUTTON ROW
+========================= */
 .buttons {
   display: flex;
   gap: var(--gap-sm);
@@ -88,7 +95,7 @@
   flex-wrap: wrap;
 }
 
-/* MOBILE → BIG TOUCH TARGETS */
+/* MOBILE → LARGE TOUCH TARGETS */
 @include respond(mobile) {
   .buttons {
     justify-content: space-between;
@@ -99,10 +106,76 @@
   }
 }
 
+/* =========================
+   BUTTON BASE
+========================= */
+.speak,
+.deleteLast,
+.clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+
+  background: var(--tile-bg);
+  color: var(--text);
+
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.speak:hover,
+.deleteLast:hover,
+.clear:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-hover);
+}
+
+.speak:active,
+.deleteLast:active,
+.clear:active {
+  transform: scale(0.96);
+}
+
+.speak:disabled,
+.deleteLast:disabled,
+.clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   SPEAK (PRIMARY)
+========================= */
+.speak {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+
+.speak:hover {
+  background: var(--accent-hover);
+}
+
+/* =========================
+   VISUAL STATES
+========================= */
 .barSpeaking {
   outline: 3px solid var(--accent);
 }
 
-.highContrast {
+/* HIGH CONTRAST */
+.highContrast .bar {
   border-color: var(--accent);
 }

@@ -2,11 +2,42 @@
 
 .bar {
   display: flex;
-  flex-direction: var(--flex-row-dir);
   gap: var(--gap-sm);
   direction: var(--dir);
+
 
   @include respond(mobile) {
     display: none; /* ✅ replaced by menu later */
   }
+}
+
+
+.mobile {
+  display: flex;
+}
+
+.button {
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+
+  background: var(--tile-bg);
+  color: var(--text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+
+  cursor: pointer;
+
+  &:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    color: var(--text-hover);
+  }
+}
+
+.buttonActive {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
 }
