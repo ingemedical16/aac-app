@@ -1,17 +1,64 @@
 @use "@/styles/breakpoints.scss" as *;
 
-.bar {
-  position: sticky;
-  bottom: 0;
-  z-index: 800;
-
-  background: var(--bg);
-  border-top: 2px solid var(--border);
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
 }
 
-@include respond(tablet-portrait) {
-  .bar {
-    position: relative;
-    border-top: none;
+/* ✅ BREADCRUMB */
+.breadcrumb {
+  display: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-muted);
+  padding-inline: var(--padding-sm);
+}
+
+.sep {
+  margin-inline: 6px;
+}
+
+/* MOBILE ONLY */
+@include respond(mobile) {
+  .breadcrumb {
+    display: flex;
+    align-items: center;
   }
+}
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  padding: var(--padding-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--tile-bg);
+}
+
+.words {
+  min-height: 2.2em;
+}
+
+.word {
+  font-weight: var(--font-weight-bold);
+}
+
+.hint {
+  color: var(--text-muted);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--gap-sm);
+  flex-wrap: wrap;
+}
+
+.barSpeaking {
+  outline: 3px solid var(--accent);
+}
+
+.highContrast {
+  border-color: var(--accent);
 }

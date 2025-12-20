@@ -11,10 +11,14 @@ import { useTranslation } from "react-i18next";
 
 interface Props {
   sentence: TileData[];
-  locale: "en" | "fr" | "ar" | "ro";
+  locale: string;
   onClear: () => void;
   onDeleteLast: () => void;
   grammarMode?: GrammarMode;
+
+  /* ✅ Phase 4.7 */
+  activeCategoryLabel?: string;
+  activeGroupLabel?: string | null;
 }
 
 export default function SentenceBar({
@@ -23,14 +27,19 @@ export default function SentenceBar({
   onClear,
   onDeleteLast,
   grammarMode = "simple",
+  activeCategoryLabel,
+  activeGroupLabel,
 }: Props) {
   const { speak } = useTTS();
   const { t } = useTranslation("common");
   const { profile } = useUserProfile();
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  // ✅ correct signature (3 args)
-  const fullSentence = buildSentence(sentence, locale, grammarMode);
+  const fullSentence = buildSentence(
+    sentence,
+    locale as any,
+    grammarMode
+  );
 
   const handleSpeak = () => {
     if (!fullSentence) return;
@@ -41,39 +50,70 @@ export default function SentenceBar({
   return (
     <div
       className={[
-        styles.bar,
+        styles.wrapper,
         profile.highContrast ? styles.highContrast : "",
-        isSpeaking ? styles.barSpeaking : "",
       ].join(" ")}
     >
-      <div className={styles.words}>
-        {sentence.map((tile) => (
-          <span key={tile.id} className={styles.word}>
-            {(tile.translations?.[locale] || tile.word) + " "}
-          </span>
-        ))}
+      {/* ✅ MOBILE BREADCRUMB */}
+      {(activeCategoryLabel || activeGroupLabel) && (
+        <div className={styles.breadcrumb}>
+          <span>{activeCategoryLabel}</span>
+          {activeGroupLabel && (
+            <>
+              <span className={styles.sep}>›</span>
+              <span>{activeGroupLabel}</span>
+            </>
+          )}
+        </div>
+      )}
 
-        {sentence.length === 0 && (
-          <span className={styles.hint}>{t("tapToSpeak")}</span>
-        )}
-      </div>
+      {/* MAIN BAR */}
+      <div
+        className={[
+          "aac-row",
+          styles.bar,
+          isSpeaking ? styles.barSpeaking : "",
+        ].join(" ")}
+      >
+        {/* WORD LIST */}
+        <div className={styles.words}>
+          {sentence.map((tile) => (
+            <span key={tile.id} className={styles.word}>
+              {(tile.translations?.[locale] || tile.word) + " "}
+            </span>
+          ))}
 
-      <div className={styles.buttons}>
-        <button className={styles.speak} onClick={handleSpeak} disabled={!fullSentence}>
-          🔊 {t("speak")}
-        </button>
+          {sentence.length === 0 && (
+            <span className={styles.hint}>{t("tapToSpeak")}</span>
+          )}
+        </div>
 
-        <button
-          className={styles.deleteLast}
-          onClick={onDeleteLast}
-          disabled={sentence.length === 0}
-        >
-          ⬅️ {t("deleteLast")}
-        </button>
+        {/* BUTTONS */}
+        <div className={styles.buttons}>
+          <button
+            className={styles.speak}
+            onClick={handleSpeak}
+            disabled={!fullSentence}
+          >
+            🔊 {t("speak")}
+          </button>
 
-        <button className={styles.clear} onClick={onClear} disabled={sentence.length === 0}>
-          ❌ {t("clear")}
-        </button>
+          <button
+            className={styles.deleteLast}
+            onClick={onDeleteLast}
+            disabled={sentence.length === 0}
+          >
+            ⬅️ {t("deleteLast")}
+          </button>
+
+          <button
+            className={styles.clear}
+            onClick={onClear}
+            disabled={sentence.length === 0}
+          >
+            ❌ {t("clear")}
+          </button>
+        </div>
       </div>
     </div>
   );

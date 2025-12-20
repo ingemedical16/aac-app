@@ -92,7 +92,12 @@ export default function LocalePage({
           locale={locale}
           onClear={() => setSentence([])}
           onDeleteLast={() => setSentence((s) => s.slice(0, -1))}
+          activeCategoryLabel={
+            CATEGORIES.find((c) => c.id === activeCategory)?.label[locale]
+          }
+          activeGroupLabel={activeGroup}
         />
+
 
         <Board
           tiles={filteredTiles}
