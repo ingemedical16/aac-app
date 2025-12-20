@@ -6,7 +6,7 @@
   gap: var(--gap-sm);
 }
 
-/* ✅ BREADCRUMB */
+/* BREADCRUMB (Phase 4.7) */
 .breadcrumb {
   display: none;
   font-size: var(--font-size-sm);
@@ -27,32 +27,57 @@
   }
 }
 
+/* SENTENCE BAR */
 .bar {
   display: flex;
-  flex-direction: column;
-  gap: var(--gap-sm);
+  flex-direction: row; /* default: desktop/tablet */
+  align-items: center;
+  gap: var(--gap-md);
   padding: var(--padding-md);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--tile-bg);
 }
 
+/* MOBILE: SPLIT INTO 2 ROWS */
+@include respond(mobile) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .words {
-  min-height: 2.2em;
+  flex: 1;
+  min-height: 2.4em;
+  font-weight: var(--font-weight-bold);
 }
 
 .word {
-  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
 }
 
 .hint {
   color: var(--text-muted);
+  font-weight: var(--font-weight-normal);
 }
 
 .buttons {
   display: flex;
   gap: var(--gap-sm);
+  justify-content: flex-end;
   flex-wrap: wrap;
+}
+
+/* MOBILE: BUTTONS FULL WIDTH */
+@include respond(mobile) {
+  .buttons {
+    justify-content: space-between;
+  }
+
+  .buttons button {
+    flex: 1;
+  }
 }
 
 .barSpeaking {

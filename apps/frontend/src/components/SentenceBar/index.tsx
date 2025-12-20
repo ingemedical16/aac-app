@@ -16,7 +16,7 @@ interface Props {
   onDeleteLast: () => void;
   grammarMode?: GrammarMode;
 
-  /* ✅ Phase 4.7 */
+  /* From Phase 4.7 */
   activeCategoryLabel?: string;
   activeGroupLabel?: string | null;
 }
@@ -54,7 +54,7 @@ export default function SentenceBar({
         profile.highContrast ? styles.highContrast : "",
       ].join(" ")}
     >
-      {/* ✅ MOBILE BREADCRUMB */}
+      {/* MOBILE BREADCRUMB (Phase 4.7) */}
       {(activeCategoryLabel || activeGroupLabel) && (
         <div className={styles.breadcrumb}>
           <span>{activeCategoryLabel}</span>
@@ -67,15 +67,14 @@ export default function SentenceBar({
         </div>
       )}
 
-      {/* MAIN BAR */}
+      {/* SENTENCE BAR */}
       <div
         className={[
-          "aac-row",
           styles.bar,
           isSpeaking ? styles.barSpeaking : "",
         ].join(" ")}
       >
-        {/* WORD LIST */}
+        {/* ROW 1 — SENTENCE TEXT */}
         <div className={styles.words}>
           {sentence.map((tile) => (
             <span key={tile.id} className={styles.word}>
@@ -88,7 +87,7 @@ export default function SentenceBar({
           )}
         </div>
 
-        {/* BUTTONS */}
+        {/* ROW 2 — ACTION BUTTONS */}
         <div className={styles.buttons}>
           <button
             className={styles.speak}
