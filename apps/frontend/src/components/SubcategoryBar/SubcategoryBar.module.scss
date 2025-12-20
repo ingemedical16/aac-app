@@ -1,11 +1,36 @@
 @use "@/styles/breakpoints.scss" as *;
 
-.subcategoryBar {
+.bar {
   display: flex;
   gap: var(--gap-sm);
   direction: var(--dir);
 
   @include respond(mobile) {
-    display: none; /* ✅ replaced by menu later */
+    display: none; /* replaced by mobile menu */
   }
+}
+
+.button {
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+
+  background: var(--tile-bg);
+  color: var(--text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+
+  cursor: pointer;
+
+  &:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+  }
+}
+
+.buttonActive {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
 }

@@ -7,22 +7,10 @@
 
   direction: var(--dir);
 
-  /* ✅ MOBILE: ONE COLUMN */
+  /* MOBILE: ONE COLUMN */
   grid-template-columns: 1fr;
 
   @include respond(tablet-portrait) {
-    grid-template-columns: repeat(auto-fit, minmax(var(--tile-min-tablet), 1fr));
-  }
-
-  @include respond(tablet-landscape) {
-    grid-template-columns: repeat(auto-fit, minmax(var(--tile-min-landscape), 1fr));
-  }
-
-  @include respond(desktop) {
-    grid-template-columns: repeat(auto-fit, minmax(var(--tile-min-desktop), 1fr));
-  }
-
-  @include respond(wide) {
-    grid-template-columns: repeat(auto-fit, minmax(var(--tile-min-wide), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--tile-min), 1fr));
   }
 }

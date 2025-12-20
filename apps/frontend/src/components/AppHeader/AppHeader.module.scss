@@ -1,32 +1,24 @@
 @use "@/styles/breakpoints.scss" as *;
 
-/* ===============================
+/* ===========================
    DESKTOP / TABLET HEADER
-================================ */
+=========================== */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
+  height: 60px;
+  padding: 0 var(--padding-md);
+
   background: var(--bg);
   color: var(--text);
   border-bottom: 1px solid var(--border);
 
-  height: 60px;
-  padding: 0 var(--padding-md);
-  direction: var(--dir);
   flex-direction: var(--flex-row-dir);
+  direction: var(--dir);
 
-  @include respond(tablet-portrait) {
-    height: 70px;
-  }
-
-  @include respond(desktop) {
-    height: 80px;
-  }
-
-  /* 🔴 HIDE ON SMALL DEVICES */
-  @media (max-width: 599px) {
+  @include respond(mobile) {
     display: none;
   }
 }
@@ -45,15 +37,14 @@
   font-weight: var(--font-weight-bold);
 }
 
-/* ===============================
-   BUTTONS (DESKTOP)
-================================ */
 .btn {
   padding: var(--padding-sm) var(--padding-md);
   border-radius: var(--radius-sm);
+
   background: var(--tile-bg);
-  border: 1px solid var(--border);
   color: var(--text);
+  border: 1px solid var(--border);
+
   font-weight: var(--font-weight-bold);
   cursor: pointer;
 
@@ -69,72 +60,29 @@
   }
 }
 
-/* ===============================
-   MOBILE MENU TOGGLE
-================================ */
-.mobileToggle {
+/* ===========================
+   MOBILE HEADER
+=========================== */
+.mobileHeader {
   display: none;
 
-  @media (max-width: 599px) {
+  @include respond(mobile) {
     display: flex;
-    position: fixed;
-    top: var(--padding-sm);
-    inset-inline-end: var(--padding-sm);
-    z-index: 1000;
-
-    width: 48px;
-    height: 48px;
-
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
-    font-size: 1.4rem;
-    border-radius: 50%;
-    border: 2px solid var(--border);
+    height: 56px;
+    padding: 0 var(--padding-md);
+
     background: var(--bg);
-    color: var(--text);
+    border-bottom: 1px solid var(--border);
   }
 }
 
-/* ===============================
-   MOBILE MENU PANEL
-================================ */
-.mobileMenu {
-  position: fixed;
-  top: 0;
-  inset-inline: 0;
-  z-index: 999;
-
-  background: var(--bg);
-  border-bottom: 2px solid var(--border);
-
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-md);
-
-  padding: var(--padding-lg);
-  direction: var(--dir);
-}
-
-/* ===============================
-   MOBILE MENU BUTTONS
-================================ */
 .menuBtn {
-  min-height: 52px;
-  border-radius: var(--radius-md);
-  border: 2px solid var(--border);
-  background: var(--tile-bg);
+  font-size: 1.6rem;
+  background: none;
+  border: none;
   color: var(--text);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-
-  &:hover {
-    background: var(--bg-hover);
-  }
-
-  &.active {
-    background: var(--accent);
-    color: var(--accent-text);
-    border-color: var(--accent);
-  }
+  cursor: pointer;
 }

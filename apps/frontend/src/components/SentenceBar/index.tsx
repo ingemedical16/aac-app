@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 interface Props {
   sentence: TileData[];
-  locale: string;
+  locale: "en" | "fr" | "ar" | "ro";
   onClear: () => void;
   onDeleteLast: () => void;
   grammarMode?: GrammarMode;
@@ -29,8 +29,8 @@ export default function SentenceBar({
   const { profile } = useUserProfile();
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  // ✅ Correct call (3 args only)
-  const fullSentence = buildSentence(sentence, locale as any, grammarMode);
+  // ✅ correct signature (3 args)
+  const fullSentence = buildSentence(sentence, locale, grammarMode);
 
   const handleSpeak = () => {
     if (!fullSentence) return;
@@ -41,13 +41,11 @@ export default function SentenceBar({
   return (
     <div
       className={[
-        "aac-row",
         styles.bar,
         profile.highContrast ? styles.highContrast : "",
         isSpeaking ? styles.barSpeaking : "",
       ].join(" ")}
     >
-      {/* WORD LIST */}
       <div className={styles.words}>
         {sentence.map((tile) => (
           <span key={tile.id} className={styles.word}>
@@ -60,13 +58,8 @@ export default function SentenceBar({
         )}
       </div>
 
-      {/* BUTTONS */}
       <div className={styles.buttons}>
-        <button
-          className={styles.speak}
-          onClick={handleSpeak}
-          disabled={!fullSentence}
-        >
+        <button className={styles.speak} onClick={handleSpeak} disabled={!fullSentence}>
           🔊 {t("speak")}
         </button>
 
@@ -78,11 +71,7 @@ export default function SentenceBar({
           ⬅️ {t("deleteLast")}
         </button>
 
-        <button
-          className={styles.clear}
-          onClick={onClear}
-          disabled={sentence.length === 0}
-        >
+        <button className={styles.clear} onClick={onClear} disabled={sentence.length === 0}>
           ❌ {t("clear")}
         </button>
       </div>

@@ -1,9 +1,34 @@
-@import "./variables.scss";
-@import "./layout.scss";
+@use "./variables.scss" as *;
+@use "@/styles/breakpoints.scss" as *;
 
 /* Apply base variables */
 body {
   background: var(--bg);
   color: var(--text);
   margin: 0;
+}
+
+/* =========================================
+   GLOBAL LAYOUT RULES
+========================================= */
+
+/* MOBILE FIRST (≤ 600px) */
+@include respond(mobile) {
+  body {
+    font-size: var(--font-size-md);
+  }
+
+  /* Stack everything vertically */
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+}
+
+/* TABLET AND UP */
+@include respond(tablet-portrait) {
+  main {
+    gap: var(--gap-lg);
+  }
 }

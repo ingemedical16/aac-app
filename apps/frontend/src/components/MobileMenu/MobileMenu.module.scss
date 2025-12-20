@@ -1,83 +1,45 @@
 @use "@/styles/breakpoints.scss" as *;
 
-.menu {
+.overlay {
   position: fixed;
   inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
 
+.menu {
+  width: 85%;
+  max-width: 360px;
+  height: 100%;
   background: var(--bg);
   color: var(--text);
 
+  padding: var(--padding-lg);
   display: flex;
   flex-direction: column;
   gap: var(--gap-md);
 
-  padding: var(--padding-lg);
+  overflow-y: auto;
 }
 
-/* HEADER */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  font-size: var(--font-size-lg);
+.menu h3,
+.menu h4 {
+  margin: 0;
   font-weight: var(--font-weight-bold);
 }
 
-/* ACTIONS */
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-sm);
-}
-
-/* ✅ BUTTONS — now scoped */
 .menu button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 48px;
-  width: 48px;
   padding: var(--padding-md);
-
-  border-radius: var(--radius-md);
-  border: 2px solid var(--border);
-
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
   background: var(--tile-bg);
-  color: var(--text);
-
-  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
-
   cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.1s ease;
 }
 
-.menu button:hover {
-  background: var(--bg-hover);
-  border-color: var(--border-hover);
+.close {
+  margin-top: auto;
 }
 
-.menu button:active {
-  transform: scale(0.96);
-}
-
-/* ACTIVE */
-.menu button.active {
-  background: var(--accent);
-  color: var(--accent-text);
-  border-color: var(--accent);
-}
-
-/* HIGH CONTRAST */
-:global(body.hc) .menu button {
-  background: var(--bg);
-  color: var(--text);
-  border-color: var(--border);
-}

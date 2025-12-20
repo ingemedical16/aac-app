@@ -1,37 +1,40 @@
 "use client";
 
 import styles from "./CategoryBar.module.scss";
-import { CATEGORIES } from "./categories";
-import { useUserProfile } from "@/context/UserProfileContext";
+import { CATEGORIES, type Category } from "./categories";
 
 interface Props {
-  locale: string;
+  locale: "en" | "fr" | "ar" | "ro";
   activeCategory: string;
   onSelect: (categoryId: string) => void;
 }
 
-export default function CategoryBar({ locale, activeCategory, onSelect }: Props) {
-  const { profile } = useUserProfile();
-
+export default function CategoryBar({
+  locale,
+  activeCategory,
+  onSelect,
+}: Props) {
   return (
-   
-    <div
-      className={`aac-row ${styles.bar} ${profile.highContrast ? styles.highContrast : ""}`}
-      style={{ direction: locale === "ar" ? "rtl" : "ltr" }}
-    >
-      {CATEGORIES.map((cat) => (
-        <button
-          key={cat.id}
-          className={cat.id === activeCategory ? styles.buttonActive : styles.button}
-          onClick={() => onSelect(cat.id)}
-        >
-          <span className={styles.icon}>{cat.icon}</span>
-          <span className={styles.label}>
-            {cat.label[locale] ?? cat.label.en}
-          </span>
-        </button>
-      ))}
-    </div>
-    
+    <nav className={styles.bar}>
+      {CATEGORIES.map((cat: Category) => {
+        const isActive = cat.id === activeCategory;
+
+        return (
+          <button
+            key={cat.id}
+            type="button"
+            className={isActive ? styles.buttonActive : styles.button}
+            onClick={() => onSelect(cat.id)}
+          >
+            <span className={styles.icon}>{cat.icon}</span>
+
+            {/* ✅ FIX: select label by locale */}
+            <span className={styles.label}>
+              {cat.label[locale]}
+            </span>
+          </button>
+        );
+      })}
+    </nav>
   );
 }
