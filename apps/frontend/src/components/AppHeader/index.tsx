@@ -5,13 +5,14 @@ import styles from "./AppHeader.module.scss";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/context/UserProfileContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import MobileMenu from "@/components/MobileMenu";
-import { CATEGORIES } from "@/components/CategoryBar/categories";
 
-export default function AppHeader() {
+interface Props {
+  onOpenMenu: () => void;
+}
+
+export default function AppHeader({ onOpenMenu }: Props) {
   const { t } = useTranslation("common");
   const { profile, toggleHighContrast, toggleBigButtons } = useUserProfile();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function AppHeader() {
       <header className={styles.mobileHeader}>
         <button
           className={styles.menuBtn}
-          onClick={() => setMenuOpen(true)}
+          onClick={onOpenMenu}
           aria-label={t("openMenu")}
         >
           ☰
@@ -41,23 +42,17 @@ export default function AppHeader() {
             className={`${styles.btn} ${profile.highContrast ? styles.active : ""}`}
             onClick={toggleHighContrast}
           >
-            {profile.highContrast ? t("highContrast") : t("normalMode")}
+            {profile.highContrast ? t("normalMode") : t("highContrast")}
           </button>
 
           <button
             className={`${styles.btn} ${profile.bigButtons ? styles.active : ""}`}
             onClick={toggleBigButtons}
           >
-            {t("bigButtons")}
+            {profile.bigButtons ? t("normalButtons") : t("bigButtons")}
           </button>
         </div>
       </header>
-
-      <MobileMenu
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        categories={CATEGORIES}
-      />
     </>
   );
 }

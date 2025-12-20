@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./SubcategoryBar.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   locale: "en" | "fr" | "ar" | "ro";
@@ -18,6 +19,7 @@ export default function SubcategoryBar({
   isMobile = false,
 }: Props) {
   if (!groups.length) return null;
+  const { t } = useTranslation("common");
 
   return (
     <nav className={`${styles.bar} ${isMobile ? styles.mobile : ""}`}>
@@ -25,7 +27,7 @@ export default function SubcategoryBar({
         className={`${styles.button} ${activeGroup === null ? styles.buttonActive : ""}`}
         onClick={() => onSelect(null)}
       >
-        {locale === "ar" ? "الكل" : "All"}
+       { t("all")}
       </button>
 
       {groups.map((g) => (
@@ -34,7 +36,7 @@ export default function SubcategoryBar({
           className={`${styles.button} ${g === activeGroup ? styles.buttonActive : ""}`}
           onClick={() => onSelect(g)}
         >
-          {g}
+         {t(`groups.${g}`)}
         </button>
       ))}
     </nav>
