@@ -6,9 +6,19 @@
   gap: var(--gap-sm);
 }
 
-/* =========================
-   BREADCRUMB (MOBILE)
-========================= */
+/* ✅ MOBILE: sticky bottom bar */
+@include respond(mobile) {
+  .wrapper {
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+
+    background: var(--bg);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* BREADCRUMB */
 .breadcrumb {
   display: none;
   font-size: var(--font-size-sm);
@@ -21,6 +31,7 @@
   margin-inline: 6px;
 }
 
+/* MOBILE ONLY */
 @include respond(mobile) {
   .breadcrumb {
     display: flex;
@@ -28,9 +39,7 @@
   }
 }
 
-/* =========================
-   SENTENCE BAR
-========================= */
+/* BAR */
 .bar {
   display: flex;
   flex-direction: row;
@@ -38,9 +47,13 @@
   gap: var(--gap-md);
 
   padding: var(--padding-md);
+
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
+
   background: var(--tile-bg);
+
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 /* MOBILE → STACK */
@@ -51,15 +64,16 @@
   }
 }
 
-/* =========================
-   WORD ROW (AUTO SCROLL)
-========================= */
+/* AUTO-SCROLL WORD ROW */
 .words {
   flex: 1;
+
   display: flex;
   align-items: center;
+
   overflow-x: auto;
   white-space: nowrap;
+  scroll-behavior: smooth;
 
   padding-bottom: 4px;
 
@@ -77,7 +91,7 @@
 }
 
 .word {
-  margin-right: 4px;
+  margin-inline-end: 4px;
 }
 
 .hint {
@@ -85,9 +99,7 @@
   font-weight: var(--font-weight-normal);
 }
 
-/* =========================
-   BUTTON ROW
-========================= */
+/* BUTTONS */
 .buttons {
   display: flex;
   gap: var(--gap-sm);
@@ -95,7 +107,6 @@
   flex-wrap: wrap;
 }
 
-/* MOBILE → LARGE TOUCH TARGETS */
 @include respond(mobile) {
   .buttons {
     justify-content: space-between;
@@ -106,76 +117,76 @@
   }
 }
 
-/* =========================
-   BUTTON BASE
-========================= */
+/* ✅ ACTION BUTTONS (restored) */
 .speak,
 .deleteLast,
 .clear {
+  min-height: 48px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  padding: var(--padding-sm) var(--padding-md);
+  padding: var(--padding-md);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
 
-  background: var(--tile-bg);
-  color: var(--text);
-
-  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
 
   cursor: pointer;
   user-select: none;
 
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.1s ease;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
 }
 
-.speak:hover,
-.deleteLast:hover,
-.clear:hover {
-  background: var(--bg-hover);
-  border-color: var(--border-hover);
+.speak {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+
+  &:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+}
+
+.deleteLast {
+  background: var(--warning);
+  color: #543d00;
+
+  &:hover {
+    background: var(--warning-hover);
+  }
+
+  :global(body.hc) & {
+    color: var(--accent-text);
+    border-color: var(--border);
+  }
+}
+
+.clear {
+  background: var(--danger);
+  color: #ffffff;
+
+  &:hover {
+    background: var(--danger-hover);
+  }
 }
 
 .speak:active,
 .deleteLast:active,
 .clear:active {
-  transform: scale(0.96);
+  transform: scale(0.98);
 }
 
 .speak:disabled,
 .deleteLast:disabled,
 .clear:disabled {
-  opacity: 0.5;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
-/* =========================
-   SPEAK (PRIMARY)
-========================= */
-.speak {
-  background: var(--accent);
-  color: var(--accent-text);
-  border-color: var(--accent);
-}
-
-.speak:hover {
-  background: var(--accent-hover);
-}
-
-/* =========================
-   VISUAL STATES
-========================= */
 .barSpeaking {
   outline: 3px solid var(--accent);
-}
-
-/* HIGH CONTRAST */
-.highContrast .bar {
-  border-color: var(--accent);
 }

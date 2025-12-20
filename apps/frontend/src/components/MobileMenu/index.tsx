@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import styles from "./MobileMenu.module.scss";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
@@ -37,51 +38,91 @@ export default function MobileMenu({
   const { t } = useTranslation("common");
   const { profile, toggleHighContrast, toggleBigButtons } = useUserProfile();
 
+  // ✅ Scroll lock + Escape to close
+  useEffect(() => {
+    if (!open) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open, onClose]);
+
   if (!open) return null;
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <aside className={styles.menu} onClick={(e) => e.stopPropagation()}>
-        
-        {/* SCROLLABLE CONTENT */}
-        <div className={styles.content}>
-          <LanguageSwitcher />
+    <div
+      className={styles.overlay}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={t("menu")}
+    >
+      <div className={styles.menu} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.topRow}>
+          <div className={styles.title}>{t("menu")}</div>
 
-          <CategoryBar
-            locale={locale}
-            activeCategory={activeCategory}
-            onSelect={(id) => {
-              onSelectCategory(id);
-            }}
-            isMobile
-          />
-
-          {groups.length > 0 && (
-            <SubcategoryBar
-              locale={locale}
-              groups={groups}
-              activeGroup={activeGroup}
-              onSelect={onSelectGroup}
-              isMobile
-            />
-          )}
+          <button
+            type="button"
+            className={styles.iconBtn}
+            onClick={onClose}
+            aria-label={t("close")}
+          >
+            ✕
+          </button>
         </div>
 
-        {/* FIXED FOOTER */}
-        <div className={styles.footer}>
-          <button onClick={toggleHighContrast}>
+        <LanguageSwitcher />
+
+        {/* STEP 1: CATEGORY */}
+        <CategoryBar
+          locale={locale}
+          activeCategory={activeCategory}
+          onSelect={onSelectCategory}
+          isMobile
+        />
+
+        {/* STEP 2: SUBCATEGORY */}
+        {groups.length > 0 && (
+          <SubcategoryBar
+            locale={locale}
+            groups={groups}
+            activeGroup={activeGroup}
+            onSelect={onSelectGroup}
+            isMobile
+          />
+        )}
+
+        {/* ACCESSIBILITY */}
+        <div className={styles.section}>
+          <button
+            type="button"
+            className={styles.actionBtn}
+            onClick={toggleHighContrast}
+            aria-pressed={profile.highContrast}
+          >
             {profile.highContrast ? t("normalMode") : t("highContrast")}
           </button>
 
-          <button onClick={toggleBigButtons}>
+          <button
+            type="button"
+            className={styles.actionBtn}
+            onClick={toggleBigButtons}
+            aria-pressed={profile.bigButtons}
+          >
             {profile.bigButtons ? t("normalButtons") : t("bigButtons")}
           </button>
-
-          <button className={styles.close} onClick={onClose}>
-            ✕ {t("close")}
-          </button>
         </div>
-      </aside>
+      </div>
     </div>
   );
 }
