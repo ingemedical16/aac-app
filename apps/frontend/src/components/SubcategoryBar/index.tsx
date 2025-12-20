@@ -1,59 +1,40 @@
 "use client";
 
 import styles from "./SubcategoryBar.module.scss";
-import { useTranslation } from "react-i18next";
-
-export interface Subcategory {
-  id: string;
-  label: {
-    en: string;
-    fr: string;
-    ar: string;
-    ro: string;
-  };
-}
 
 interface Props {
   locale: "en" | "fr" | "ar" | "ro";
-  subcategories: Subcategory[];
-  activeId: string | null;
+  groups: string[];
+  activeGroup: string | null;
   onSelect: (id: string | null) => void;
+  isMobile?: boolean;
 }
 
 export default function SubcategoryBar({
   locale,
-  subcategories,
-  activeId,
+  groups,
+  activeGroup,
   onSelect,
+  isMobile = false,
 }: Props) {
-  const { t } = useTranslation("common");
-
-  if (!subcategories?.length) return null;
-  
+  if (!groups.length) return null;
 
   return (
-    <nav className={styles.bar}>
-      {/* ALL */}
+    <nav className={`${styles.bar} ${isMobile ? styles.mobile : ""}`}>
       <button
-        type="button"
-        className={`${styles.button} ${
-          activeId === null ? styles.buttonActive : ""
-        }`}
+        className={`${styles.button} ${activeGroup === null ? styles.buttonActive : ""}`}
         onClick={() => onSelect(null)}
       >
-        {t("all")}
+        {locale === "ar" ? "الكل" : "All"}
       </button>
 
-      {subcategories.map((s) => (
+      {groups.map((g) => (
         <button
-          key={s.id}
-          type="button"
-          className={`${styles.button} ${
-            s.id === activeId ? styles.buttonActive : ""
-          }`}
-          onClick={() => onSelect(s.id)}
+          key={g}
+          className={`${styles.button} ${g === activeGroup ? styles.buttonActive : ""}`}
+          onClick={() => onSelect(g)}
         >
-          {s.label[locale]}
+          {g}
         </button>
       ))}
     </nav>
