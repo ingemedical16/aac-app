@@ -5,6 +5,7 @@ import styles from "./MobileMenu.module.scss";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ProfileSwitcher from "@/components/ProfileSwitcher";
 import CategoryBar from "@/components/CategoryBar";
 import SubcategoryBar from "@/components/SubcategoryBar";
 import { Category } from "@/components/CategoryBar/categories";
@@ -82,6 +83,7 @@ export default function MobileMenu({
         </div>
 
         <LanguageSwitcher />
+        <ProfileSwitcher />
 
         {/* STEP 1: CATEGORY */}
         <CategoryBar

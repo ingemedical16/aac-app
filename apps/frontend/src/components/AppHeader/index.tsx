@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./AppHeader.module.scss";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/context/UserProfileContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ProfileSwitcher from "@/components/ProfileSwitcher";
 
 interface Props {
   onOpenMenu: () => void;
@@ -31,6 +31,7 @@ export default function AppHeader({ onOpenMenu }: Props) {
       <header className={styles.header}>
         <div className={styles.left}>
           <LanguageSwitcher />
+          <ProfileSwitcher />
         </div>
 
         <div className={styles.center}>
