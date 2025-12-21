@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/context/UserProfileContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ProfileSwitcher from "@/components/ProfileSwitcher";
+import ProfileMenu from "@/components/ProfileMenu";
 
 interface Props {
   onOpenMenu: () => void;
@@ -39,19 +40,20 @@ export default function AppHeader({ onOpenMenu }: Props) {
         </div>
 
         <div className={styles.right}>
-          <button
-            className={`${styles.btn} ${profile.highContrast ? styles.active : ""}`}
-            onClick={toggleHighContrast}
-          >
-            {profile.highContrast ? t("normalMode") : t("highContrast")}
-          </button>
+          <ProfileMenu />
+           <button
+              className={`${styles.btn} ${profile.settings.highContrast ? styles.active : ""}`}
+              onClick={toggleHighContrast}
+            >
+              {profile.settings.highContrast ? t("normalMode") : t("highContrast")}
+            </button>
 
-          <button
-            className={`${styles.btn} ${profile.bigButtons ? styles.active : ""}`}
-            onClick={toggleBigButtons}
-          >
-            {profile.bigButtons ? t("normalButtons") : t("bigButtons")}
-          </button>
+            <button
+              className={`${styles.btn} ${profile.settings.bigButtons ? styles.active : ""}`}
+              onClick={toggleBigButtons}
+            >
+              {profile.settings.bigButtons ? t("normalButtons") : t("bigButtons")}
+            </button>
         </div>
       </header>
     </>

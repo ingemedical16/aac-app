@@ -23,7 +23,7 @@
   "again": "Again",
   "to": "to",
   "toGoTo": "to go to",
-  "period": ".",
+  "period": ".",  
 
   "all": "All",
 
@@ -38,6 +38,16 @@
   "menu": "Menu",
   "openMenu": "Open menu",
   "close": "Close",
+
+  "profiles": "Profiles",
+  "addProfile": "Add profile",
+  "deleteProfile": "Delete profile",
+  "newProfile": "New profile",
+
+  "profileRole": {
+    "child": "Child",
+    "group": "Group"
+  },
 
   "groups": {
     "mealBasics": "Meals & basics",
@@ -56,6 +66,7 @@
     "family": "Family",
     "schoolPeople": "School & friends"
   },
+
   "profile": {
     "title": "Profile settings",
     "name": "Profile name",

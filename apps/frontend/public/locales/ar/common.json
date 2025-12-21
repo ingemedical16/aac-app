@@ -1,5 +1,5 @@
 {
-  "appTitle": "لوحة تواصل AAC",
+  "appTitle": "لوحة التواصل AAC",
   "appTitleShort": "AAC",
   "language": "اللغة",
   "boardTitle": "لوحة التواصل",
@@ -21,9 +21,9 @@
   "stop": "توقف",
   "more": "المزيد",
   "again": "مرة أخرى",
-  "to": "إلى",
-  "toGoTo": "الذهاب إلى",
-  "period": ".",
+  "to": "أن",
+  "toGoTo": "أن أذهب إلى",
+  "period": "۔",
 
   "all": "الكل",
 
@@ -38,6 +38,16 @@
   "menu": "القائمة",
   "openMenu": "فتح القائمة",
   "close": "إغلاق",
+
+  "profiles": "الملفات الشخصية",
+  "addProfile": "إضافة ملف",
+  "deleteProfile": "حذف الملف",
+  "newProfile": "ملف جديد",
+
+  "profileRole": {
+    "child": "طفل",
+    "group": "مجموعة"
+  },
 
   "groups": {
     "mealBasics": "الوجبات والأساسيات",

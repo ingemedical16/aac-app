@@ -1,0 +1,128 @@
+@use "@/styles/breakpoints.scss" as *;
+
+/* =========================
+   ROOT
+========================= */
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+/* =========================
+   TRIGGER
+========================= */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-sm);
+
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+
+  background: var(--tile-bg);
+  color: var(--text);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+}
+
+/* =========================
+   DROPDOWN (VIEWPORT SAFE)
+========================= */
+.menu {
+  position: fixed; /* 🔴 KEY FIX */
+
+  top: var(--dropdown-top, 60px);
+
+  /* logical viewport anchoring */
+  inset-inline-end: max(8px, var(--dropdown-inline-end, 8px));
+  inset-inline-start: auto;
+
+  min-inline-size: 240px;
+  max-inline-size: min(92vw, 320px);
+
+  background: var(--tile-bg);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+
+  padding: var(--padding-sm) 0;
+  z-index: 2000;
+
+  text-align: start;
+  animation: dropdownIn 120ms ease-out;
+}
+
+/* =========================
+   RTL FIX (HARD)
+========================= */
+body.rtl .menu {
+  inset-inline-start: max(8px, var(--dropdown-inline-start, 8px));
+  inset-inline-end: auto;
+ 
+}
+
+/* =========================
+   ITEMS
+========================= */
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+
+  padding: var(--padding-sm) var(--padding-md);
+  font-size: var(--font-size-sm);
+
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  width: 100%;
+  text-align: start;
+
+  &:hover {
+    background: var(--bg-hover);
+  }
+}
+
+.active {
+  font-weight: var(--font-weight-bold);
+  background: var(--bg-hover);
+}
+
+.itemDanger {
+  @extend .item;
+  color: var(--danger);
+
+  &:hover {
+    background: var(--danger-hover);
+    color: var(--accent-text);
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@include respond(mobile) {
+  .menu {
+    inset-inline: 4vw;
+    width: 92vw;
+    max-inline-size: 92vw;
+  }
+}
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

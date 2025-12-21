@@ -1,10 +1,10 @@
 {
   "appTitle": "Tableau de communication AAC",
-  "appTitleShort": "Tableau AAC",
+  "appTitleShort": "AAC",
   "language": "Langue",
   "boardTitle": "Tableau de communication",
 
-  "tapToSpeak": "Touchez une image pour parler",
+  "tapToSpeak": "Touchez une tuile pour parler",
   "speak": "Parler",
   "clear": "Effacer",
   "deleteLast": "Supprimer le dernier",
@@ -19,13 +19,13 @@
   "help": "Aide",
   "iFeel": "Je me sens",
   "stop": "Stop",
-  "more": "Encore",
-  "again": "À nouveau",
+  "more": "Plus",
+  "again": "Encore",
   "to": "à",
   "toGoTo": "aller à",
   "period": ".",
 
-  "all": "Tout",
+  "all": "Tous",
 
   "normalMode": "Normal",
   "highContrast": "Contraste élevé",
@@ -39,28 +39,38 @@
   "openMenu": "Ouvrir le menu",
   "close": "Fermer",
 
-  "groups": {
-    "mealBasics": "Repas & bases",
-    "freshSnacks": "Fruits & snacks",
-    "everydayDrinks": "Boissons quotidiennes",
-    "treatDrinks": "Jus & soda",
-    "hotDrinks": "Boissons chaudes",
-    "quantityControl": "Encore / plus",
-    "basicHelp": "Aide basique",
-    "preference": "Je veux / je ne veux pas",
-    "positiveFeelings": "Sentiments positifs",
-    "negativeFeelings": "Sentiments négatifs",
-    "energyFeelings": "Énergie / fatigue",
-    "movementActions": "Mouvements",
-    "positionActions": "Positions",
-    "family": "Famille",
-    "schoolPeople": "École & amis"
+  "profiles": "Profils",
+  "addProfile": "Ajouter un profil",
+  "deleteProfile": "Supprimer le profil",
+  "newProfile": "Nouveau profil",
+
+  "profileRole": {
+    "child": "Enfant",
+    "group": "Groupe"
   },
-  
+
+  "groups": {
+    "mealBasics": "Repas et bases",
+    "freshSnacks": "Fruits et collations",
+    "everydayDrinks": "Boissons quotidiennes",
+    "treatDrinks": "Jus et sodas",
+    "hotDrinks": "Boissons chaudes",
+    "quantityControl": "Plus / encore",
+    "basicHelp": "Aide de base",
+    "preference": "Je veux / je ne veux pas",
+    "positiveFeelings": "Émotions positives",
+    "negativeFeelings": "Émotions négatives",
+    "energyFeelings": "Énergie / fatigue",
+    "movementActions": "Mouvement",
+    "positionActions": "Position",
+    "family": "Famille",
+    "schoolPeople": "École et amis"
+  },
+
   "profile": {
     "title": "Paramètres du profil",
     "name": "Nom du profil",
-    "namePlaceholder": "Nom du profil",
+    "namePlaceholder": "Entrez le nom du profil",
     "role": "Type de profil",
     "roleChild": "Enfant",
     "roleGroup": "Groupe",

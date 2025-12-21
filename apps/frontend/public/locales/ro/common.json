@@ -1,10 +1,10 @@
 {
-  "appTitle": "Tablou de comunicare AAC",
+  "appTitle": "Panou de comunicare AAC",
   "appTitleShort": "AAC",
   "language": "Limbă",
-  "boardTitle": "Tablou de comunicare",
+  "boardTitle": "Panou de comunicare",
 
-  "tapToSpeak": "Atinge un simbol pentru a vorbi",
+  "tapToSpeak": "Apasă o pictogramă pentru a vorbi",
   "speak": "Vorbește",
   "clear": "Șterge",
   "deleteLast": "Șterge ultimul",
@@ -21,8 +21,8 @@
   "stop": "Stop",
   "more": "Mai mult",
   "again": "Din nou",
-  "to": "la",
-  "toGoTo": "a merge la",
+  "to": "să",
+  "toGoTo": "să merg la",
   "period": ".",
 
   "all": "Toate",
@@ -33,17 +33,27 @@
   "normalButtons": "Butoane normale",
 
   "enterFullscreen": "Ecran complet",
-  "exitFullscreen": "Ieșire ecran complet",
+  "exitFullscreen": "Ieșire din ecran complet",
 
   "menu": "Meniu",
   "openMenu": "Deschide meniul",
   "close": "Închide",
 
+  "profiles": "Profiluri",
+  "addProfile": "Adaugă profil",
+  "deleteProfile": "Șterge profil",
+  "newProfile": "Profil nou",
+
+  "profileRole": {
+    "child": "Copil",
+    "group": "Grup"
+  },
+
   "groups": {
-    "mealBasics": "Mese & bază",
-    "freshSnacks": "Fructe & gustări",
+    "mealBasics": "Mese și bază",
+    "freshSnacks": "Fructe și gustări",
     "everydayDrinks": "Băuturi zilnice",
-    "treatDrinks": "Suc & cola",
+    "treatDrinks": "Sucuri și băuturi carbogazoase",
     "hotDrinks": "Băuturi calde",
     "quantityControl": "Mai mult / din nou",
     "basicHelp": "Ajutor de bază",
@@ -54,13 +64,13 @@
     "movementActions": "Mișcare",
     "positionActions": "Poziție",
     "family": "Familie",
-    "schoolPeople": "Școală & prieteni"
+    "schoolPeople": "Școală și prieteni"
   },
 
   "profile": {
     "title": "Setări profil",
     "name": "Nume profil",
-    "namePlaceholder": "Introdu numele profilului",
+    "namePlaceholder": "Introduceți numele profilului",
     "role": "Tip profil",
     "roleChild": "Copil",
     "roleGroup": "Grup",
