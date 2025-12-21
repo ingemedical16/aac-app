@@ -10,6 +10,8 @@
   "deleteLast": "Șterge ultimul",
   "addToSentence": "Adaugă la propoziție",
   "edit": "Editează",
+  "save": "Salvează",
+  "delete": "Șterge",
 
   "iWant": "Vreau",
   "iDontWant": "Nu vreau",
@@ -53,5 +55,16 @@
     "positionActions": "Poziție",
     "family": "Familie",
     "schoolPeople": "Școală & prieteni"
+  },
+
+  "profile": {
+    "title": "Setări profil",
+    "name": "Nume profil",
+    "namePlaceholder": "Introdu numele profilului",
+    "role": "Tip profil",
+    "roleChild": "Copil",
+    "roleGroup": "Grup",
+    "add": "Adaugă profil",
+    "newProfile": "Profil nou"
   }
 }

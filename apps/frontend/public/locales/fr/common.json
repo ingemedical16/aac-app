@@ -10,6 +10,8 @@
   "deleteLast": "Supprimer le dernier",
   "addToSentence": "Ajouter à la phrase",
   "edit": "Modifier",
+  "save": "Enregistrer",
+  "delete": "Supprimer",
 
   "iWant": "Je veux",
   "iDontWant": "Je ne veux pas",
@@ -53,5 +55,16 @@
     "positionActions": "Positions",
     "family": "Famille",
     "schoolPeople": "École & amis"
+  },
+  
+  "profile": {
+    "title": "Paramètres du profil",
+    "name": "Nom du profil",
+    "namePlaceholder": "Nom du profil",
+    "role": "Type de profil",
+    "roleChild": "Enfant",
+    "roleGroup": "Groupe",
+    "add": "Ajouter un profil",
+    "newProfile": "Nouveau profil"
   }
 }

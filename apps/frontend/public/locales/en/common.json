@@ -10,6 +10,8 @@
   "deleteLast": "Delete Last",
   "addToSentence": "Add to sentence",
   "edit": "Edit",
+  "save": "Save",
+  "delete": "Delete",
 
   "iWant": "I want",
   "iDontWant": "I don't want",
@@ -53,5 +55,15 @@
     "positionActions": "Position",
     "family": "Family",
     "schoolPeople": "School & friends"
+  },
+  "profile": {
+    "title": "Profile settings",
+    "name": "Profile name",
+    "namePlaceholder": "Enter profile name",
+    "role": "Profile type",
+    "roleChild": "Child",
+    "roleGroup": "Group",
+    "add": "Add profile",
+    "newProfile": "New profile"
   }
 }

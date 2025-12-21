@@ -10,6 +10,8 @@
   "deleteLast": "حذف الأخير",
   "addToSentence": "إضافة إلى الجملة",
   "edit": "تعديل",
+  "save": "حفظ",
+  "delete": "حذف",
 
   "iWant": "أريد",
   "iDontWant": "لا أريد",
@@ -53,5 +55,16 @@
     "positionActions": "وضعية",
     "family": "العائلة",
     "schoolPeople": "المدرسة والأصدقاء"
+  },
+
+  "profile": {
+    "title": "إعدادات الملف الشخصي",
+    "name": "اسم الملف",
+    "namePlaceholder": "أدخل اسم الملف",
+    "role": "نوع الملف",
+    "roleChild": "طفل",
+    "roleGroup": "مجموعة",
+    "add": "إضافة ملف",
+    "newProfile": "ملف جديد"
   }
 }

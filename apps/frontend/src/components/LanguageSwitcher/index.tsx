@@ -1,22 +1,29 @@
 "use client";
 
 import styles from "./LanguageSwitcher.module.scss";
-import { useUserProfile } from "@/context/UserProfileContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUserProfile } from "@/context/UserProfileContext";
+
+const FALLBACK_LANGS = ["en", "fr", "ar", "ro"];
 
 export default function LanguageSwitcher() {
   const { profile } = useUserProfile();
   const pathname = usePathname();
   const current = pathname?.split("/")[1] ?? "en";
 
+  const languages =
+    profile?.preferredLanguages?.length
+      ? profile.preferredLanguages
+      : FALLBACK_LANGS;
+
   return (
     <div className={styles.switcher}>
-      {profile.preferredLanguages.map((lng) => (
+      {languages.map((lng) => (
         <Link
           key={lng}
           href={`/${lng}`}
-          className={current === lng ? styles.active : undefined}
+          className={current === lng ? styles.active : ""}
         >
           {lng.toUpperCase()}
         </Link>

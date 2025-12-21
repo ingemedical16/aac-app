@@ -7,68 +7,32 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import type {
-  AACProfile,
-  LegacyUserProfileV1,
-  LocaleCode,
-  ProfilesStateV1,
-} from "@/types/userProfile";
+import { Profile, UserProfileState } from "@/types/userProfile";
 
-const STORAGE_KEY_V2 = "aac.profiles.v1";
-const STORAGE_KEY_V1 = "aac.userProfile.v1";
+const STORAGE_KEY = "aac.userProfile.v2";
 
-const DEFAULT_LOCALE: LocaleCode = "en";
-
-const makeId = () =>
-  `p_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-
-const makeDefaultProfile = (overrides?: Partial<AACProfile>): AACProfile => ({
-  id: makeId(),
+const DEFAULT_PROFILE: Profile = {
+  id: "default",
   name: "Default",
   role: "child",
-  defaultLanguage: DEFAULT_LOCALE,
-  preferredLanguages: ["en", "fr", "ar", "ro"],
-  highContrast: false,
-  bigButtons: false,
-  grammarMode: "simple",
-  ...overrides,
-});
-
-const migrateV1ToV2 = (v1: LegacyUserProfileV1 | null): ProfilesStateV1 => {
-  const preferred =
-    v1?.preferredLanguages?.length ? v1.preferredLanguages : ["en", "fr", "ar", "ro"];
-  const defaultLanguage = (preferred[0] ?? DEFAULT_LOCALE) as LocaleCode;
-
-  const profile = makeDefaultProfile({
-    name: "Default",
-    role: "child",
-    defaultLanguage,
-    preferredLanguages: preferred,
-    highContrast: !!v1?.highContrast,
-    bigButtons: !!v1?.bigButtons,
-  });
-
-  return {
-    profiles: [profile],
-    activeProfileId: profile.id,
-  };
+  settings: {
+    preferredLanguages: ["en", "fr", "ar", "ro"],
+    highContrast: false,
+    bigButtons: false,
+  },
 };
 
 type Ctx = {
-  // New API (Phase 5.2+)
-  profiles: AACProfile[];
+  profiles: Profile[];
   activeProfileId: string;
-  activeProfile: AACProfile;
+  profile: Profile;
 
   setActiveProfileId: (id: string) => void;
 
-  addProfile: (profile: Omit<AACProfile, "id"> & { id?: string }) => string;
-  updateProfile: (id: string, patch: Partial<AACProfile>) => void;
-  removeProfile: (id: string) => void;
+  createProfile: (data: Pick<Profile, "name" | "role">) => void;
+  updateProfile: (id: string, data: Partial<Profile>) => void;
+  deleteProfile: (id: string) => void;
 
-  // Backward-compatible API (keeps app working with existing components)
-  profile: AACProfile;
-  setProfile: React.Dispatch<React.SetStateAction<AACProfile>>;
   toggleHighContrast: () => void;
   toggleBigButtons: () => void;
 };
@@ -76,151 +40,102 @@ type Ctx = {
 const UserProfileContext = createContext<Ctx | null>(null);
 
 export function UserProfileProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<ProfilesStateV1>(() => {
-    // SSR-safe init (real load happens in useEffect)
-    const p = makeDefaultProfile();
-    return { profiles: [p], activeProfileId: p.id };
+  const [state, setState] = useState<UserProfileState>({
+    profiles: [DEFAULT_PROFILE],
+    activeProfileId: DEFAULT_PROFILE.id,
   });
 
-  // Load + migrate
+  /* LOAD */
   useEffect(() => {
     try {
-      const rawV2 = localStorage.getItem(STORAGE_KEY_V2);
-      if (rawV2) {
-        const parsed = JSON.parse(rawV2) as ProfilesStateV1;
-        if (parsed?.profiles?.length && parsed.activeProfileId) {
-          setState(parsed);
-          return;
-        }
-      }
-
-      const rawV1 = localStorage.getItem(STORAGE_KEY_V1);
-      if (rawV1) {
-        const parsedV1 = JSON.parse(rawV1) as LegacyUserProfileV1;
-        const migrated = migrateV1ToV2(parsedV1);
-        setState(migrated);
-        localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(migrated));
-        return;
-      }
-
-      // no storage → keep defaults
-    } catch {
-      // ignore corrupted storage
-    }
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setState(JSON.parse(raw));
+    } catch {}
   }, []);
 
-  // Save (v2 only)
+  /* SAVE */
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(state));
-    } catch {
-      // ignore
-    }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {}
   }, [state]);
 
-  const activeProfile = useMemo(() => {
-    const found = state.profiles.find((p) => p.id === state.activeProfileId);
-    return found ?? state.profiles[0] ?? makeDefaultProfile();
-  }, [state]);
+  const profile =
+    state.profiles.find((p) => p.id === state.activeProfileId) ??
+    state.profiles[0];
 
-  // Backward-compatible setter for "profile" (updates only active profile)
-  const setProfile: React.Dispatch<React.SetStateAction<AACProfile>> = (updater) => {
-    setState((prev) => {
-      const current =
-        prev.profiles.find((p) => p.id === prev.activeProfileId) ?? prev.profiles[0];
+  const setActiveProfileId = (id: string) => {
+    setState((s) => ({ ...s, activeProfileId: id }));
+  };
 
-      if (!current) return prev;
+  const createProfile = ({ name, role }: Pick<Profile, "name" | "role">) => {
+    const id = crypto.randomUUID();
+    setState((s) => ({
+      profiles: [
+        ...s.profiles,
+        {
+          id,
+          name,
+          role,
+          settings: { ...DEFAULT_PROFILE.settings },
+        },
+      ],
+      activeProfileId: id,
+    }));
+  };
 
-      const nextValue =
-        typeof updater === "function"
-          ? (updater as (p: AACProfile) => AACProfile)(current)
-          : updater;
+  const updateProfile = (id: string, data: Partial<Profile>) => {
+    setState((s) => ({
+      ...s,
+      profiles: s.profiles.map((p) =>
+        p.id === id ? { ...p, ...data } : p
+      ),
+    }));
+  };
 
+  const deleteProfile = (id: string) => {
+    setState((s) => {
+      const profiles = s.profiles.filter((p) => p.id !== id);
       return {
-        ...prev,
-        profiles: prev.profiles.map((p) =>
-          p.id === prev.activeProfileId ? { ...p, ...nextValue, id: p.id } : p
-        ),
+        profiles,
+        activeProfileId: profiles[0].id,
       };
     });
   };
 
-  const setActiveProfileId = (id: string) => {
-    setState((prev) => {
-      const exists = prev.profiles.some((p) => p.id === id);
-      if (!exists) return prev;
-      return { ...prev, activeProfileId: id };
-    });
-  };
-
-  const addProfile = (profile: Omit<AACProfile, "id"> & { id?: string }) => {
-    const id = profile.id ?? makeId();
-    setState((prev) => ({
-      ...prev,
-      profiles: [...prev.profiles, { ...profile, id }],
-      activeProfileId: prev.activeProfileId || id,
-    }));
-    return id;
-  };
-
-  const updateProfile = (id: string, patch: Partial<AACProfile>) => {
-    setState((prev) => ({
-      ...prev,
-      profiles: prev.profiles.map((p) => (p.id === id ? { ...p, ...patch, id } : p)),
-    }));
-  };
-
-  const removeProfile = (id: string) => {
-    setState((prev) => {
-      const nextProfiles = prev.profiles.filter((p) => p.id !== id);
-      if (!nextProfiles.length) {
-        const fallback = makeDefaultProfile();
-        return { profiles: [fallback], activeProfileId: fallback.id };
-      }
-
-      const nextActive =
-        prev.activeProfileId === id ? nextProfiles[0].id : prev.activeProfileId;
-
-      return { profiles: nextProfiles, activeProfileId: nextActive };
-    });
-  };
-
   const toggleHighContrast = () => {
-    setState((prev) => ({
-      ...prev,
-      profiles: prev.profiles.map((p) =>
-        p.id === prev.activeProfileId ? { ...p, highContrast: !p.highContrast } : p
-      ),
-    }));
+    updateProfile(profile.id, {
+      settings: {
+        ...profile.settings,
+        highContrast: !profile.settings.highContrast,
+      },
+    });
   };
 
   const toggleBigButtons = () => {
-    setState((prev) => ({
-      ...prev,
-      profiles: prev.profiles.map((p) =>
-        p.id === prev.activeProfileId ? { ...p, bigButtons: !p.bigButtons } : p
-      ),
-    }));
+    updateProfile(profile.id, {
+      settings: {
+        ...profile.settings,
+        bigButtons: !profile.settings.bigButtons,
+      },
+    });
   };
 
-  const value = useMemo<Ctx>(
+  const value = useMemo(
     () => ({
       profiles: state.profiles,
       activeProfileId: state.activeProfileId,
-      activeProfile,
+      profile,
 
       setActiveProfileId,
-      addProfile,
+      createProfile,
       updateProfile,
-      removeProfile,
+      deleteProfile,
 
-      // backward-compatible
-      profile: activeProfile,
-      setProfile,
       toggleHighContrast,
       toggleBigButtons,
     }),
-    [state.profiles, state.activeProfileId, activeProfile]
+    [state, profile]
   );
 
   return (
@@ -232,6 +147,6 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
 
 export function useUserProfile() {
   const ctx = useContext(UserProfileContext);
-  if (!ctx) throw new Error("useUserProfile must be used within UserProfileProvider");
+  if (!ctx) throw new Error("useUserProfile must be used within provider");
   return ctx;
 }
