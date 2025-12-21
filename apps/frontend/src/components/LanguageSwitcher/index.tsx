@@ -8,13 +8,13 @@ import { useUserProfile } from "@/context/UserProfileContext";
 const FALLBACK_LANGS = ["en", "fr", "ar", "ro"];
 
 export default function LanguageSwitcher() {
-  const { profile } = useUserProfile();
+  const { profile } = useUserProfile(); // ✅ correct source
   const pathname = usePathname();
   const current = pathname?.split("/")[1] ?? "en";
 
   const languages =
-    profile?.preferredLanguages?.length
-      ? profile.preferredLanguages
+    profile.settings.preferredLanguages?.length
+      ? profile.settings.preferredLanguages
       : FALLBACK_LANGS;
 
   return (
