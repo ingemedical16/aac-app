@@ -110,18 +110,20 @@ export default function MobileMenu({
             type="button"
             className={styles.actionBtn}
             onClick={toggleHighContrast}
-            aria-pressed={profile.highContrast}
+            aria-pressed={profile.settings.highContrast}
           >
-            {profile.highContrast ? t("normalMode") : t("highContrast")}
+            {profile.settings.highContrast
+              ? t("normalMode")
+              : t("highContrast")}
           </button>
 
           <button
             type="button"
             className={styles.actionBtn}
             onClick={toggleBigButtons}
-            aria-pressed={profile.bigButtons}
+            aria-pressed={profile.settings.bigButtons}
           >
-            {profile.bigButtons ? t("normalButtons") : t("bigButtons")}
+            {profile.settings.bigButtons ? t("normalButtons") : t("bigButtons")}
           </button>
         </div>
       </div>

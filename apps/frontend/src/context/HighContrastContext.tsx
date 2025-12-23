@@ -10,19 +10,28 @@ type Ctx = {
 
 const HighContrastContext = createContext<Ctx | null>(null);
 
-export function HighContrastProvider({ children }: { children: React.ReactNode }) {
+export function HighContrastProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { profile, toggleHighContrast } = useUserProfile();
 
   const value = useMemo(
-    () => ({ highContrast: profile.highContrast, toggleHighContrast }),
-    [profile.highContrast, toggleHighContrast]
+    () => ({ highContrast: profile.settings.highContrast, toggleHighContrast }),
+    [profile.settings.highContrast, toggleHighContrast]
   );
 
-  return <HighContrastContext.Provider value={value}>{children}</HighContrastContext.Provider>;
+  return (
+    <HighContrastContext.Provider value={value}>
+      {children}
+    </HighContrastContext.Provider>
+  );
 }
 
 export function useHighContrast() {
   const ctx = useContext(HighContrastContext);
-  if (!ctx) throw new Error("useHighContrast must be used within HighContrastProvider");
+  if (!ctx)
+    throw new Error("useHighContrast must be used within HighContrastProvider");
   return ctx;
 }

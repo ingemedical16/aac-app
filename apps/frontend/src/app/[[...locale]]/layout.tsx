@@ -3,7 +3,10 @@
 import { use } from "react";
 import I18nProvider from "@/components/I18nProvider";
 import AppHeader from "@/components/AppHeader";
-import { UserProfileProvider, useUserProfile } from "@/context/UserProfileContext";
+import {
+  UserProfileProvider,
+  useUserProfile,
+} from "@/context/UserProfileContext";
 import "../../styles/globals.scss";
 
 function Shell({
@@ -21,14 +24,12 @@ function Shell({
       <body
         suppressHydrationWarning
         className={[
-          isRTL ? "rtl" : "ltr",   // ✅ CRITICAL FIX
-          profile.highContrast ? "hc" : "",
-          profile.bigButtons ? "big" : "",
+          isRTL ? "rtl" : "ltr", // ✅ CRITICAL FIX
+          profile.settings.highContrast ? "hc" : "",
+          profile.settings.bigButtons ? "big" : "",
         ].join(" ")}
       >
-        <I18nProvider locale={locale}>
-          {children}
-        </I18nProvider>
+        <I18nProvider locale={locale}>{children}</I18nProvider>
       </body>
     </html>
   );

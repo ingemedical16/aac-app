@@ -65,7 +65,7 @@ export default function SentenceBar({
     <div
       className={[
         styles.wrapper,
-        profile.highContrast ? styles.highContrast : "",
+        profile.settings.highContrast ? styles.highContrast : "",
       ].join(" ")}
     >
       {(activeCategoryLabel || activeGroupLabel) && (
@@ -80,7 +80,9 @@ export default function SentenceBar({
         </div>
       )}
 
-      <div className={[styles.bar, isSpeaking ? styles.barSpeaking : ""].join(" ")}>
+      <div
+        className={[styles.bar, isSpeaking ? styles.barSpeaking : ""].join(" ")}
+      >
         <div ref={wordsRef} className={styles.words}>
           {sentence.map((tile) => (
             <span key={tile.id} className={styles.word}>

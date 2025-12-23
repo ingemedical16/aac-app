@@ -51,7 +51,9 @@ export default function Tile({
 
   return (
     <div
-      className={`${styles.tile} ${profile.highContrast ? styles.highContrastTile : ""}`}
+      className={`${styles.tile} ${
+        profile.settings.highContrast ? styles.highContrastTile : ""
+      }`}
       onMouseDown={handleDown}
       onMouseUp={handleUp}
       onMouseLeave={handleUp}
@@ -61,7 +63,9 @@ export default function Tile({
       role="button"
       tabIndex={0}
     >
-      {tile.imageUrl && <img className={styles.image} src={tile.imageUrl} alt={text} />}
+      {tile.imageUrl && (
+        <img className={styles.image} src={tile.imageUrl} alt={text} />
+      )}
       <div className={styles.label}>{text}</div>
     </div>
   );

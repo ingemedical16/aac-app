@@ -1,7 +1,7 @@
 @use "@/styles/breakpoints.scss" as *;
 
 /* =========================
-   ROOT
+   ROOT (ANCHOR)
 ========================= */
 .root {
   position: relative;
@@ -9,7 +9,7 @@
 }
 
 /* =========================
-   TRIGGER
+   TRIGGER BUTTON
 ========================= */
 .trigger {
   display: inline-flex;
@@ -27,19 +27,18 @@
 }
 
 /* =========================
-   DROPDOWN (VIEWPORT SAFE)
+   DROPDOWN MENU (VIEWPORT SAFE)
 ========================= */
 .menu {
-  position: fixed; /* 🔴 KEY FIX */
+  position: fixed; /* 🔑 ensures viewport safety */
+  top: 64px;       /* below header */
 
-  top: var(--dropdown-top, 60px);
+  /* viewport clamp (LTR + RTL) */
+  inset-inline-start: max(8px, env(safe-area-inset-left));
+  inset-inline-end: max(8px, env(safe-area-inset-right));
+  margin-inline: auto;
 
-  /* logical viewport anchoring */
-  inset-inline-end: max(8px, var(--dropdown-inline-end, 8px));
-  inset-inline-start: auto;
-
-  min-inline-size: 240px;
-  max-inline-size: min(92vw, 320px);
+  width: min(92vw, 320px);
 
   background: var(--tile-bg);
   color: var(--text);
@@ -56,16 +55,24 @@
 }
 
 /* =========================
-   RTL FIX (HARD)
+   SECTION BLOCK
 ========================= */
-body.rtl .menu {
-  inset-inline-start: max(8px, var(--dropdown-inline-start, 8px));
-  inset-inline-end: auto;
- 
+.section {
+  padding: var(--padding-sm) 0;
 }
 
 /* =========================
-   ITEMS
+   SECTION LABEL
+========================= */
+.label {
+  padding: var(--padding-sm) var(--padding-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-muted);
+}
+
+/* =========================
+   MENU ITEM
 ========================= */
 .item {
   display: flex;
@@ -78,6 +85,7 @@ body.rtl .menu {
   background: transparent;
   border: none;
   color: inherit;
+
   cursor: pointer;
   width: 100%;
   text-align: start;
@@ -87,11 +95,17 @@ body.rtl .menu {
   }
 }
 
+/* =========================
+   ACTIVE ITEM
+========================= */
 .active {
   font-weight: var(--font-weight-bold);
   background: var(--bg-hover);
 }
 
+/* =========================
+   DANGER ITEM (DELETE)
+========================= */
 .itemDanger {
   @extend .item;
   color: var(--danger);
@@ -103,13 +117,12 @@ body.rtl .menu {
 }
 
 /* =========================
-   MOBILE
+   MOBILE SAFETY
 ========================= */
 @include respond(mobile) {
   .menu {
-    inset-inline: 4vw;
     width: 92vw;
-    max-inline-size: 92vw;
+    max-width: 92vw;
   }
 }
 

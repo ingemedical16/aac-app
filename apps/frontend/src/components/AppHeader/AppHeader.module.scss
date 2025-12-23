@@ -87,3 +87,15 @@
   color: var(--text);
   cursor: pointer;
 }
+
+.desktopOnly {
+  display: flex;
+  gap: var(--gap-sm);
+}
+
+@include respond(mobile) {
+  .desktopOnly {
+    display: none;
+  }
+}
+

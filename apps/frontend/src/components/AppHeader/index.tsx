@@ -41,9 +41,11 @@ export default function AppHeader({ onOpenMenu }: Props) {
 
         <div className={styles.right}>
           <ProfileMenu />
+          <div className={styles.desktopOnly}>
            <button
               className={`${styles.btn} ${profile.settings.highContrast ? styles.active : ""}`}
               onClick={toggleHighContrast}
+              aria-pressed={profile.settings.highContrast}
             >
               {profile.settings.highContrast ? t("normalMode") : t("highContrast")}
             </button>
@@ -54,6 +56,7 @@ export default function AppHeader({ onOpenMenu }: Props) {
             >
               {profile.settings.bigButtons ? t("normalButtons") : t("bigButtons")}
             </button>
+          </div>
         </div>
       </header>
     </>

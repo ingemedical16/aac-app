@@ -1,6 +1,22 @@
+@use "@/styles/breakpoints.scss" as *;
+
 .switcher {
-  display: flex;
-  gap: var(--gap-sm);
+  display: none; /* 🔴 hidden by default */
+
+  @include respond(mobile) {
+    display: flex;               /* ✅ mobile only */
+    gap: var(--gap-sm);
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 0 var(--padding-sm) 4px;
+
+    scrollbar-width: thin;
+  }
+  @include respond(tablet-portrait) {
+  .switcher {
+    display: none;
+  }
+}
 }
 
 .btn,
@@ -12,6 +28,7 @@
   color: var(--text);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .active {
