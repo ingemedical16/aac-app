@@ -42,7 +42,7 @@ export function migrateToV2(raw: any): UserProfileState {
         name: "Default",
         role: "child",
         settings: {
-          preferredLanguages: ["en"],
+          preferredLanguages: ["en", "fr", "ar", "ro"],
           highContrast: false,
           bigButtons: false,
         },

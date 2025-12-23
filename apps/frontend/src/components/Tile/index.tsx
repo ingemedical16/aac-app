@@ -4,7 +4,7 @@ import styles from "./Tile.module.scss";
 import { useUserProfile } from "@/context/UserProfileContext";
 
 export interface TileData {
-  id: number;
+  id: number ;
   word: string;
   translations: Record<string, string>;
   imageUrl?: string;
