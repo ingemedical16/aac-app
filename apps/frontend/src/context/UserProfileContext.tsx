@@ -8,8 +8,10 @@ import React, {
   useState,
 } from "react";
 import { Profile, UserProfileState } from "@/types/userProfile";
+import { migrateToV2 } from "./profileMigration";
 
 const STORAGE_KEY = "aac.userProfile.v2";
+const LEGACY_KEY = "aac.userProfile.v1";
 
 const DEFAULT_PROFILE: Profile = {
   id: "default",
@@ -45,18 +47,30 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
     activeProfileId: DEFAULT_PROFILE.id,
   });
 
-  /* LOAD */
+  /* LOAD + MIGRATE */
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setState(JSON.parse(raw));
-    } catch {}
+      const raw =
+        localStorage.getItem(STORAGE_KEY) ??
+        localStorage.getItem(LEGACY_KEY);
+
+      if (!raw) return;
+
+      const parsed = JSON.parse(raw);
+      const migrated = migrateToV2(parsed);
+      setState(migrated);
+    } catch {
+      // silent fallback
+    }
   }, []);
 
-  /* SAVE */
+  /* SAVE (versioned) */
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ version: 2, data: state })
+      );
     } catch {}
   }, [state]);
 
@@ -98,7 +112,7 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
       const profiles = s.profiles.filter((p) => p.id !== id);
       return {
         profiles,
-        activeProfileId: profiles[0].id,
+        activeProfileId: profiles[0]?.id ?? DEFAULT_PROFILE.id,
       };
     });
   };

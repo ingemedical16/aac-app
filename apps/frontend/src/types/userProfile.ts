@@ -19,3 +19,9 @@ export interface UserProfileState {
   profiles: Profile[];
   activeProfileId: string;
 }
+
+/* 🔐 Persisted storage shape (v2) */
+export interface PersistedStateV2 {
+  version: 2;
+  data: UserProfileState;
+}
