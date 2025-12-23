@@ -97,7 +97,15 @@ export default function LocalePage({
         <Board
           tiles={filteredTiles}
           locale={locale}
-          onTileSelect={(tile) => setSentence((prev) => [...prev, tile])}
+          onTileSelect={(tile) =>
+                setSentence((prev) => {
+                  if (prev.some((t) => t.id === tile.id)) {
+                    return prev; // already exists → do nothing
+                  }
+                  return [...prev, tile];
+                })
+              }
+
         />
       </main>
     </>

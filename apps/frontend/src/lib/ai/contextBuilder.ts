@@ -1,4 +1,3 @@
-// src/lib/ai/contextBuilder.ts
 import type { TileData } from "@/components/Tile";
 import type { AIContext, TileUsageStats } from "./types";
 import type { LocaleCode, Profile } from "@/types/userProfile";
@@ -7,10 +6,14 @@ function normalizeToken(s: string) {
   return (s || "").trim().toLowerCase();
 }
 
-function tf(tile: TileData, locale: LocaleCode) {
+function getToken(tile: TileData, locale: LocaleCode) {
   return (tile.translations?.[locale] || tile.word || "").toString();
 }
 
+/**
+ * Phase 6.1
+ * Single source of truth for AI context creation
+ */
 export function buildAIContext(params: {
   sentence: TileData[];
   locale: LocaleCode;
@@ -28,7 +31,10 @@ export function buildAIContext(params: {
     allowedTileIds,
   } = params;
 
-  const tokens = sentence.map((t) => normalizeToken(tf(t, locale)));
+  const tokens = sentence.map((t) =>
+    normalizeToken(getToken(t, locale))
+  );
+
   const sentenceTileIds = sentence.map((t) => t.id);
 
   return {

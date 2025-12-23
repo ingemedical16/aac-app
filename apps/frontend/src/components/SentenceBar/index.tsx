@@ -84,8 +84,8 @@ export default function SentenceBar({
         className={[styles.bar, isSpeaking ? styles.barSpeaking : ""].join(" ")}
       >
         <div ref={wordsRef} className={styles.words}>
-          {sentence.map((tile) => (
-            <span key={tile.id} className={styles.word}>
+          {sentence.map((tile,index) => (
+            <span key={`${tile.id}-${index}`} className={styles.word}>
               {(tile.translations?.[locale] || tile.word) + " "}
             </span>
           ))}
