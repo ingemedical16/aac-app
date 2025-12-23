@@ -69,11 +69,15 @@
 
   "profile": {
     "title": "إعدادات الملف الشخصي",
-    "name": "اسم الملف",
+    "name": "اسم الملف الشخصي",
     "namePlaceholder": "أدخل اسم الملف",
     "role": "نوع الملف",
-    "roleChild": "طفل",
-    "roleGroup": "مجموعة",
+    "role_child": "طفل",
+    "role_group": "مجموعة",
+
+    "languages": "اللغات المفضلة",
+    "languagesHint": "اختر لغة واحدة على الأقل",
+
     "add": "إضافة ملف",
     "newProfile": "ملف جديد"
   }

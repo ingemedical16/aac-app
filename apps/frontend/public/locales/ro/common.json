@@ -68,13 +68,18 @@
   },
 
   "profile": {
-    "title": "Setări profil",
-    "name": "Nume profil",
-    "namePlaceholder": "Introduceți numele profilului",
-    "role": "Tip profil",
-    "roleChild": "Copil",
-    "roleGroup": "Grup",
-    "add": "Adaugă profil",
-    "newProfile": "Profil nou"
-  }
+  "title": "Setări profil",
+  "name": "Numele profilului",
+  "namePlaceholder": "Introduceți numele profilului",
+  "role": "Tip profil",
+  "role_child": "Copil",
+  "role_group": "Grup",
+
+  "languages": "Limbi preferate",
+  "languagesHint": "Selectați cel puțin o limbă",
+
+  "add": "Adaugă profil",
+  "newProfile": "Profil nou"
+}
+
 }

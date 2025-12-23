@@ -23,7 +23,7 @@
   "again": "Again",
   "to": "to",
   "toGoTo": "to go to",
-  "period": ".",  
+  "period": ".",
 
   "all": "All",
 
@@ -72,8 +72,12 @@
     "name": "Profile name",
     "namePlaceholder": "Enter profile name",
     "role": "Profile type",
-    "roleChild": "Child",
-    "roleGroup": "Group",
+    "role_child": "Child",
+    "role_group": "Group",
+
+    "languages": "Preferred languages",
+    "languagesHint": "Select at least one language",
+
     "add": "Add profile",
     "newProfile": "New profile"
   }

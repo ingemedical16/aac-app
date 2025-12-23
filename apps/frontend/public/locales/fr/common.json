@@ -72,8 +72,12 @@
     "name": "Nom du profil",
     "namePlaceholder": "Entrez le nom du profil",
     "role": "Type de profil",
-    "roleChild": "Enfant",
-    "roleGroup": "Groupe",
+    "role_child": "Enfant",
+    "role_group": "Groupe",
+
+    "languages": "Langues préférées",
+    "languagesHint": "Sélectionnez au moins une langue",
+
     "add": "Ajouter un profil",
     "newProfile": "Nouveau profil"
   }
