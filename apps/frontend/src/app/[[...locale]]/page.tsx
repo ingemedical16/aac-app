@@ -8,7 +8,7 @@ import SubcategoryBar from "@/components/SubcategoryBar";
 import Board from "@/components/Board";
 import SentenceBar from "@/components/SentenceBar";
 import { TILES_BY_CATEGORY } from "@/data/tiles";
-import { TileData } from "@/components/Tile";
+import type { TileData } from "@/types/tile";
 import { CATEGORIES } from "@/components/CategoryBar/categories";
 import i18next from "i18next";
 import { useTranslation } from "react-i18next";
@@ -98,14 +98,13 @@ export default function LocalePage({
           tiles={filteredTiles}
           locale={locale}
           onTileSelect={(tile) =>
-                setSentence((prev) => {
-                  if (prev.some((t) => t.id === tile.id)) {
-                    return prev; // already exists → do nothing
-                  }
-                  return [...prev, tile];
-                })
+            setSentence((prev) => {
+              if (prev.some((t) => t.id === tile.id)) {
+                return prev; // already exists → do nothing
               }
-
+              return [...prev, tile];
+            })
+          }
         />
       </main>
     </>

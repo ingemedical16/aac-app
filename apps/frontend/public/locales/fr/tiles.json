@@ -1,0 +1,47 @@
+{
+  "tile": {
+    "food": {
+      "bread": "Pain",
+      "fruit": "Fruit",
+      "yogurt": "Yaourt",
+      "rice": "Riz",
+      "egg": "Œuf",
+      "soup": "Soupe"
+    },
+    "drink": {
+      "water": "Eau",
+      "juice": "Jus",
+      "milk": "Lait",
+      "tea": "Thé",
+      "soda": "Soda"
+    },
+    "more": {
+      "more": "Encore",
+      "again": "À nouveau"
+    },
+    "help": {
+      "help": "Aide",
+      "stop": "Stop",
+      "want": "Je veux",
+      "dontWant": "Je ne veux pas"
+    },
+    "feelings": {
+      "happy": "Content",
+      "sad": "Triste",
+      "angry": "En colère",
+      "tired": "Fatigué"
+    },
+    "actions": {
+      "go": "Aller",
+      "come": "Venir",
+      "sit": "S'asseoir",
+      "stand": "Se lever"
+    },
+    "people": {
+      "mom": "Maman",
+      "dad": "Papa",
+      "teacher": "Professeur",
+      "friend": "Ami"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./TilePreviewModal.module.scss";
-import { TileData } from "@/components/Tile";
+import type { TileData } from "@/types/tile";
 import { useTranslation } from "react-i18next";
 import useTTS from "@/hooks/useTTS";
 
@@ -12,7 +12,12 @@ interface Props {
   onAdd: (tile: TileData) => void;
 }
 
-export default function TilePreviewModal({ tile, locale, onClose, onAdd }: Props) {
+export default function TilePreviewModal({
+  tile,
+  locale,
+  onClose,
+  onAdd,
+}: Props) {
   const { speak } = useTTS();
   const { t } = useTranslation("common");
 
@@ -23,7 +28,6 @@ export default function TilePreviewModal({ tile, locale, onClose, onAdd }: Props
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        
         <button className={styles.close} onClick={onClose}>
           ✖
         </button>
@@ -37,10 +41,7 @@ export default function TilePreviewModal({ tile, locale, onClose, onAdd }: Props
             🔊 {t("speak")}
           </button>
 
-          <button
-            className={styles.add}
-            onClick={() => onAdd(tile)}
-          >
+          <button className={styles.add} onClick={() => onAdd(tile)}>
             ➕ {t("addToSentence")}
           </button>
 

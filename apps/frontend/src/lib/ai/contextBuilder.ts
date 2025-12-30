@@ -1,49 +1,22 @@
-import type { TileData } from "@/components/Tile";
-import type { AIContext, TileUsageStats } from "./types";
-import type { LocaleCode, Profile } from "@/types/userProfile";
+import type { TileData } from "@/types/tile";
+import type { AIContext } from "./types";
+import type { Profile } from "@/types/userProfile";
 
-function normalizeToken(s: string) {
-  return (s || "").trim().toLowerCase();
-}
-
-function getToken(tile: TileData, locale: LocaleCode) {
-  return (tile.translations?.[locale] || tile.word || "").toString();
-}
-
-/**
- * Phase 6.1
- * Single source of truth for AI context creation
- */
 export function buildAIContext(params: {
   sentence: TileData[];
-  locale: LocaleCode;
+  locale: string;
   profile: Profile;
   grammarMode?: "simple" | "full" | "smart";
-  usage?: TileUsageStats;
-  allowedTileIds?: number[];
+  allowedTileIds?: string[];
 }): AIContext {
-  const {
-    sentence,
-    locale,
-    profile,
-    grammarMode = "simple",
-    usage = {},
-    allowedTileIds,
-  } = params;
-
-  const tokens = sentence.map((t) =>
-    normalizeToken(getToken(t, locale))
-  );
-
-  const sentenceTileIds = sentence.map((t) => t.id);
+  const { sentence, locale, profile, grammarMode = "simple", allowedTileIds } = params;
 
   return {
     locale,
     role: profile.role,
     grammarMode,
-    tokens,
-    sentenceTileIds,
-    usage,
+    tokens: sentence.map((t) => t.translateKey),
+    sentenceTileIds: sentence.map((t) => t.id),
     allowedTileIds,
   };
 }

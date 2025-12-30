@@ -1,6 +1,6 @@
 "use client";
 
-import { TileData } from "@/components/Tile";
+import type { TileData } from "@/types/tile";
 
 const usageMap = new Map<number, number>();
 

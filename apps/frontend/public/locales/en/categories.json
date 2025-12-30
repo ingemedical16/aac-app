@@ -1,0 +1,11 @@
+{
+  "category": {
+    "food": "Food",
+    "drink": "Drink",
+    "more": "More",
+    "help": "Help",
+    "feelings": "Feelings",
+    "actions": "Actions",
+    "people": "People"
+  }
+}

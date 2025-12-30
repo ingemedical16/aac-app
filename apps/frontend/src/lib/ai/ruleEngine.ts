@@ -1,5 +1,5 @@
 // src/lib/ai/ruleEngine.ts
-import type { TileData } from "@/components/Tile";
+import type { TileData } from "@/types/tile";
 import type { AIContext, SuggestionResult } from "./types";
 
 /* ============================
@@ -7,18 +7,12 @@ import type { AIContext, SuggestionResult } from "./types";
 ============================ */
 
 const uniqById = (tiles: TileData[]) => {
-  const seen = new Set<number>();
-  const out: TileData[] = [];
-
-  for (const t of tiles) {
-    if (!seen.has(t.id)) {
-      seen.add(t.id);
-      out.push(t);
-    }
-  }
-  return out;
+  const seen = new Set<string>();
+  return tiles.filter((t) => (seen.has(t.id) ? false : seen.add(t.id)));
 };
 
+const notAlreadyUsed = (tiles: TileData[], used: string[]) =>
+  tiles.filter((t) => !used.includes(t.id));
 const notAlreadyInSentence = (
   tiles: TileData[],
   sentenceIds: number[]

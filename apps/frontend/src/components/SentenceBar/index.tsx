@@ -5,11 +5,11 @@ import styles from "./SentenceBar.module.scss";
 
 import useTTS from "@/hooks/useTTS";
 import { buildSentence, type GrammarMode } from "@/lib/sentenceBuilder";
-import { TileData } from "@/components/Tile";
+import type { TileData } from "@/types/tile";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
 
-interface Props {
+interface SentenceBarProps {
   sentence: TileData[];
   locale: string;
   onClear: () => void;
@@ -28,7 +28,7 @@ export default function SentenceBar({
   grammarMode = "simple",
   activeCategoryLabel,
   activeGroupLabel,
-}: Props) {
+}: SentenceBarProps) {
   const { speak } = useTTS();
   const { t } = useTranslation("common");
   const { profile } = useUserProfile();
@@ -84,7 +84,7 @@ export default function SentenceBar({
         className={[styles.bar, isSpeaking ? styles.barSpeaking : ""].join(" ")}
       >
         <div ref={wordsRef} className={styles.words}>
-          {sentence.map((tile,index) => (
+          {sentence.map((tile, index) => (
             <span key={`${tile.id}-${index}`} className={styles.word}>
               {(tile.translations?.[locale] || tile.word) + " "}
             </span>

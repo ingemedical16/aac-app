@@ -1,5 +1,5 @@
 // apps/frontend/src/lib/sentenceBuilder.ts
-import { TileData } from "@/components/Tile";
+import type { TileData } from "@/types/tile";
 
 /* ------------------------- TYPES ------------------------- */
 
@@ -15,10 +15,10 @@ export interface PhraseSet {
   stop: string;
   more: string;
   again: string;
-  to: string;       // “to”, “să”, “أن”
-  toGoTo: string;   // “to go to”, “aller à”, “să merg la”
+  to: string; // “to”, “să”, “أن”
+  toGoTo: string; // “to go to”, “aller à”, “să merg la”
   period: string;
-  and: string;      // NEW: for lists (and, et, și, و)
+  and: string; // NEW: for lists (and, et, și, و)
 }
 
 /* ------------------------- HELPERS ------------------------- */
@@ -35,8 +35,7 @@ const cat = (tiles: TileData[], c: string) =>
 const isWord = (tile: TileData, w: string) =>
   tile.word.toLowerCase() === w.toLowerCase();
 
-const find = (tiles: TileData[], w: string) =>
-  tiles.find((t) => isWord(t, w));
+const find = (tiles: TileData[], w: string) => tiles.find((t) => isWord(t, w));
 
 /* ------------------------- PHRASES ------------------------- */
 
@@ -55,7 +54,7 @@ function getPhrases(locale: Locale): PhraseSet {
         to: "",
         toGoTo: "aller à",
         period: ".",
-        and: "et"
+        and: "et",
       };
 
     case "ar":
@@ -71,7 +70,7 @@ function getPhrases(locale: Locale): PhraseSet {
         to: "أن",
         toGoTo: "أن أذهب إلى",
         period: "。",
-        and: "و"
+        and: "و",
       };
 
     case "ro":
@@ -87,7 +86,7 @@ function getPhrases(locale: Locale): PhraseSet {
         to: "să",
         toGoTo: "să merg la",
         period: ".",
-        and: "și"
+        and: "și",
       };
 
     default:
@@ -103,7 +102,7 @@ function getPhrases(locale: Locale): PhraseSet {
         to: "to",
         toGoTo: "to go to",
         period: ".",
-        and: "and"
+        and: "and",
       };
   }
 }
@@ -153,7 +152,12 @@ function morphAction(locale: Locale, verb: string): string {
 /**
  * person + object → "Mom, I want bread."
  */
-function smartModePersonObject(locale: Locale, phrases: PhraseSet, people: TileData[], objects: TileData[]) {
+function smartModePersonObject(
+  locale: Locale,
+  phrases: PhraseSet,
+  people: TileData[],
+  objects: TileData[]
+) {
   const person = tf(people[0], locale);
   const objectText = joinWords(objects, locale, phrases.and);
   return `${person}, ${phrases.iWant} ${objectText}${phrases.period}`;
@@ -186,14 +190,18 @@ export function buildSentence(
 
   /* FEELINGS ONLY */
   if (feelings.length && !want && !dontWant && !helpTile) {
-    return `${phrases.iFeel} ${joinWords(feelings, locale, phrases.and)}${phrases.period}`;
+    return `${phrases.iFeel} ${joinWords(feelings, locale, phrases.and)}${
+      phrases.period
+    }`;
   }
 
   /* HELP */
   if (helpTile) {
-    const others = tiles.filter(t => t !== helpTile);
+    const others = tiles.filter((t) => t !== helpTile);
     if (!others.length) return `${phrases.help}!`;
-    return `${phrases.iNeedHelp} ${joinWords(others, locale, phrases.and)}${phrases.period}`;
+    return `${phrases.iNeedHelp} ${joinWords(others, locale, phrases.and)}${
+      phrases.period
+    }`;
   }
 
   /* STOP */
@@ -212,9 +220,10 @@ export function buildSentence(
   /* FULL MODE → morphology */
   let actionPart = "";
   if (actions.length) {
-    actionPart = mode === "full"
-      ? morphAction(locale, actions[0].word)
-      : tf(actions[0], locale);
+    actionPart =
+      mode === "full"
+        ? morphAction(locale, actions[0].word)
+        : tf(actions[0], locale);
   }
 
   /* OBJECT LIST */

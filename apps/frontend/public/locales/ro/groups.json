@@ -1,0 +1,19 @@
+{
+  "group": {
+    "mealBasics": "Mese și bază",
+    "freshSnacks": "Fructe și gustări",
+    "everydayDrinks": "Băuturi zilnice",
+    "treatDrinks": "Sucuri și băuturi carbogazoase",
+    "hotDrinks": "Băuturi calde",
+    "quantityControl": "Mai mult / din nou",
+    "basicHelp": "Ajutor de bază",
+    "preference": "Vreau / nu vreau",
+    "positiveFeelings": "Sentimente pozitive",
+    "negativeFeelings": "Sentimente negative",
+    "energyFeelings": "Energie / oboseală",
+    "movementActions": "Mișcare",
+    "positionActions": "Poziție",
+    "family": "Familie",
+    "schoolPeople": "Școală și prieteni"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "category": {
+    "food": "Nourriture",
+    "drink": "Boisson",
+    "more": "Plus",
+    "help": "Aide",
+    "feelings": "Sentiments",
+    "actions": "Actions",
+    "people": "Personnes"
+  }
+}

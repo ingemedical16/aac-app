@@ -2,7 +2,7 @@
 import type { TileData } from "@/components/Tile";
 import type { LocaleCode, ProfileRole, Profile } from "@/types/userProfile";
 
-export type TileId = number; // ✅ SUPPORT BOTH
+export type TileId = string; // ✅ SUPPORT BOTH
 
 export type SuggestionSource = "rules" | "ai";
 

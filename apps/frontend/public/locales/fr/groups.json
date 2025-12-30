@@ -1,0 +1,19 @@
+{
+  "group": {
+    "mealBasics": "Repas et bases",
+    "freshSnacks": "Fruits et collations",
+    "everydayDrinks": "Boissons quotidiennes",
+    "treatDrinks": "Jus et sodas",
+    "hotDrinks": "Boissons chaudes",
+    "quantityControl": "Plus / encore",
+    "basicHelp": "Aide de base",
+    "preference": "Je veux / je ne veux pas",
+    "positiveFeelings": "Sentiments positifs",
+    "negativeFeelings": "Sentiments négatifs",
+    "energyFeelings": "Énergie / fatigue",
+    "movementActions": "Mouvement",
+    "positionActions": "Position",
+    "family": "Famille",
+    "schoolPeople": "École et amis"
+  }
+}

@@ -80,6 +80,16 @@
 
   "add": "Adaugă profil",
   "newProfile": "Profil nou"
-}
+},
+"semantic": {
+    "more": "mai mult",
+    "again": "din nou",
+    "very": "foarte",
+    "quantity": {
+      "one": "unu",
+      "two": "doi",
+      "many": "mulți"
+    }
+  }
 
 }

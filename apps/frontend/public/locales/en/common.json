@@ -80,5 +80,15 @@
 
     "add": "Add profile",
     "newProfile": "New profile"
+  },
+  "semantic": {
+    "more": "more",
+    "again": "again",
+    "very": "very",
+    "quantity": {
+      "one": "one",
+      "two": "two",
+      "many": "many"
+    }
   }
 }

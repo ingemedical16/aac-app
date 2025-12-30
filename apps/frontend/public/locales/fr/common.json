@@ -80,5 +80,15 @@
 
     "add": "Ajouter un profil",
     "newProfile": "Nouveau profil"
+  },
+  "semantic": {
+    "more": "encore",
+    "again": "à nouveau",
+    "very": "très",
+    "quantity": {
+      "one": "un",
+      "two": "deux",
+      "many": "beaucoup"
+    }
   }
 }

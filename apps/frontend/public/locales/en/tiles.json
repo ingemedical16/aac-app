@@ -1,0 +1,47 @@
+{
+  "tile": {
+    "food": {
+      "bread": "Bread",
+      "fruit": "Fruit",
+      "yogurt": "Yogurt",
+      "rice": "Rice",
+      "egg": "Egg",
+      "soup": "Soup"
+    },
+    "drink": {
+      "water": "Water",
+      "juice": "Juice",
+      "milk": "Milk",
+      "tea": "Tea",
+      "soda": "Soda"
+    },
+    "more": {
+      "more": "More",
+      "again": "Again"
+    },
+    "help": {
+      "help": "Help",
+      "stop": "Stop",
+      "want": "I want",
+      "dontWant": "I don't want"
+    },
+    "feelings": {
+      "happy": "Happy",
+      "sad": "Sad",
+      "angry": "Angry",
+      "tired": "Tired"
+    },
+    "actions": {
+      "go": "Go",
+      "come": "Come",
+      "sit": "Sit",
+      "stand": "Stand"
+    },
+    "people": {
+      "mom": "Mom",
+      "dad": "Dad",
+      "teacher": "Teacher",
+      "friend": "Friend"
+    }
+  }
+}

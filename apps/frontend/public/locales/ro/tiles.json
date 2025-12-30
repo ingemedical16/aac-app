@@ -1,0 +1,47 @@
+{
+  "tile": {
+    "food": {
+      "bread": "Pâine",
+      "fruit": "Fruct",
+      "yogurt": "Iaurt",
+      "rice": "Orez",
+      "egg": "Ou",
+      "soup": "Supă"
+    },
+    "drink": {
+      "water": "Apă",
+      "juice": "Suc",
+      "milk": "Lapte",
+      "tea": "Ceai",
+      "soda": "Suc carbogazos"
+    },
+    "more": {
+      "more": "Mai mult",
+      "again": "Din nou"
+    },
+    "help": {
+      "help": "Ajutor",
+      "stop": "Stop",
+      "want": "Vreau",
+      "dontWant": "Nu vreau"
+    },
+    "feelings": {
+      "happy": "Fericit",
+      "sad": "Trist",
+      "angry": "Furios",
+      "tired": "Obosit"
+    },
+    "actions": {
+      "go": "Merg",
+      "come": "Vin",
+      "sit": "Stau jos",
+      "stand": "Stau în picioare"
+    },
+    "people": {
+      "mom": "Mamă",
+      "dad": "Tată",
+      "teacher": "Profesor",
+      "friend": "Prieten"
+    }
+  }
+}

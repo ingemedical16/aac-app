@@ -1,53 +1,35 @@
 "use client";
 
 import styles from "./Tile.module.scss";
+import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/context/UserProfileContext";
-
-export interface TileData {
-  id: number ;
-  word: string;
-  translations: Record<string, string>;
-  imageUrl?: string;
-  lang: string;
-  category: string;
-  order: number;
-  group?: string;
-}
+import type { TileData } from "@/types/tile";
 
 interface Props {
   tile: TileData;
-  locale: string;
   onSpeak?: (text: string) => void;
   onSelect?: (tile: TileData) => void;
   onLongPress?: (tile: TileData) => void;
 }
 
-export default function Tile({
-  tile,
-  locale,
-  onSpeak,
-  onSelect,
-  onLongPress,
-}: Props) {
+export default function Tile({ tile, onSpeak, onSelect, onLongPress }: Props) {
+  const { t } = useTranslation("tiles");
   const { profile } = useUserProfile();
-  const text = tile.translations?.[locale] ?? tile.word;
 
-  let pressTimer: any;
+  const label = t(tile.translateKey);
 
-  function handleDown() {
-    pressTimer = setTimeout(() => {
-      onLongPress?.(tile);
-    }, 450);
-  }
+  let timer: any;
 
-  function handleUp() {
-    clearTimeout(pressTimer);
-  }
+  const handleDown = () => {
+    timer = setTimeout(() => onLongPress?.(tile), 450);
+  };
 
-  function handleClick() {
-    onSpeak?.(text);
+  const handleUp = () => clearTimeout(timer);
+
+  const handleClick = () => {
+    onSpeak?.(label);
     onSelect?.(tile);
-  }
+  };
 
   return (
     <div
@@ -64,9 +46,9 @@ export default function Tile({
       tabIndex={0}
     >
       {tile.imageUrl && (
-        <img className={styles.image} src={tile.imageUrl} alt={text} />
+        <img src={tile.imageUrl} alt={label} className={styles.image} />
       )}
-      <div className={styles.label}>{text}</div>
+      <div className={styles.label}>{label}</div>
     </div>
   );
 }
