@@ -1,10 +1,10 @@
 {
-  "appTitle": "Panou de comunicare AAC",
+  "appTitle": "Tablou de comunicare AAC",
   "appTitleShort": "AAC",
   "language": "Limbă",
-  "boardTitle": "Panou de comunicare",
+  "boardTitle": "Tablou de comunicare",
 
-  "tapToSpeak": "Apasă o pictogramă pentru a vorbi",
+  "tapToSpeak": "Apasă pe o pictogramă pentru a vorbi",
   "speak": "Vorbește",
   "clear": "Șterge",
   "deleteLast": "Șterge ultimul",
@@ -13,22 +13,10 @@
   "save": "Salvează",
   "delete": "Șterge",
 
-  "iWant": "Vreau",
-  "iDontWant": "Nu vreau",
-  "iNeedHelp": "Am nevoie de ajutor",
-  "help": "Ajutor",
-  "iFeel": "Mă simt",
-  "stop": "Stop",
-  "more": "Mai mult",
-  "again": "Din nou",
-  "to": "să",
-  "toGoTo": "să merg la",
-  "period": ".",
-
   "all": "Toate",
 
   "normalMode": "Normal",
-  "highContrast": "Contrast mare",
+  "highContrast": "Contrast ridicat",
   "bigButtons": "Butoane mari",
   "normalButtons": "Butoane normale",
 
@@ -41,7 +29,7 @@
 
   "profiles": "Profiluri",
   "addProfile": "Adaugă profil",
-  "deleteProfile": "Șterge profil",
+  "deleteProfile": "Șterge profilul",
   "newProfile": "Profil nou",
 
   "profileRole": {
@@ -49,47 +37,51 @@
     "group": "Grup"
   },
 
-  "groups": {
-    "mealBasics": "Mese și bază",
-    "freshSnacks": "Fructe și gustări",
-    "everydayDrinks": "Băuturi zilnice",
-    "treatDrinks": "Sucuri și băuturi carbogazoase",
-    "hotDrinks": "Băuturi calde",
-    "quantityControl": "Mai mult / din nou",
-    "basicHelp": "Ajutor de bază",
-    "preference": "Vreau / nu vreau",
-    "positiveFeelings": "Sentimente pozitive",
-    "negativeFeelings": "Sentimente negative",
-    "energyFeelings": "Energie / oboseală",
-    "movementActions": "Mișcare",
-    "positionActions": "Poziție",
-    "family": "Familie",
-    "schoolPeople": "Școală și prieteni"
+  "profile": {
+    "title": "Setări profil",
+    "name": "Nume profil",
+    "namePlaceholder": "Introdu numele",
+    "role": "Tip profil",
+    "role_child": "Copil",
+    "role_group": "Grup",
+    "languages": "Limbi preferate",
+    "languagesHint": "Selectează cel puțin o limbă",
+    "add": "Adaugă profil",
+    "newProfile": "Profil nou"
   },
 
-  "profile": {
-  "title": "Setări profil",
-  "name": "Numele profilului",
-  "namePlaceholder": "Introduceți numele profilului",
-  "role": "Tip profil",
-  "role_child": "Copil",
-  "role_group": "Grup",
+  "sentence": {
+    "iFeel": "Mă simt"
+  },
 
-  "languages": "Limbi preferate",
-  "languagesHint": "Selectați cel puțin o limbă",
+  "semantic": {
+    "want": "vreau",
+    "dont_want": "nu vreau",
+    "help": "ajutor",
+    "stop": "stop",
 
-  "add": "Adaugă profil",
-  "newProfile": "Profil nou"
-},
-"semantic": {
     "more": "mai mult",
     "again": "din nou",
     "very": "foarte",
+
     "quantity": {
       "one": "unu",
       "two": "doi",
       "many": "mulți"
+    },
+
+    "feeling": {
+      "happy": "fericit",
+      "sad": "trist",
+      "angry": "furios",
+      "tired": "obosit"
+    },
+
+    "action": {
+      "go": "mergi",
+      "come": "vino",
+      "sit": "stai jos",
+      "stand": "ridică-te"
     }
   }
-
 }

@@ -1,88 +1,131 @@
+// src/lib/grammarEngine.ts
 import type { TileData } from "@/types/tile";
+import type { LocaleCode } from "@/types/userProfile";
+import {
+  SEMANTIC,
+  isFeelingSemantic,
+  isActionSemantic,
+  isModifierSemantic,
+  isQuantitySemantic,
+} from "@/lib/ai/semantic";
+import i18next from "i18next";
 
-// ---------------------------------------------
-// BASIC WORD CLASSIFICATION
-// ---------------------------------------------
-const feelings = ["sad", "angry", "tired", "happy"];
-const wants = ["want", "eat", "drink"];
-const subjects = ["i", "mom", "dad", "he", "she", "you", "we"];
+/* ---------------------------------------------
+   SEMANTIC GRAMMAR ENGINE
+   - translateKey based
+   - locale agnostic logic
+--------------------------------------------- */
 
-// ---------------------------------------------
-// SMART GRAMMAR ENGINE
-// ---------------------------------------------
-export function buildSmartSentence(tiles: TileData[], locale: string): string {
+export function buildSmartSentence(
+  tiles: TileData[],
+  locale: LocaleCode
+): string {
   if (!tiles.length) return "";
 
-  const words = tiles.map(
-    (tile) => tile.translations?.[locale] || tile.word.toLowerCase()
+  const t = i18next.getFixedT(locale, "common");
+
+  /* ---------------------------------------------
+     CLASSIFY TILES BY SEMANTIC
+  --------------------------------------------- */
+  const feelings = tiles.filter((t) => isFeelingSemantic(t.semantic));
+  const actions = tiles.filter((t) => isActionSemantic(t.semantic));
+  const modifiers = tiles.filter((t) => isModifierSemantic(t.semantic));
+  const quantities = tiles.filter((t) => isQuantitySemantic(t.semantic));
+
+  const wants = tiles.find((t) => t.semantic === SEMANTIC.WANT);
+  const dontWants = tiles.find((t) => t.semantic === SEMANTIC.DONT_WANT);
+  const help = tiles.find((t) => t.semantic === SEMANTIC.HELP);
+  const stop = tiles.find((t) => t.semantic === SEMANTIC.STOP);
+
+  const objects = tiles.filter(
+    (t) =>
+      !t.semantic ||
+      (!isFeelingSemantic(t.semantic) &&
+        !isActionSemantic(t.semantic) &&
+        !isModifierSemantic(t.semantic) &&
+        !isQuantitySemantic(t.semantic))
   );
 
-  let sentence = "";
-
-  // ---------------------------------------------
-  // FEELINGS: "I feel sad"
-  // ---------------------------------------------
-  if (words.length === 1 && feelings.includes(words[0])) {
-    switch (locale) {
-      case "en":
-        return `I feel ${words[0]}`;
-      case "fr":
-        return `Je me sens ${words[0]}`;
-      case "ar":
-        return `أشعر بـ ${words[0]}`;
-      case "ro":
-        return `Mă simt ${words[0]}`;
-    }
+  /* ---------------------------------------------
+     1) FEELINGS ONLY
+     → “I feel happy / sad”
+  --------------------------------------------- */
+  if (feelings.length && tiles.length === feelings.length) {
+    return (
+      `${t("sentence.iFeel")} ` +
+      feelings.map((f) => t(f.translateKey)).join(" ") +
+      t("sentence.period")
+    );
   }
 
-  // ---------------------------------------------
-  // WANT / EAT / DRINK → auto-add subject
-  // ---------------------------------------------
-  if (wants.includes(words[0]) && words.length > 1) {
-    const obj = words.slice(1).join(" ");
-
-    switch (locale) {
-      case "en":
-        return `I want ${obj}`;
-      case "fr":
-        return `Je veux ${obj}`;
-      case "ar":
-        return `أريد ${obj}`;
-      case "ro":
-        return `Vreau ${obj}`;
+  /* ---------------------------------------------
+     2) HELP
+     → “I need help” / “I need help bread”
+  --------------------------------------------- */
+  if (help) {
+    if (!objects.length) {
+      return t("sentence.iNeedHelp") + t("sentence.period");
     }
+
+    return (
+      `${t("sentence.iNeedHelp")} ` +
+      objects.map((o) => t(o.translateKey)).join(" ") +
+      t("sentence.period")
+    );
   }
 
-  // ---------------------------------------------
-  // SUBJECT + VERB → reorder properly
-  // Ex: "want juice" → "I want juice"
-  // ---------------------------------------------
-  if (!subjects.includes(words[0]) && wants.includes(words[0])) {
-    const subject = "i";
-
-    switch (locale) {
-      case "en":
-        return `I ${words.join(" ")}`;
-      case "fr":
-        return `Je ${words.join(" ")}`;
-      case "ar":
-        return `أنا ${words.join(" ")}`;
-      case "ro":
-        return `Eu ${words.join(" ")}`;
-    }
+  /* ---------------------------------------------
+     3) STOP (single)
+     → “Stop.”
+  --------------------------------------------- */
+  if (stop && tiles.length === 1) {
+    return t("sentence.stop") + t("sentence.period");
   }
 
-  // ---------------------------------------------
-  // DEFAULT FALLBACK → join words manually
-  // ---------------------------------------------
-  sentence = words.join(" ");
+  /* ---------------------------------------------
+     4) WANT / DON'T WANT
+     → “I want bread”
+     → “I don’t want juice”
+  --------------------------------------------- */
+  if (wants || dontWants) {
+    const base = wants
+      ? t("sentence.iWant")
+      : t("sentence.iDontWant");
 
-  // ---------------------------------------------
-  // CLEANUP: First letter uppercase + period
-  // ---------------------------------------------
-  sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+    let sentence = base;
 
-  if (!sentence.endsWith(".")) sentence += ".";
+    if (actions.length) {
+      sentence +=
+        " " +
+        t("sentence.to") +
+        " " +
+        actions.map((a) => t(a.translateKey)).join(" ");
+    }
 
-  return sentence;
+    if (objects.length) {
+      sentence += " " + objects.map((o) => t(o.translateKey)).join(" ");
+    }
+
+    if (quantities.length) {
+      sentence += " " + quantities.map((q) => t(q.translateKey)).join(" ");
+    }
+
+    if (modifiers.length) {
+      sentence += " " + modifiers.map((m) => t(m.translateKey)).join(" ");
+    }
+
+    return sentence.trim() + t("sentence.period");
+  }
+
+  /* ---------------------------------------------
+     5) FALLBACK
+     → join translated tiles
+  --------------------------------------------- */
+  const text = tiles.map((tile) => t(tile.translateKey)).join(" ");
+
+  return (
+    text.charAt(0).toUpperCase() +
+    text.slice(1) +
+    t("sentence.period")
+  );
 }

@@ -1,5 +1,5 @@
 // src/lib/ai/types.ts
-import type { TileData } from "@/components/Tile";
+import type { TileData } from "@/types/tile";
 import type { LocaleCode, ProfileRole, Profile } from "@/types/userProfile";
 
 export type TileId = string; // ✅ SUPPORT BOTH

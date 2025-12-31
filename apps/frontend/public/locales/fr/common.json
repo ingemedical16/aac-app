@@ -13,23 +13,11 @@
   "save": "Enregistrer",
   "delete": "Supprimer",
 
-  "iWant": "Je veux",
-  "iDontWant": "Je ne veux pas",
-  "iNeedHelp": "J’ai besoin d’aide",
-  "help": "Aide",
-  "iFeel": "Je me sens",
-  "stop": "Stop",
-  "more": "Plus",
-  "again": "Encore",
-  "to": "à",
-  "toGoTo": "aller à",
-  "period": ".",
-
   "all": "Tous",
 
   "normalMode": "Normal",
   "highContrast": "Contraste élevé",
-  "bigButtons": "Grands boutons",
+  "bigButtons": "Gros boutons",
   "normalButtons": "Boutons normaux",
 
   "enterFullscreen": "Plein écran",
@@ -49,46 +37,51 @@
     "group": "Groupe"
   },
 
-  "groups": {
-    "mealBasics": "Repas et bases",
-    "freshSnacks": "Fruits et collations",
-    "everydayDrinks": "Boissons quotidiennes",
-    "treatDrinks": "Jus et sodas",
-    "hotDrinks": "Boissons chaudes",
-    "quantityControl": "Plus / encore",
-    "basicHelp": "Aide de base",
-    "preference": "Je veux / je ne veux pas",
-    "positiveFeelings": "Émotions positives",
-    "negativeFeelings": "Émotions négatives",
-    "energyFeelings": "Énergie / fatigue",
-    "movementActions": "Mouvement",
-    "positionActions": "Position",
-    "family": "Famille",
-    "schoolPeople": "École et amis"
-  },
-
   "profile": {
     "title": "Paramètres du profil",
     "name": "Nom du profil",
-    "namePlaceholder": "Entrez le nom du profil",
+    "namePlaceholder": "Entrez le nom",
     "role": "Type de profil",
     "role_child": "Enfant",
     "role_group": "Groupe",
-
     "languages": "Langues préférées",
     "languagesHint": "Sélectionnez au moins une langue",
-
     "add": "Ajouter un profil",
     "newProfile": "Nouveau profil"
   },
+
+  "sentence": {
+    "iFeel": "Je me sens"
+  },
+
   "semantic": {
+    "want": "veux",
+    "dont_want": "ne veux pas",
+    "help": "aide",
+    "stop": "stop",
+
     "more": "encore",
-    "again": "à nouveau",
+    "again": "encore",
     "very": "très",
+
     "quantity": {
       "one": "un",
       "two": "deux",
       "many": "beaucoup"
+    },
+
+    "feeling": {
+      "happy": "content",
+      "sad": "triste",
+      "angry": "en colère",
+      "tired": "fatigué"
+    },
+
+    "action": {
+      "go": "aller",
+      "come": "venir",
+      "sit": "s’asseoir",
+      "stand": "se lever"
     }
   }
 }

@@ -13,18 +13,6 @@
   "save": "Save",
   "delete": "Delete",
 
-  "iWant": "I want",
-  "iDontWant": "I don't want",
-  "iNeedHelp": "I need help",
-  "help": "Help",
-  "iFeel": "I feel",
-  "stop": "Stop",
-  "more": "More",
-  "again": "Again",
-  "to": "to",
-  "toGoTo": "to go to",
-  "period": ".",
-
   "all": "All",
 
   "normalMode": "Normal",
@@ -49,24 +37,6 @@
     "group": "Group"
   },
 
-  "groups": {
-    "mealBasics": "Meals & basics",
-    "freshSnacks": "Fruit & snacks",
-    "everydayDrinks": "Everyday drinks",
-    "treatDrinks": "Juice & soda",
-    "hotDrinks": "Hot drinks",
-    "quantityControl": "More / again",
-    "basicHelp": "Basic help",
-    "preference": "I want / don't want",
-    "positiveFeelings": "Positive feelings",
-    "negativeFeelings": "Negative feelings",
-    "energyFeelings": "Energy / tired",
-    "movementActions": "Movement",
-    "positionActions": "Position",
-    "family": "Family",
-    "schoolPeople": "School & friends"
-  },
-
   "profile": {
     "title": "Profile settings",
     "name": "Profile name",
@@ -74,21 +44,44 @@
     "role": "Profile type",
     "role_child": "Child",
     "role_group": "Group",
-
     "languages": "Preferred languages",
     "languagesHint": "Select at least one language",
-
     "add": "Add profile",
     "newProfile": "New profile"
   },
+
+  "sentence": {
+    "iFeel": "I feel"
+  },
+
   "semantic": {
+    "want": "want",
+    "dont_want": "don't want",
+    "help": "help",
+    "stop": "stop",
+
     "more": "more",
     "again": "again",
     "very": "very",
+
     "quantity": {
       "one": "one",
       "two": "two",
       "many": "many"
+    },
+
+    "feeling": {
+      "happy": "happy",
+      "sad": "sad",
+      "angry": "angry",
+      "tired": "tired"
+    },
+
+    "action": {
+      "go": "go",
+      "come": "come",
+      "sit": "sit",
+      "stand": "stand"
     }
   }
 }

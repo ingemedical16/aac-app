@@ -8,57 +8,53 @@ import { buildSentence, type GrammarMode } from "@/lib/sentenceBuilder";
 import type { TileData } from "@/types/tile";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
+import { tx } from "@/lib/i18n/tx";
 
 interface SentenceBarProps {
   sentence: TileData[];
-  locale: string;
   onClear: () => void;
   onDeleteLast: () => void;
   grammarMode?: GrammarMode;
-
-  activeCategoryLabel?: string;
-  activeGroupLabel?: string | null;
 }
 
 export default function SentenceBar({
   sentence,
-  locale,
   onClear,
   onDeleteLast,
   grammarMode = "simple",
-  activeCategoryLabel,
-  activeGroupLabel,
 }: SentenceBarProps) {
   const { speak } = useTTS();
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation();
   const { profile } = useUserProfile();
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   const wordsRef = useRef<HTMLDivElement | null>(null);
 
-  const fullSentence = buildSentence(sentence, locale as any, grammarMode);
+  const fullSentence = buildSentence(
+    sentence,
+    i18n.language as any,
+    grammarMode
+  );
 
-  // ✅ Auto-scroll (RTL-safe)
+  /* =========================
+     Auto-scroll (RTL safe)
+  ========================= */
   useEffect(() => {
     if (!wordsRef.current) return;
 
-    const dir =
-      typeof document !== "undefined"
-        ? document.documentElement.getAttribute("dir")
-        : "ltr";
-
+    const dir = document.documentElement.getAttribute("dir") ?? "ltr";
     const el = wordsRef.current;
 
-    // LTR → scroll to far right. RTL → scroll to far left.
-    const left = dir === "rtl" ? 0 : el.scrollWidth;
-
-    el.scrollTo({ left, behavior: "smooth" });
+    el.scrollTo({
+      left: dir === "rtl" ? 0 : el.scrollWidth,
+      behavior: "smooth",
+    });
   }, [sentence]);
 
   const handleSpeak = () => {
     if (!fullSentence) return;
     setIsSpeaking(true);
-    speak(fullSentence, locale, () => setIsSpeaking(false));
+    speak(fullSentence, () => setIsSpeaking(false));
   };
 
   return (
@@ -68,25 +64,16 @@ export default function SentenceBar({
         profile.settings.highContrast ? styles.highContrast : "",
       ].join(" ")}
     >
-      {(activeCategoryLabel || activeGroupLabel) && (
-        <div className={styles.breadcrumb} aria-label={t("breadcrumb")}>
-          <span>{activeCategoryLabel}</span>
-          {activeGroupLabel && (
-            <>
-              <span className={styles.sep}>›</span>
-              <span>{activeGroupLabel}</span>
-            </>
-          )}
-        </div>
-      )}
-
       <div
-        className={[styles.bar, isSpeaking ? styles.barSpeaking : ""].join(" ")}
+        className={[
+          styles.bar,
+          isSpeaking ? styles.barSpeaking : "",
+        ].join(" ")}
       >
         <div ref={wordsRef} className={styles.words}>
-          {sentence.map((tile, index) => (
-            <span key={`${tile.id}-${index}`} className={styles.word}>
-              {(tile.translations?.[locale] || tile.word) + " "}
+          {sentence.map((tile) => (
+            <span key={tile.id} className={styles.word}>
+              {t(tx("tiles", tile.translateKey))}{" "}
             </span>
           ))}
 

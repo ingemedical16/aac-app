@@ -1,10 +1,11 @@
 // src/data/tiles.ts
 import type { TileData } from "@/types/tile";
+import { SEMANTIC } from "@/lib/ai/semantic";
 
 export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
-  // ===============================
-  // FOOD
-  // ===============================
+  /* ===============================
+     FOOD (nouns → NO semantic)
+  =============================== */
   food: [
     {
       id: "food-bread",
@@ -56,9 +57,9 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
     },
   ],
 
-  // ===============================
-  // DRINK
-  // ===============================
+  /* ===============================
+     DRINK (nouns → NO semantic)
+  =============================== */
   drink: [
     {
       id: "drink-water",
@@ -102,15 +103,16 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
     },
   ],
 
-  // ===============================
-  // MORE / QUANTITY
-  // ===============================
+  /* ===============================
+     MORE / QUANTITY (semantic)
+  =============================== */
   more: [
     {
       id: "more-more",
       translateKey: "tile.more.more",
       categoryKey: "category.more",
       groupKey: "group.quantityControl",
+      semantic: SEMANTIC.MORE,
       imageUrl: "/images/more.png",
       order: 1,
     },
@@ -119,20 +121,22 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.more.again",
       categoryKey: "category.more",
       groupKey: "group.quantityControl",
+      semantic: SEMANTIC.AGAIN,
       imageUrl: "/images/again.png",
       order: 2,
     },
   ],
 
-  // ===============================
-  // HELP / PREFERENCES
-  // ===============================
+  /* ===============================
+     HELP / PREFERENCES (semantic)
+  =============================== */
   help: [
     {
       id: "help-help",
       translateKey: "tile.help.help",
       categoryKey: "category.help",
       groupKey: "group.basicHelp",
+      semantic: SEMANTIC.HELP,
       imageUrl: "/images/help.png",
       order: 1,
     },
@@ -141,6 +145,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.help.stop",
       categoryKey: "category.help",
       groupKey: "group.basicHelp",
+      semantic: SEMANTIC.STOP,
       imageUrl: "/images/stop.png",
       order: 2,
     },
@@ -149,6 +154,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.help.want",
       categoryKey: "category.help",
       groupKey: "group.preference",
+      semantic: SEMANTIC.WANT,
       imageUrl: "/images/want.png",
       order: 3,
     },
@@ -157,20 +163,22 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.help.dontWant",
       categoryKey: "category.help",
       groupKey: "group.preference",
+      semantic: SEMANTIC.DONT_WANT,
       imageUrl: "/images/dontwant.png",
       order: 4,
     },
   ],
 
-  // ===============================
-  // FEELINGS
-  // ===============================
+  /* ===============================
+     FEELINGS (semantic)
+  =============================== */
   feelings: [
     {
       id: "feelings-happy",
       translateKey: "tile.feelings.happy",
       categoryKey: "category.feelings",
       groupKey: "group.positiveFeelings",
+      semantic: SEMANTIC.FEELING_HAPPY,
       imageUrl: "/images/happy.png",
       order: 1,
     },
@@ -179,6 +187,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.feelings.sad",
       categoryKey: "category.feelings",
       groupKey: "group.negativeFeelings",
+      semantic: SEMANTIC.FEELING_SAD,
       imageUrl: "/images/sad.png",
       order: 2,
     },
@@ -187,6 +196,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.feelings.angry",
       categoryKey: "category.feelings",
       groupKey: "group.negativeFeelings",
+      semantic: SEMANTIC.FEELING_ANGRY,
       imageUrl: "/images/angry.png",
       order: 3,
     },
@@ -195,20 +205,22 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.feelings.tired",
       categoryKey: "category.feelings",
       groupKey: "group.energyFeelings",
+      semantic: SEMANTIC.FEELING_TIRED,
       imageUrl: "/images/tired.png",
       order: 4,
     },
   ],
 
-  // ===============================
-  // ACTIONS
-  // ===============================
+  /* ===============================
+     ACTIONS (semantic)
+  =============================== */
   actions: [
     {
       id: "actions-go",
       translateKey: "tile.actions.go",
       categoryKey: "category.actions",
       groupKey: "group.movementActions",
+      semantic: SEMANTIC.ACTION_GO,
       imageUrl: "/images/go.png",
       order: 1,
     },
@@ -217,6 +229,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.actions.come",
       categoryKey: "category.actions",
       groupKey: "group.movementActions",
+      semantic: SEMANTIC.ACTION_COME,
       imageUrl: "/images/come.png",
       order: 2,
     },
@@ -225,6 +238,7 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.actions.sit",
       categoryKey: "category.actions",
       groupKey: "group.positionActions",
+      semantic: SEMANTIC.ACTION_SIT,
       imageUrl: "/images/sit.png",
       order: 3,
     },
@@ -233,14 +247,15 @@ export const TILES_BY_CATEGORY: Record<string, TileData[]> = {
       translateKey: "tile.actions.stand",
       categoryKey: "category.actions",
       groupKey: "group.positionActions",
+      semantic: SEMANTIC.ACTION_STAND,
       imageUrl: "/images/stand.png",
       order: 4,
     },
   ],
 
-  // ===============================
-  // PEOPLE
-  // ===============================
+  /* ===============================
+     PEOPLE (nouns → NO semantic)
+  =============================== */
   people: [
     {
       id: "people-mom",

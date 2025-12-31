@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function useTTS() {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [voicesLoaded, setVoicesLoaded] = useState(false);
+    const { i18n } = useTranslation();
 
   useEffect(() => {
     const loadVoices = () => {
@@ -19,9 +21,9 @@ export default function useTTS() {
     window.speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
 
-  const speak = (text: string, locale: string, onEnd?: () => void) => {
+  const speak = (text: string, onEnd?: () => void) => {
     if (!voicesLoaded || !text) return;
-
+     const locale = i18n.language
     const utter = new SpeechSynthesisUtterance(text);
 
     // Language prefix (broad, works better)

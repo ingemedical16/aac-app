@@ -3,6 +3,7 @@
 import styles from "./SubcategoryBar.module.scss";
 import { useTranslation } from "react-i18next";
 import type { Group } from "@/types/group";
+import { tx } from "@/lib/i18n/tx";
 
 interface Props {
   groups: Group[];
@@ -17,7 +18,7 @@ export default function SubcategoryBar({
   onSelect,
   isMobile = false,
 }: Props) {
-  const { t } = useTranslation("groups");
+  const { t } = useTranslation(); // ✅ NO namespace here
 
   if (!groups.length) return null;
 
@@ -31,14 +32,11 @@ export default function SubcategoryBar({
         }`}
         onClick={() => onSelect(null)}
       >
-        {t("all")}
+        {t(tx("groups", "all"))}
       </button>
 
       {/* GROUPS */}
-      {groups.map((group) => {
-        console.log(group.translateKey, t(group.translateKey));
-        console.log("activeGroup", group);
-        return (
+      {groups.map((group) => (
         <button
           key={group.id}
           type="button"
@@ -47,12 +45,9 @@ export default function SubcategoryBar({
           }`}
           onClick={() => onSelect(group.id)}
         >
-          {t(group)}
+          {t(tx("groups", group.translateKey))}
         </button>
-      )
-    
-    
-      })}
+      ))}
     </nav>
   );
 }

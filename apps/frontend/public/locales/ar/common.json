@@ -1,5 +1,5 @@
 {
-  "appTitle": "لوحة التواصل AAC",
+  "appTitle": "لوحة تواصل AAC",
   "appTitleShort": "AAC",
   "language": "اللغة",
   "boardTitle": "لوحة التواصل",
@@ -8,27 +8,15 @@
   "speak": "تحدث",
   "clear": "مسح",
   "deleteLast": "حذف الأخير",
-  "addToSentence": "إضافة إلى الجملة",
+  "addToSentence": "إضافة للجملة",
   "edit": "تعديل",
   "save": "حفظ",
   "delete": "حذف",
 
-  "iWant": "أريد",
-  "iDontWant": "لا أريد",
-  "iNeedHelp": "أحتاج مساعدة",
-  "help": "مساعدة",
-  "iFeel": "أشعر",
-  "stop": "توقف",
-  "more": "المزيد",
-  "again": "مرة أخرى",
-  "to": "أن",
-  "toGoTo": "أن أذهب إلى",
-  "period": "۔",
-
   "all": "الكل",
 
   "normalMode": "عادي",
-  "highContrast": "تباين عالي",
+  "highContrast": "تباين عالٍ",
   "bigButtons": "أزرار كبيرة",
   "normalButtons": "أزرار عادية",
 
@@ -49,46 +37,51 @@
     "group": "مجموعة"
   },
 
-  "groups": {
-    "mealBasics": "الوجبات والأساسيات",
-    "freshSnacks": "فواكه ووجبات خفيفة",
-    "everydayDrinks": "مشروبات يومية",
-    "treatDrinks": "عصير ومشروبات غازية",
-    "hotDrinks": "مشروبات ساخنة",
-    "quantityControl": "المزيد / مرة أخرى",
-    "basicHelp": "مساعدة أساسية",
-    "preference": "أريد / لا أريد",
-    "positiveFeelings": "مشاعر إيجابية",
-    "negativeFeelings": "مشاعر سلبية",
-    "energyFeelings": "نشاط / تعب",
-    "movementActions": "حركة",
-    "positionActions": "وضعية",
-    "family": "العائلة",
-    "schoolPeople": "المدرسة والأصدقاء"
-  },
-
   "profile": {
     "title": "إعدادات الملف الشخصي",
-    "name": "اسم الملف الشخصي",
-    "namePlaceholder": "أدخل اسم الملف",
+    "name": "اسم الملف",
+    "namePlaceholder": "أدخل الاسم",
     "role": "نوع الملف",
     "role_child": "طفل",
     "role_group": "مجموعة",
-
     "languages": "اللغات المفضلة",
     "languagesHint": "اختر لغة واحدة على الأقل",
-
     "add": "إضافة ملف",
     "newProfile": "ملف جديد"
   },
+
+  "sentence": {
+    "iFeel": "أشعر"
+  },
+
   "semantic": {
-    "more": "أكثر",
+    "want": "أريد",
+    "dont_want": "لا أريد",
+    "help": "مساعدة",
+    "stop": "توقف",
+
+    "more": "المزيد",
     "again": "مرة أخرى",
     "very": "جداً",
+
     "quantity": {
       "one": "واحد",
       "two": "اثنان",
       "many": "كثير"
+    },
+
+    "feeling": {
+      "happy": "سعيد",
+      "sad": "حزين",
+      "angry": "غاضب",
+      "tired": "متعب"
+    },
+
+    "action": {
+      "go": "اذهب",
+      "come": "تعال",
+      "sit": "اجلس",
+      "stand": "قف"
     }
   }
 }

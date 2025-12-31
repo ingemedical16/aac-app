@@ -1,48 +1,48 @@
 // src/lib/ai/semantic.ts
 
-/**
- * Semantic tokens are language-independent meanings
- * attached to tiles. They are consumed by:
- * - sentenceBuilder
- * - AI rule engine
- * - grammar logic
- *
- * NEVER localised.
- * NEVER numeric.
- */
-
 export const SEMANTIC = {
-  /** repetition / continuation */
+  WANT: "semantic.want",
+  DONT_WANT: "semantic.dont_want",
+  HELP: "semantic.help",
+  STOP: "semantic.stop",
+
   MORE: "semantic.more",
   AGAIN: "semantic.again",
-
-  /** intensity */
   VERY: "semantic.very",
 
-  /** quantity modifiers */
   QUANTITY: {
     ONE: "semantic.quantity.one",
     TWO: "semantic.quantity.two",
     MANY: "semantic.quantity.many",
   },
+
+  FEELING_HAPPY: "semantic.feeling.happy",
+  FEELING_SAD: "semantic.feeling.sad",
+  FEELING_ANGRY: "semantic.feeling.angry",
+  FEELING_TIRED: "semantic.feeling.tired",
+
+  ACTION_GO: "semantic.action.go",
+  ACTION_COME: "semantic.action.come",
+  ACTION_SIT: "semantic.action.sit",
+  ACTION_STAND: "semantic.action.stand",
 } as const;
 
-/**
- * Union of all semantic tokens
- */
-export type SemanticToken =
-  | typeof SEMANTIC.MORE
-  | typeof SEMANTIC.AGAIN
-  | typeof SEMANTIC.VERY
-  | (typeof SEMANTIC.QUANTITY)[keyof typeof SEMANTIC.QUANTITY];
+/** ✅ union of ALL string literal values (including nested QUANTITY values) */
+type ValueOf<T> = T[keyof T];
+type NestedValueOf<T> = ValueOf<{
+  [K in keyof T]: T[K] extends Record<string, any> ? ValueOf<T[K]> : T[K];
+}>;
 
-/**
- * Narrow helpers (OPTIONAL but recommended)
- */
+export type SemanticToken = NestedValueOf<typeof SEMANTIC>;
+
+/* =========================
+   HELPERS
+========================= */
+
 export function isQuantitySemantic(
   s?: SemanticToken
-): s is (typeof SEMANTIC.QUANTITY)[keyof typeof SEMANTIC.QUANTITY] {
-  return !!s && s.startsWith("semantic.quantity.");
+): s is ValueOf<typeof SEMANTIC.QUANTITY> {
+  return typeof s === "string" && s.startsWith("semantic.quantity.");
 }
 
 export function isModifierSemantic(s?: SemanticToken): boolean {
@@ -51,4 +51,12 @@ export function isModifierSemantic(s?: SemanticToken): boolean {
     s === SEMANTIC.AGAIN ||
     s === SEMANTIC.VERY
   );
+}
+
+export function isFeelingSemantic(s?: SemanticToken): boolean {
+  return typeof s === "string" && s.startsWith("semantic.feeling.");
+}
+
+export function isActionSemantic(s?: SemanticToken): boolean {
+  return typeof s === "string" && s.startsWith("semantic.action.");
 }

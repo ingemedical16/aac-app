@@ -4,6 +4,7 @@ import styles from "./Tile.module.scss";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/context/UserProfileContext";
 import type { TileData } from "@/types/tile";
+import { tx } from "@/lib/i18n/tx";
 
 interface Props {
   tile: TileData;
@@ -13,10 +14,10 @@ interface Props {
 }
 
 export default function Tile({ tile, onSpeak, onSelect, onLongPress }: Props) {
-  const { t } = useTranslation("tiles");
+  const { t } = useTranslation();
   const { profile } = useUserProfile();
 
-  const label = t(tile.translateKey);
+  const label = t(tx("tiles",tile.translateKey));
 
   let timer: any;
 

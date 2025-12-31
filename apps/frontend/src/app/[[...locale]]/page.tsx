@@ -46,10 +46,22 @@ export default function LocalePage({
   ========================= */
   const tiles = TILES_BY_CATEGORY[activeCategory] ?? [];
 
-  const groups = useMemo(() => {
-    const set = new Set<string>();
-    tiles.forEach((t) => t.groupKey && set.add(t.groupKey));
-    return Array.from(set);
+  /**
+   * ✅ Groups must come from GROUPS (domain source of truth),
+   * not from raw string arrays built from tiles.
+   */
+  const groups = useMemo<Group[]>(() => {
+    if (!tiles.length) return [];
+
+    // groupKey stored on tiles: e.g. "group.mealBasics"
+    const usedGroupKeys = new Set(
+      tiles.map((t) => t.groupKey).filter(Boolean) as string[]
+    );
+
+    // Keep only groups used by current category tiles, sorted by order
+    return GROUPS.filter((g) => usedGroupKeys.has(g.translateKey)).sort(
+      (a, b) => (a.order ?? 0) - (b.order ?? 0)
+    );
   }, [tiles]);
 
   const filteredTiles = useMemo(() => {
@@ -64,28 +76,32 @@ export default function LocalePage({
     <>
       <AppHeader onOpenMenu={() => setMenuOpen(true)} />
 
-      {/* MOBILE MENU (single source of truth on mobile) */}
+      {/* MOBILE MENU */}
       <MobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        locale={locale}
         categories={CATEGORIES}
         groups={groups}
         activeCategory={activeCategory}
-        activeGroup={activeGroup}
+        activeGroup={activeGroup?.id ?? null}
         onSelectCategory={(catId) => {
           setActiveCategory(catId);
           setActiveGroup(null);
           if (groups.length === 0) setMenuOpen(false);
         }}
-        onSelectGroup={(groupKey) => {
-          setActiveGroup(groupKey);
+        onSelectGroup={(groupId) => {
+          const next =
+            groupId === null
+              ? null
+              : groups.find((g) => g.id === groupId) ?? null;
+
+          setActiveGroup(next);
           setMenuOpen(false);
         }}
       />
 
       <main style={{ padding: 20 }}>
-        {/* DESKTOP / TABLET ONLY */}
+        {/* DESKTOP / TABLET */}
         <CategoryBar
           categories={CATEGORIES}
           activeCategory={activeCategory}
@@ -97,8 +113,15 @@ export default function LocalePage({
 
         <SubcategoryBar
           groups={groups}
-          activeGroup={activeGroup}
-          onSelect={setActiveGroup}
+          activeGroup={activeGroup?.id ?? null}
+          onSelect={(groupId) => {
+            const next =
+              groupId === null
+                ? null
+                : groups.find((g) => g.id === groupId) ?? null;
+
+            setActiveGroup(next);
+          }}
         />
 
         <SentenceBar
