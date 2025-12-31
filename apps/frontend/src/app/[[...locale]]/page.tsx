@@ -1,17 +1,22 @@
 "use client";
 
 import { use, useEffect, useMemo, useState } from "react";
+import i18next from "i18next";
+
 import AppHeader from "@/components/AppHeader";
 import MobileMenu from "@/components/MobileMenu";
 import CategoryBar from "@/components/CategoryBar";
 import SubcategoryBar from "@/components/SubcategoryBar";
 import Board from "@/components/Board";
 import SentenceBar from "@/components/SentenceBar";
+
 import { TILES_BY_CATEGORY } from "@/data/tiles";
+import { CATEGORIES } from "@/data/categories";
+import { GROUPS } from "@/data/groups";
+
 import type { TileData } from "@/types/tile";
-import { CATEGORIES } from "@/components/CategoryBar/categories";
-import i18next from "i18next";
-import { useTranslation } from "react-i18next";
+import type { Group } from "@/types/group";
+import type { LocaleCode } from "@/types/userProfile";
 
 export default function LocalePage({
   params,
@@ -19,32 +24,42 @@ export default function LocalePage({
   params: Promise<{ locale?: string[] }>;
 }) {
   const resolved = use(params);
-  const locale = (resolved.locale?.[0] ?? "en") as "en" | "fr" | "ar" | "ro";
+  const locale = (resolved.locale?.[0] ?? "en") as LocaleCode;
 
-  const { t } = useTranslation("common");
-
-  const [activeCategory, setActiveCategory] = useState("food");
-  const [activeGroup, setActiveGroup] = useState<string | null>(null);
+  /* =========================
+     STATE
+  ========================= */
+  const [activeCategory, setActiveCategory] = useState<string>("food");
+  const [activeGroup, setActiveGroup] = useState<Group | null>(null);
   const [sentence, setSentence] = useState<TileData[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  /* =========================
+     i18n sync
+  ========================= */
   useEffect(() => {
     i18next.changeLanguage(locale);
   }, [locale]);
 
+  /* =========================
+     TILES
+  ========================= */
   const tiles = TILES_BY_CATEGORY[activeCategory] ?? [];
 
   const groups = useMemo(() => {
     const set = new Set<string>();
-    tiles.forEach((t) => t.group && set.add(t.group));
+    tiles.forEach((t) => t.groupKey && set.add(t.groupKey));
     return Array.from(set);
   }, [tiles]);
 
   const filteredTiles = useMemo(() => {
     if (!activeGroup) return tiles;
-    return tiles.filter((t) => t.group === activeGroup);
+    return tiles.filter((t) => t.groupKey === activeGroup.translateKey);
   }, [tiles, activeGroup]);
 
+  /* =========================
+     RENDER
+  ========================= */
   return (
     <>
       <AppHeader onOpenMenu={() => setMenuOpen(true)} />
@@ -58,30 +73,29 @@ export default function LocalePage({
         groups={groups}
         activeCategory={activeCategory}
         activeGroup={activeGroup}
-        onSelectCategory={(cat) => {
-          setActiveCategory(cat);
+        onSelectCategory={(catId) => {
+          setActiveCategory(catId);
           setActiveGroup(null);
           if (groups.length === 0) setMenuOpen(false);
         }}
-        onSelectGroup={(g) => {
-          setActiveGroup(g);
+        onSelectGroup={(groupKey) => {
+          setActiveGroup(groupKey);
           setMenuOpen(false);
         }}
       />
 
       <main style={{ padding: 20 }}>
-        {/* DESKTOP / TABLET ONLY (hidden on mobile via CSS) */}
+        {/* DESKTOP / TABLET ONLY */}
         <CategoryBar
-          locale={locale}
+          categories={CATEGORIES}
           activeCategory={activeCategory}
-          onSelect={(cat) => {
-            setActiveCategory(cat);
+          onSelect={(catId) => {
+            setActiveCategory(catId);
             setActiveGroup(null);
           }}
         />
 
         <SubcategoryBar
-          locale={locale}
           groups={groups}
           activeGroup={activeGroup}
           onSelect={setActiveGroup}
@@ -89,21 +103,16 @@ export default function LocalePage({
 
         <SentenceBar
           sentence={sentence}
-          locale={locale}
           onClear={() => setSentence([])}
           onDeleteLast={() => setSentence((s) => s.slice(0, -1))}
         />
 
         <Board
           tiles={filteredTiles}
-          locale={locale}
           onTileSelect={(tile) =>
-            setSentence((prev) => {
-              if (prev.some((t) => t.id === tile.id)) {
-                return prev; // already exists → do nothing
-              }
-              return [...prev, tile];
-            })
+            setSentence((prev) =>
+              prev.some((t) => t.id === tile.id) ? prev : [...prev, tile]
+            )
           }
         />
       </main>

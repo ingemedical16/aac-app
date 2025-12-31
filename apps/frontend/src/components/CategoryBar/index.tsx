@@ -1,24 +1,27 @@
 "use client";
 
 import styles from "./CategoryBar.module.scss";
-import { CATEGORIES } from "./categories";
+import { useTranslation } from "react-i18next";
+import type { Category } from "@/types/category";
 
 interface Props {
-  locale: "en" | "fr" | "ar" | "ro";
+  categories: Category[];
   activeCategory: string;
   onSelect: (id: string) => void;
   isMobile?: boolean;
 }
 
 export default function CategoryBar({
-  locale,
+  categories,
   activeCategory,
   onSelect,
   isMobile = false,
 }: Props) {
+  const { t } = useTranslation("categories");
+
   return (
     <nav className={`${styles.bar} ${isMobile ? styles.mobile : ""}`}>
-      {CATEGORIES.map((cat) => (
+      {categories.map((cat) => (
         <button
           key={cat.id}
           type="button"
@@ -27,8 +30,11 @@ export default function CategoryBar({
           }
           onClick={() => onSelect(cat.id)}
         >
+          {/* ICON */}
           <span className={styles.icon}>{cat.icon}</span>
-          <span className={styles.label}>{cat.label[locale]}</span>
+
+          {/* LABEL */}
+          <span className={styles.label}>{t(cat.translateKey)}</span>
         </button>
       ))}
     </nav>

@@ -2,21 +2,23 @@
 
 import { useEffect } from "react";
 import styles from "./MobileMenu.module.scss";
-import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
+
+import { useUserProfile } from "@/context/UserProfileContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ProfileSwitcher from "@/components/ProfileSwitcher";
 import CategoryBar from "@/components/CategoryBar";
 import SubcategoryBar from "@/components/SubcategoryBar";
-import { Category } from "@/components/CategoryBar/categories";
+
+import type { Category } from "@/types/category";
+import type { Group } from "@/types/group";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  locale: "en" | "fr" | "ar" | "ro";
 
   categories: Category[];
-  groups: string[];
+  groups: Group[];
 
   activeCategory: string;
   activeGroup: string | null;
@@ -28,7 +30,6 @@ interface Props {
 export default function MobileMenu({
   open,
   onClose,
-  locale,
   categories,
   groups,
   activeCategory,
@@ -36,10 +37,12 @@ export default function MobileMenu({
   onSelectCategory,
   onSelectGroup,
 }: Props) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const { profile, toggleHighContrast, toggleBigButtons } = useUserProfile();
 
-  // ✅ Scroll lock + Escape to close
+  /* =========================
+     Scroll lock + ESC
+  ========================= */
   useEffect(() => {
     if (!open) return;
 
@@ -69,6 +72,7 @@ export default function MobileMenu({
       aria-label={t("menu")}
     >
       <div className={styles.menu} onClick={(e) => e.stopPropagation()}>
+        {/* HEADER */}
         <div className={styles.topRow}>
           <div className={styles.title}>{t("menu")}</div>
 
@@ -82,21 +86,21 @@ export default function MobileMenu({
           </button>
         </div>
 
+        {/* GLOBAL CONTROLS */}
         <LanguageSwitcher />
         <ProfileSwitcher />
 
         {/* STEP 1: CATEGORY */}
         <CategoryBar
-          locale={locale}
+          categories={categories}
           activeCategory={activeCategory}
           onSelect={onSelectCategory}
           isMobile
         />
 
-        {/* STEP 2: SUBCATEGORY */}
+        {/* STEP 2: GROUP / SUBCATEGORY */}
         {groups.length > 0 && (
           <SubcategoryBar
-            locale={locale}
             groups={groups}
             activeGroup={activeGroup}
             onSelect={onSelectGroup}
@@ -123,7 +127,9 @@ export default function MobileMenu({
             onClick={toggleBigButtons}
             aria-pressed={profile.settings.bigButtons}
           >
-            {profile.settings.bigButtons ? t("normalButtons") : t("bigButtons")}
+            {profile.settings.bigButtons
+              ? t("normalButtons")
+              : t("bigButtons")}
           </button>
         </div>
       </div>

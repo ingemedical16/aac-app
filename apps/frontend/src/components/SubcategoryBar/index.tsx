@@ -2,43 +2,57 @@
 
 import styles from "./SubcategoryBar.module.scss";
 import { useTranslation } from "react-i18next";
+import type { Group } from "@/types/group";
 
 interface Props {
-  locale: "en" | "fr" | "ar" | "ro";
-  groups: string[];
+  groups: Group[];
   activeGroup: string | null;
   onSelect: (id: string | null) => void;
   isMobile?: boolean;
 }
 
 export default function SubcategoryBar({
-  locale,
   groups,
   activeGroup,
   onSelect,
   isMobile = false,
 }: Props) {
+  const { t } = useTranslation("groups");
+
   if (!groups.length) return null;
-  const { t } = useTranslation("common");
 
   return (
     <nav className={`${styles.bar} ${isMobile ? styles.mobile : ""}`}>
+      {/* ALL */}
       <button
-        className={`${styles.button} ${activeGroup === null ? styles.buttonActive : ""}`}
+        type="button"
+        className={`${styles.button} ${
+          activeGroup === null ? styles.buttonActive : ""
+        }`}
         onClick={() => onSelect(null)}
       >
-       { t("all")}
+        {t("all")}
       </button>
 
-      {groups.map((g) => (
+      {/* GROUPS */}
+      {groups.map((group) => {
+        console.log(group.translateKey, t(group.translateKey));
+        console.log("activeGroup", group);
+        return (
         <button
-          key={g}
-          className={`${styles.button} ${g === activeGroup ? styles.buttonActive : ""}`}
-          onClick={() => onSelect(g)}
+          key={group.id}
+          type="button"
+          className={`${styles.button} ${
+            group.id === activeGroup ? styles.buttonActive : ""
+          }`}
+          onClick={() => onSelect(group.id)}
         >
-         {t(`groups.${g}`)}
+          {t(group)}
         </button>
-      ))}
+      )
+    
+    
+      })}
     </nav>
   );
 }
