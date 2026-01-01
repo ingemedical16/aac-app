@@ -6,44 +6,51 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { I18nService } from "nestjs-i18n";
+import { ROLES_KEY } from "../decorators/roles.decorator";
 import { UserRole } from "../roles.enum";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly i18n: I18nService,
+    private readonly i18n: I18nService
   ) {}
 
   canActivate(context: ExecutionContext): boolean {
-    // 1️⃣ Read roles metadata from handler or controller
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
-      "roles",
-      [context.getHandler(), context.getClass()],
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()]
     );
 
-    // If no roles defined → allow access
+    // 🔓 No role restriction
     if (!requiredRoles || requiredRoles.length === 0) {
       return true;
     }
 
-    // 2️⃣ Extract authenticated user
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    // Safety check
+    // 🌍 Detect language (fallback = en)
+    const lang =
+      request.headers["accept-language"]?.split(",")[0] ?? "en";
+
+    // 🚫 No authenticated user
     if (!user || !user.role) {
       throw new ForbiddenException(
-        this.i18n.t("auth.forbidden", { lang: request.i18nLang }),
+        this.i18n.t("auth.access_denied", { lang })
       );
     }
 
-    // 3️⃣ Role match
-    const hasRole = requiredRoles.includes(user.role);
-
-    if (!hasRole) {
+    // 🚫 Role mismatch
+    if (!requiredRoles.includes(user.role)) {
       throw new ForbiddenException(
-        this.i18n.t("auth.forbidden", { lang: request.i18nLang }),
+        this.i18n.t("auth.insufficient_role", {
+          lang,
+          args: {
+            role: user.role,
+            required: requiredRoles.join(", "),
+          },
+        })
       );
     }
 
