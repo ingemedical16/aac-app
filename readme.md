@@ -35,13 +35,13 @@ The platform combines pictographic communication, text-to-speech, and AI-assiste
 
 ## 👥 User Roles (RBAC)
 
-| Role | Description |
-|------|-------------|
-| ADMIN | Platform administration |
-| PROFESSIONAL | Therapist / Speech specialist |
-| PARENT | Manages children profiles |
-| PATIENT_ADULT | Adult AAC user |
-| CHILD | Child AAC user |
+| Role          | Description                   |
+| ------------- | ----------------------------- |
+| ADMIN         | Platform administration       |
+| PROFESSIONAL  | Therapist / Speech specialist |
+| PARENT        | Manages children profiles     |
+| PATIENT_ADULT | Adult AAC user                |
+| CHILD         | Child AAC user                |
 
 Roles are enforced server-side and reflected client-side for UX.
 
@@ -55,18 +55,20 @@ Roles are enforced server-side and reflected client-side for UX.
 - No localized text in database
 
 **Example (DB / API):**
+
 ```
 translateKey: "tile.food.egg"
 ```
 
 **Frontend:**
+
 ```json
 {
-    "tile": {
-        "food": {
-            "egg": "Egg"
-        }
+  "tile": {
+    "food": {
+      "egg": "Egg"
     }
+  }
 }
 ```
 
@@ -85,6 +87,7 @@ semantic: "semantic.feeling.happy"
 ```
 
 Used by:
+
 - Sentence builder
 - Grammar engine
 - AI rules
@@ -95,46 +98,49 @@ Semantics are language-independent, stable, and never localized.
 ## 🗂️ Data Model (Frontend)
 
 ### Tile
+
 ```typescript
 interface TileData {
-    id: string;
-    translateKey: string;
-    categoryKey: string;
-    groupKey?: string;
-    semantic?: SemanticToken;
-    imageUrl?: string;
-    order?: number;
+  id: string;
+  translateKey: string;
+  categoryKey: string;
+  groupKey?: string;
+  semantic?: SemanticToken;
+  imageUrl?: string;
+  order?: number;
 }
 ```
 
 ### Category
+
 ```typescript
 interface Category {
-    id: string;
-    translateKey: string;
-    icon: string;
-    order?: number;
+  id: string;
+  translateKey: string;
+  icon: string;
+  order?: number;
 }
 ```
 
 ### Group
+
 ```typescript
 interface Group {
-    id: string;
-    translateKey: string;
-    categoryKey: string;
-    order?: number;
+  id: string;
+  translateKey: string;
+  categoryKey: string;
+  order?: number;
 }
 ```
 
 ## 🧪 Environments
 
-| Environment | Branch |
-|-------------|--------|
-| Development | dev |
-| Feature branches | feature/* |
+| Environment       | Branch         |
+| ----------------- | -------------- |
+| Development       | dev            |
+| Feature branches  | feature/\*     |
 | Testing / Staging | test (planned) |
-| Production | main |
+| Production        | main           |
 
 ## 🌿 Git Workflow
 
@@ -148,6 +154,7 @@ main
 ```
 
 **Rules:**
+
 - `dev` is always stable
 - One task = one feature branch
 - One logical commit per task
@@ -176,6 +183,7 @@ main
 **Epic:** User & Access Management
 
 **Planned tasks:**
+
 - User roles definition
 - Auth entities & DTOs
 - JWT authentication
