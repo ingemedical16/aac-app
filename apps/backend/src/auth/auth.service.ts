@@ -2,16 +2,14 @@ import {
   Injectable,
   ConflictException,
   UnauthorizedException,
-  BadRequestException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
-
-import { User } from "../users/user.entity";
 import { JwtService } from "@nestjs/jwt";
 import { I18nService } from "nestjs-i18n";
 
+import { User } from "../users/user.entity";
 import { RegisterDto } from "./dto/register.dto";
 import { LoginDto } from "./dto/login.dto";
 import { UserRole } from "./roles.enum";
@@ -20,9 +18,9 @@ import { UserRole } from "./roles.enum";
 export class AuthService {
   constructor(
     @InjectRepository(User)
-    private userRepo: Repository<User>,
-    private jwtService: JwtService,
-    private i18n: I18nService,
+    private readonly userRepo: Repository<User>,
+    private readonly jwtService: JwtService,
+    private readonly i18n: I18nService
   ) {}
 
   /* =========================
@@ -35,24 +33,16 @@ export class AuthService {
 
     if (exists) {
       throw new ConflictException(
-        this.i18n.t("auth.user_exists", { lang }),
+        this.i18n.t("auth.user_exists", { lang })
       );
     }
 
-    /* -------------------------
-       ROLE ENFORCEMENT
-    ------------------------- */
+    const hash = await bcrypt.hash(dto.password, 10);
+
     const role =
-      dto.role &&
-      dto.role !== UserRole.ADMIN &&
-      dto.role !== UserRole.CHILD
+      dto.role && dto.role !== UserRole.ADMIN
         ? dto.role
         : UserRole.PARENT;
-
-    /* -------------------------
-       PASSWORD HASHING
-    ------------------------- */
-    const hash = await bcrypt.hash(dto.password, 12);
 
     const user = this.userRepo.create({
       email: dto.email,
@@ -60,12 +50,11 @@ export class AuthService {
       role,
       firstName: dto.firstName,
       lastName: dto.lastName,
-      isActive: true,
     });
 
-    const saved = await this.userRepo.save(user);
+    await this.userRepo.save(user);
 
-    return this.sign(saved);
+    return this.sign(user);
   }
 
   /* =========================
@@ -74,20 +63,21 @@ export class AuthService {
   async login(dto: LoginDto, lang = "en") {
     const user = await this.userRepo
       .createQueryBuilder("user")
-      .addSelect("user.password") // 👈 explicitly load hidden password
+      .addSelect("user.password")
       .where("user.email = :email", { email: dto.email })
       .getOne();
 
-    if (!user || !user.isActive) {
+    if (!user) {
       throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang }),
+        this.i18n.t("auth.invalid_credentials", { lang })
       );
     }
 
     const valid = await bcrypt.compare(dto.password, user.password);
+
     if (!valid) {
       throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang }),
+        this.i18n.t("auth.invalid_credentials", { lang })
       );
     }
 
@@ -97,12 +87,12 @@ export class AuthService {
   /* =========================
      JWT SIGN
   ========================= */
-  sign(user: User) {
+  private sign(user: User) {
     return {
       access_token: this.jwtService.sign({
         sub: user.id,
         email: user.email,
-        role: user.role,
+        role: user.role, // ✅ REQUIRED FOR RBAC
       }),
     };
   }
