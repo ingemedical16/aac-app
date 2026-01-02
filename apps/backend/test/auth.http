@@ -1,21 +1,100 @@
-### Register a new user
+### =========================================
+### AUTH – REGISTER USERS
+### =========================================
+
+### Register PARENT
 POST http://localhost:4000/auth/register
 Content-Type: application/json
+Accept-Language: en
 
 {
-  "email": "test@example.com",
-  "password": "secret123"
+  "email": "parent@test.com",
+  "password": "Parent123!",
+  "role": "PARENT",
+  "firstName": "John",
+  "lastName": "Doe"
 }
 
 ###
 
-### Login user
+### Register PROFESSIONAL
+POST http://localhost:4000/auth/register
+Content-Type: application/json
+Accept-Language: fr
+
+{
+  "email": "pro@test.com",
+  "password": "Pro123456!",
+  "role": "PROFESSIONAL",
+  "firstName": "Marie",
+  "lastName": "Dupont"
+}
+
+###
+
+### Register PATIENT_ADULT
+POST http://localhost:4000/auth/register
+Content-Type: application/json
+Accept-Language: ar
+
+{
+  "email": "patient@test.com",
+  "password": "Patient123!",
+  "role": "PATIENT_ADULT",
+  "firstName": "Ali",
+  "lastName": "Ahmed"
+}
+
+###
+
+### ❌ Attempt to register ADMIN (should fail)
+POST http://localhost:4000/auth/register
+Content-Type: application/json
+Accept-Language: en
+
+{
+  "email": "admin@test.com",
+  "password": "Admin123!",
+  "role": "ADMIN"
+}
+
+---
+
+### =========================================
+### AUTH – LOGIN
+### =========================================
+
+### Login PARENT
 POST http://localhost:4000/auth/login
 Content-Type: application/json
+Accept-Language: en
 
 {
-  "email": "test@example.com",
-  "password": "secret123"
+  "email": "parent@test.com",
+  "password": "Parent123!"
 }
 
 ###
+
+### Login PROFESSIONAL
+POST http://localhost:4000/auth/login
+Content-Type: application/json
+Accept-Language: fr
+
+{
+  "email": "pro@test.com",
+  "password": "Pro123456!"
+}
+
+###
+
+### Login PATIENT_ADULT
+POST http://localhost:4000/auth/login
+Content-Type: application/json
+Accept-Language: ar
+
+{
+  "email": "patient@test.com",
+  "password": "Patient123!"
+}
+

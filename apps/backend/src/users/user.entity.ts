@@ -24,7 +24,7 @@ export class User {
   password: string;
 
   @Column({
-    type: "enum",
+    type: 'simple-enum',
     enum: UserRole,
     default: UserRole.PARENT,
   })
