@@ -7,6 +7,7 @@ import {
   UserProfileProvider,
   useUserProfile,
 } from "@/context/UserProfileContext";
+import { AuthProvider } from "@/context/AuthContext";
 import "../../styles/globals.scss";
 
 function Shell({
@@ -20,16 +21,25 @@ function Shell({
   const isRTL = locale === "ar";
 
   return (
-    <html lang={locale} dir={isRTL ? "rtl" : "ltr"} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={isRTL ? "rtl" : "ltr"}
+      suppressHydrationWarning
+    >
       <body
         suppressHydrationWarning
         className={[
-          isRTL ? "rtl" : "ltr", // ✅ CRITICAL FIX
+          isRTL ? "rtl" : "ltr", // ✅ RTL/LTR
           profile.settings.highContrast ? "hc" : "",
           profile.settings.bigButtons ? "big" : "",
         ].join(" ")}
       >
-        <I18nProvider locale={locale}>{children}</I18nProvider>
+        {/* 🔐 Auth + 🌍 i18n are now global */}
+        <I18nProvider locale={locale}>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </I18nProvider>
       </body>
     </html>
   );
