@@ -1,42 +1,26 @@
-import axios from "axios";
-
-/**
- * Central HTTP client for the app
- * - Injects JWT automatically
- * - Handles 401 globally
- */
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+// src/lib/api/http.ts
+import axios, { AxiosHeaders } from "axios";
+import i18next from "i18next";
+import { tokenStorage } from "@/lib/auth/tokenStorage";
 
 export const http = axios.create({
-  baseURL: API_BASE_URL,
-  withCredentials: false, // Option B (localStorage JWT)
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
+  withCredentials: false,
 });
 
 /* =========================
-   Request Interceptor
+   REQUEST INTERCEPTOR
 ========================= */
 http.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  // Ensure headers is an AxiosHeaders instance
+  config.headers = AxiosHeaders.from(config.headers);
+
+  const token = tokenStorage.get();
+  if (token) {
+    config.headers.set("Authorization", `Bearer ${token}`);
   }
+
+  config.headers.set("Accept-Language", i18next.language || "en");
+
   return config;
 });
-
-/* =========================
-   Response Interceptor
-========================= */
-http.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // future: auto logout hook
-      localStorage.removeItem("access_token");
-    }
-    return Promise.reject(error);
-  }
-);

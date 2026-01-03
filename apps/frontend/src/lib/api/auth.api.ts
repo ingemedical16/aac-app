@@ -1,36 +1,23 @@
+// src/lib/api/auth.api.ts
 import { http } from "./http";
 
-/* =========================
-   DTOs
-========================= */
-
-export interface RegisterPayload {
+export type LoginInput = { email: string; password: string };
+export type RegisterInput = {
   email: string;
   password: string;
-  role?: "PARENT" | "PROFESSIONAL" | "PATIENT_ADULT";
+  role?: string;
   firstName?: string;
   lastName?: string;
-}
-
-export interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  access_token: string;
-}
-
-/* =========================
-   API Calls
-========================= */
-
-export const authApi = {
-  register(payload: RegisterPayload) {
-    return http.post<AuthResponse>("/auth/register", payload);
-  },
-
-  login(payload: LoginPayload) {
-    return http.post<AuthResponse>("/auth/login", payload);
-  },
 };
+
+export type AuthResponse = { access_token: string };
+
+export async function loginApi(input: LoginInput): Promise<AuthResponse> {
+  const { data } = await http.post<AuthResponse>("/auth/login", input);
+  return data;
+}
+
+export async function registerApi(input: RegisterInput): Promise<AuthResponse> {
+  const { data } = await http.post<AuthResponse>("/auth/register", input);
+  return data;
+}
