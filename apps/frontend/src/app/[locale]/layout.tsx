@@ -1,6 +1,7 @@
+// src/app/[locale]/layout.tsx
 "use client";
 
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import I18nProvider from "@/components/I18nProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import {
@@ -18,23 +19,15 @@ function Shell({
   const { profile } = useUserProfile();
   const isRTL = locale === "ar";
 
-  /* =========================
-     🔥 CRITICAL FIX
-     Synchronize BODY & HTML
-  ========================= */
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
 
-    // Language + direction
     html.lang = locale;
     html.dir = isRTL ? "rtl" : "ltr";
 
-    // Direction classes
     body.classList.toggle("rtl", isRTL);
     body.classList.toggle("ltr", !isRTL);
-
-    // Accessibility
     body.classList.toggle("hc", profile.settings.highContrast);
     body.classList.toggle("big", profile.settings.bigButtons);
   }, [
@@ -56,14 +49,11 @@ export default function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale?: string[] }>;
+  params: { locale: string };
 }) {
-  const resolved = use(params);
-  const locale = resolved.locale?.[0] ?? "en";
-
   return (
     <UserProfileProvider>
-      <Shell locale={locale}>{children}</Shell>
+      <Shell locale={params.locale}>{children}</Shell>
     </UserProfileProvider>
   );
 }

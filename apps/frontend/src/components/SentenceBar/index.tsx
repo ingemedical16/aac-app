@@ -25,6 +25,7 @@ export default function SentenceBar({
 }: SentenceBarProps) {
   const { speak } = useTTS();
   const { t, i18n } = useTranslation();
+  console.log("i18n.language:", i18n.language);
   const { profile } = useUserProfile();
   const [isSpeaking, setIsSpeaking] = useState(false);
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { initI18n } from "@/lib/i18n";
 import i18next from "i18next";
+import { initI18n } from "@/lib/i18n";
 
 export default function I18nProvider({
   locale,
@@ -13,11 +13,19 @@ export default function I18nProvider({
 }) {
   const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    initI18n();                 // ✅ NO args, NO .then
-    i18next.changeLanguage(locale);
-    setReady(true);
-  }, [locale]);
+useEffect(() => {
+  initI18n();
+
+  const safeLocale = ["en", "fr", "ar", "ro"].includes(locale)
+    ? locale
+    : "en";
+
+  if (i18next.language !== safeLocale) {
+    i18next.changeLanguage(safeLocale);
+  }
+
+  setReady(true);
+}, [locale]);
 
   if (!ready) return null;
 

@@ -68,11 +68,11 @@ export function initI18n() {
       },
     },
 
-    /* ✅ ALL namespaces used in the app */
+    /* ✅ namespaces */
     ns: ["common", "tiles", "categories", "groups"],
     defaultNS: "common",
 
-    lng: "en",
+    /* ✅ DO NOT FORCE lng */
     fallbackLng: "en",
 
     interpolation: {
