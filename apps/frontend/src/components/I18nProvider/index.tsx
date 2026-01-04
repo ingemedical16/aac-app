@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import i18next from "i18next";
 import { initI18n } from "@/lib/i18n";
-
-const SUPPORTED_LOCALES = ["en", "fr", "ar", "ro"] as const;
+import {
+  DEFAULT_LANGUAGE,
+  isSupportedLanguage,
+} from "@/lib/i18n/languages";
 
 export default function I18nProvider({
   locale,
@@ -16,20 +18,15 @@ export default function I18nProvider({
   const initialized = useRef(false);
 
   useEffect(() => {
-    // ✅ Initialize i18n ONCE
     if (!initialized.current) {
       initI18n();
       initialized.current = true;
     }
 
-    // ✅ Sanitize locale
-    const safeLocale = SUPPORTED_LOCALES.includes(
-      locale as (typeof SUPPORTED_LOCALES)[number]
-    )
+    const safeLocale = isSupportedLanguage(locale)
       ? locale
-      : "en";
+      : DEFAULT_LANGUAGE;
 
-    // ✅ Change language ONLY if needed
     if (i18next.language !== safeLocale) {
       i18next.changeLanguage(safeLocale);
     }

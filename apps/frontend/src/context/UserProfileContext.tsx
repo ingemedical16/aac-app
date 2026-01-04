@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 import { Profile, UserProfileState } from "@/types/userProfile";
+import { SUPPORTED_LANGUAGES } from "@/lib/i18n/languages";
 import { migrateToV2 } from "./profileMigration";
 
 const STORAGE_KEY = "aac.userProfile.v2";
@@ -18,7 +19,7 @@ const DEFAULT_PROFILE: Profile = {
   name: "Default",
   role: "child",
   settings: {
-    preferredLanguages: ["en", "fr", "ar", "ro"],
+    preferredLanguages: [...SUPPORTED_LANGUAGES],
     highContrast: false,
     bigButtons: false,
   },

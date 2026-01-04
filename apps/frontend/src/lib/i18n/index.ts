@@ -67,7 +67,7 @@ export function initI18n() {
         groups: roGroups,
       },
     },
-
+     initImmediate: false, // 🔥 VERY IMPORTANT
     /* ✅ namespaces */
     ns: ["common", "tiles", "categories", "groups"],
     defaultNS: "common",

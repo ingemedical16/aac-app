@@ -2,6 +2,7 @@
 
 import styles from "./CategoryBar.module.scss";
 import { useTranslation } from "react-i18next";
+import { useCurrentLanguage } from "@/hooks/useCurrentLanguage";
 import type { Category } from "@/types/category";
 import { tx } from "@/lib/i18n/tx";
 
@@ -19,6 +20,7 @@ export default function CategoryBar({
   isMobile = false,
 }: Props) {
   const { t } = useTranslation(); // ✅ no namespace here
+    useCurrentLanguage(); // 🔥 THIS IS THE FIX
 
   return (
     <nav className={`${styles.bar} ${isMobile ? styles.mobile : ""}`}>

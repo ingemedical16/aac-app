@@ -1,7 +1,6 @@
 "use client";
 
-import { use, useEffect, useMemo, useState } from "react";
-import i18next from "i18next";
+import { use, useMemo, useState } from "react";
 
 import AppHeader from "@/components/AppHeader";
 import MobileMenu from "@/components/MobileMenu";
@@ -9,6 +8,7 @@ import CategoryBar from "@/components/CategoryBar";
 import SubcategoryBar from "@/components/SubcategoryBar";
 import Board from "@/components/Board";
 import SentenceBar from "@/components/SentenceBar";
+import { useCurrentLanguage } from "@/hooks/useCurrentLanguage";
 
 import { TILES_BY_CATEGORY } from "@/data/tiles";
 import { CATEGORIES } from "@/data/categories";
@@ -16,7 +16,7 @@ import { GROUPS } from "@/data/groups";
 
 import type { TileData } from "@/types/tile";
 import type { Group } from "@/types/group";
-import type { LocaleCode } from "@/types/userProfile";
+
 
 export default function LocalePage({
   params,
@@ -24,41 +24,23 @@ export default function LocalePage({
   params: Promise<{ locale?: string[] }>;
 }) {
   const resolved = use(params);
-  const locale = (resolved.locale?.[0] ?? "en") as LocaleCode;
+ 
 
-  /* =========================
-     STATE
-  ========================= */
-  const [activeCategory, setActiveCategory] = useState<string>("food");
+  const [activeCategory, setActiveCategory] = useState("food");
   const [activeGroup, setActiveGroup] = useState<Group | null>(null);
   const [sentence, setSentence] = useState<TileData[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const lang = useCurrentLanguage();
 
-  /* =========================
-     i18n sync
-  ========================= */
-  useEffect(() => {
-    i18next.changeLanguage(locale);
-  }, [locale]);
-
-  /* =========================
-     TILES
-  ========================= */
   const tiles = TILES_BY_CATEGORY[activeCategory] ?? [];
 
-  /**
-   * ✅ Groups must come from GROUPS (domain source of truth),
-   * not from raw string arrays built from tiles.
-   */
   const groups = useMemo<Group[]>(() => {
     if (!tiles.length) return [];
 
-    // groupKey stored on tiles: e.g. "group.mealBasics"
     const usedGroupKeys = new Set(
       tiles.map((t) => t.groupKey).filter(Boolean) as string[]
     );
 
-    // Keep only groups used by current category tiles, sorted by order
     return GROUPS.filter((g) => usedGroupKeys.has(g.translateKey)).sort(
       (a, b) => (a.order ?? 0) - (b.order ?? 0)
     );
@@ -69,14 +51,10 @@ export default function LocalePage({
     return tiles.filter((t) => t.groupKey === activeGroup.translateKey);
   }, [tiles, activeGroup]);
 
-  /* =========================
-     RENDER
-  ========================= */
   return (
     <>
       <AppHeader onOpenMenu={() => setMenuOpen(true)} />
 
-      {/* MOBILE MENU */}
       <MobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
@@ -87,7 +65,7 @@ export default function LocalePage({
         onSelectCategory={(catId) => {
           setActiveCategory(catId);
           setActiveGroup(null);
-          if (groups.length === 0) setMenuOpen(false);
+          if (!groups.length) setMenuOpen(false);
         }}
         onSelectGroup={(groupId) => {
           const next =
@@ -101,8 +79,8 @@ export default function LocalePage({
       />
 
       <main style={{ padding: 20 }}>
-        {/* DESKTOP / TABLET */}
         <CategoryBar
+          key={`category-${activeCategory}`}
           categories={CATEGORIES}
           activeCategory={activeCategory}
           onSelect={(catId) => {
@@ -112,6 +90,7 @@ export default function LocalePage({
         />
 
         <SubcategoryBar
+          key={`group-${lang}`}
           groups={groups}
           activeGroup={activeGroup?.id ?? null}
           onSelect={(groupId) => {
