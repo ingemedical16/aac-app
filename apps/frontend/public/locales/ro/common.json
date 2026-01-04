@@ -1,10 +1,10 @@
 {
   "appTitle": "Tablou de comunicare AAC",
-  "appTitleShort": "AAC",
+  "appTitleShort": "Tablou AAC",
   "language": "Limbă",
   "boardTitle": "Tablou de comunicare",
 
-  "tapToSpeak": "Apasă pe o pictogramă pentru a vorbi",
+  "tapToSpeak": "Apasă pe un buton pentru a vorbi",
   "speak": "Vorbește",
   "clear": "Șterge",
   "deleteLast": "Șterge ultimul",
@@ -26,6 +26,7 @@
   "menu": "Meniu",
   "openMenu": "Deschide meniul",
   "close": "Închide",
+  "loading": "Se încarcă...",
 
   "profiles": "Profiluri",
   "addProfile": "Adaugă profil",
@@ -40,7 +41,7 @@
   "profile": {
     "title": "Setări profil",
     "name": "Nume profil",
-    "namePlaceholder": "Introdu numele",
+    "namePlaceholder": "Introdu numele profilului",
     "role": "Tip profil",
     "role_child": "Copil",
     "role_group": "Grup",
@@ -48,6 +49,17 @@
     "languagesHint": "Selectează cel puțin o limbă",
     "add": "Adaugă profil",
     "newProfile": "Profil nou"
+  },
+
+  "auth": {
+    "login": "Autentificare",
+    "register": "Înregistrare",
+    "email": "Adresă de e-mail",
+    "password": "Parolă",
+    "role": "Rol",
+    "create_account": "Creează cont",
+    "invalid_credentials": "E-mail sau parolă incorecte",
+    "logout": "Deconectare"
   },
 
   "sentence": {

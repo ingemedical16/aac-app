@@ -1,6 +1,6 @@
 {
   "appTitle": "Tableau de communication AAC",
-  "appTitleShort": "AAC",
+  "appTitleShort": "Tableau AAC",
   "language": "Langue",
   "boardTitle": "Tableau de communication",
 
@@ -13,11 +13,11 @@
   "save": "Enregistrer",
   "delete": "Supprimer",
 
-  "all": "Tous",
+  "all": "Tout",
 
   "normalMode": "Normal",
   "highContrast": "Contraste élevé",
-  "bigButtons": "Gros boutons",
+  "bigButtons": "Grands boutons",
   "normalButtons": "Boutons normaux",
 
   "enterFullscreen": "Plein écran",
@@ -26,6 +26,7 @@
   "menu": "Menu",
   "openMenu": "Ouvrir le menu",
   "close": "Fermer",
+  "loading": "Chargement...",
 
   "profiles": "Profils",
   "addProfile": "Ajouter un profil",
@@ -40,14 +41,25 @@
   "profile": {
     "title": "Paramètres du profil",
     "name": "Nom du profil",
-    "namePlaceholder": "Entrez le nom",
+    "namePlaceholder": "Entrez le nom du profil",
     "role": "Type de profil",
     "role_child": "Enfant",
     "role_group": "Groupe",
     "languages": "Langues préférées",
     "languagesHint": "Sélectionnez au moins une langue",
-    "add": "Ajouter un profil",
+    "add": "Ajouter le profil",
     "newProfile": "Nouveau profil"
+  },
+
+  "auth": {
+    "login": "Connexion",
+    "register": "Inscription",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "role": "Rôle",
+    "create_account": "Créer un compte",
+    "invalid_credentials": "E-mail ou mot de passe invalide",
+    "logout": "Déconnexion"
   },
 
   "sentence": {
@@ -58,9 +70,9 @@
     "want": "veux",
     "dont_want": "ne veux pas",
     "help": "aide",
-    "stop": "stop",
+    "stop": "arrêter",
 
-    "more": "encore",
+    "more": "plus",
     "again": "encore",
     "very": "très",
 
@@ -80,7 +92,7 @@
     "action": {
       "go": "aller",
       "come": "venir",
-      "sit": "s’asseoir",
+      "sit": "s'asseoir",
       "stand": "se lever"
     }
   }

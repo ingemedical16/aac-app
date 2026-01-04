@@ -1,14 +1,14 @@
 {
-  "appTitle": "لوحة تواصل AAC",
-  "appTitleShort": "AAC",
+  "appTitle": "لوحة التواصل AAC",
+  "appTitleShort": "لوحة AAC",
   "language": "اللغة",
   "boardTitle": "لوحة التواصل",
 
-  "tapToSpeak": "اضغط على الصورة للتحدث",
+  "tapToSpeak": "اضغط على الزر للتحدث",
   "speak": "تحدث",
   "clear": "مسح",
   "deleteLast": "حذف الأخير",
-  "addToSentence": "إضافة للجملة",
+  "addToSentence": "إضافة إلى الجملة",
   "edit": "تعديل",
   "save": "حفظ",
   "delete": "حذف",
@@ -16,7 +16,7 @@
   "all": "الكل",
 
   "normalMode": "عادي",
-  "highContrast": "تباين عالٍ",
+  "highContrast": "تباين عالي",
   "bigButtons": "أزرار كبيرة",
   "normalButtons": "أزرار عادية",
 
@@ -26,8 +26,9 @@
   "menu": "القائمة",
   "openMenu": "فتح القائمة",
   "close": "إغلاق",
+  "loading": "جاري التحميل...",
 
-  "profiles": "الملفات الشخصية",
+  "profiles": "الملفات",
   "addProfile": "إضافة ملف",
   "deleteProfile": "حذف الملف",
   "newProfile": "ملف جديد",
@@ -38,9 +39,9 @@
   },
 
   "profile": {
-    "title": "إعدادات الملف الشخصي",
+    "title": "إعدادات الملف",
     "name": "اسم الملف",
-    "namePlaceholder": "أدخل الاسم",
+    "namePlaceholder": "أدخل اسم الملف",
     "role": "نوع الملف",
     "role_child": "طفل",
     "role_group": "مجموعة",
@@ -50,8 +51,19 @@
     "newProfile": "ملف جديد"
   },
 
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "role": "الدور",
+    "create_account": "إنشاء حساب",
+    "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "logout": "تسجيل الخروج"
+  },
+
   "sentence": {
-    "iFeel": "أشعر"
+    "iFeel": "أنا أشعر"
   },
 
   "semantic": {
