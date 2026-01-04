@@ -1,8 +1,8 @@
-// src/app/[locale]/shell.tsx
 "use client";
 
 import { useEffect } from "react";
 import { useUserProfile } from "@/context/UserProfileContext";
+import RouteGuard from "@/components/RouteGuard";
 
 export default function ClientShell({
   children,
@@ -32,5 +32,9 @@ export default function ClientShell({
     profile.settings.bigButtons,
   ]);
 
-  return <>{children}</>;
+  return (
+    <RouteGuard locale={locale}>
+      {children}
+    </RouteGuard>
+  );
 }

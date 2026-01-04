@@ -18,6 +18,14 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
   }
 
   canActivate(context: ExecutionContext) {
+    const request = context.switchToHttp().getRequest();
+
+    // ✅ 1. ALWAYS allow CORS preflight
+    if (request.method === "OPTIONS") {
+      return true;
+    }
+
+    // ✅ 2. Allow @Public() routes
     const isPublic = this.reflector.getAllAndOverride<boolean>(
       IS_PUBLIC_KEY,
       [context.getHandler(), context.getClass()],

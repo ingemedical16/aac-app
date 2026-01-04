@@ -7,12 +7,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: [
+      'http://localhost:3000',
+      'https://ubiquitous-zebra-wv7ggxpwp5frrv-3000.app.github.dev/v',
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization, Accept-Language',
     credentials: true
   });
 
   const port = process.env.PORT || 4000;
-  await app.listen(port);
+  await app.listen(port,'0.0.0.0');
   // eslint-disable-next-line no-console
   console.log(`Backend listening on http://localhost:${port}`);
 }
