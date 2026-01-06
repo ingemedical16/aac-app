@@ -1,3 +1,7 @@
+import AuthGate from "@/components/auth/AuthGate";
+
 export default function AdminPage() {
-  return <div>Admin Area (WIP)</div>;
+  return <AuthGate roles={["ADMIN"]}>
+  <div>Admin Area (WIP)</div>;
+</AuthGate>
 }

@@ -1,3 +1,7 @@
+import AuthGate from "@/components/auth/AuthGate";
+
 export default function ProfessionalDashboardPage() {
-  return <div>Professional Dashboard (WIP)</div>;
+  return <AuthGate roles={["PROFESSIONAL"]}>
+    <div>Professional Dashboard (WIP)</div>
+  </AuthGate>;
 }

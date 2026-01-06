@@ -116,8 +116,11 @@
     }
   },
   "errors": {
-  "userProfileContext": {
-    "missingProvider": "User profile context must be used within UserProfileProvider"
+    "userProfileContext": {
+      "missingProvider": "User profile context must be used within UserProfileProvider"
+    },
+    "auth": {
+      "missingProvider": "Auth context must be used within AuthProvider"
+    }
   }
-}
 }

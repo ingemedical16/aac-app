@@ -114,10 +114,14 @@
       "stand": "se lever"
     }
   },
-    "errors": {
-    "userProfileContext": {
-      "missingProvider": "Le contexte du profil utilisateur doit être utilisé à l’intérieur de UserProfileProvider"
-    }
+   "errors": {
+  "userProfileContext": {
+    "missingProvider": "Le contexte du profil utilisateur doit être utilisé à l’intérieur de UserProfileProvider"
+  },
+  "auth": {
+    "missingProvider": "Le contexte d’authentification doit être utilisé à l’intérieur de AuthProvider"
+  }
 }
+
 
 }

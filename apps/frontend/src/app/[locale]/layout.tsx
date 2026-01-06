@@ -24,14 +24,16 @@ export default async function LocaleLayout({
     : DEFAULT_LANGUAGE;
 
   return (
+    <AuthProvider>
     <UserProfileProvider>
       <I18nProvider locale={safeLocale}>
-        <AuthProvider>
+        
           <ClientShell locale={safeLocale}>
             {children}
           </ClientShell>
-        </AuthProvider>
+       
       </I18nProvider>
     </UserProfileProvider>
+     </AuthProvider>
   );
 }

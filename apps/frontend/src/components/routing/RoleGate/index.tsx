@@ -1,72 +1,52 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { useUserProfile } from "@/context/UserProfileContext";
-
-/* Dashboards */
-import ChildDashboard from "@/components/dashboards/ChildDashboard";
-import ParentDashboard from "@/components/dashboards/PatientDashboard";
-import LoginPage from "@/components/auth/LoginPage";
+import { withLocale } from "@/lib/navigation/withLocale";
 
 /**
  * RoleGate
- * Central routing brain of the application
+ * 🔐 Guards routes and redirects to the correct dashboard page
+ * ❌ Does NOT render UI
+ * ❌ Does NOT decide AAC board logic
  */
 export default function RoleGate() {
   const router = useRouter();
+  const params = useParams<{ locale?: string }>();
+  const locale = params?.locale ?? "en";
+
   const { isReady, isAuthenticated, user } = useAuth();
-  const { profile } = useUserProfile();
 
-  /* =========================
-     WAIT FOR HYDRATION
-  ========================= */
-  if (!isReady) {
-    return null; // or loading skeleton later
-  }
+  useEffect(() => {
+    if (!isReady) return;
 
-  /* =========================
-     NOT AUTHENTICATED
-  ========================= */
-  if (!isAuthenticated || !user) {
-    return <LoginPage />;
-  }
-
-  /* =========================
-     ROLE-BASED RENDERING
-  ========================= */
-
-  // 👶 CHILD (direct access)
-  if (user.role === "CHILD") {
-    return <ChildDashboard />;
-  }
-
-  // 👨‍👩‍👧 PARENT
-  if (user.role === "PARENT") {
-    // Child profile activated → board
-    if (profile.role === "child") {
-      return <ChildDashboard />;
+    // 🚫 Not authenticated → login
+    if (!isAuthenticated || !user) {
+      router.replace(withLocale(locale, "/login"));
+      return;
     }
 
-    // No child selected → parent dashboard
-    return <ParentDashboard />;
-  }
+    // 🔀 Role-based dashboard routing
+    switch (user.role) {
+      case "ADMIN":
+        router.replace(withLocale(locale, "/admin"));
+        return;
 
-  // 🧑‍⚕️ PROFESSIONAL (future)
-  if (user.role === "PROFESSIONAL") {
-    router.replace("/professional");
-    return null;
-  }
+      case "PROFESSIONAL":
+        router.replace(withLocale(locale, "/professional/dashboard"));
+        return;
 
-  // 🛡️ ADMIN (future)
-  if (user.role === "ADMIN") {
-    router.replace("/admin");
-    return null;
-  }
+      case "PATIENT":
+        router.replace(withLocale(locale, "/patient/dashboard"));
+        return;
 
-  /* =========================
-     FALLBACK (safety)
-  ========================= */
-  return <LoginPage />;
+      default:
+        router.replace(withLocale(locale, "/"));
+        return;
+    }
+  }, [isReady, isAuthenticated, user, locale, router]);
+
+  // ⏳ No UI
+  return null;
 }

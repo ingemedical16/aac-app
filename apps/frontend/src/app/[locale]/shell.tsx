@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useUserProfile } from "@/context/UserProfileContext";
-import RouteGuard from "@/components/RouteGuard";
 
 export default function ClientShell({
   children,
@@ -32,9 +31,5 @@ export default function ClientShell({
     profile.settings.bigButtons,
   ]);
 
-  return (
-    <RouteGuard locale={locale}>
-      {children}
-    </RouteGuard>
-  );
+  return <>{children}</>;
 }

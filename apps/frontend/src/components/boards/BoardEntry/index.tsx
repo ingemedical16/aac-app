@@ -1,11 +1,16 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
-import { tx } from "@/lib/i18n/tx";
 
 import styles from "./BoardEntry.module.scss";
+
+/* Context */
+import { useUserProfile } from "@/context/UserProfileContext";
+import { useAuth } from "@/context/AuthContext";
+
+/* Capabilities */
+import { getBoardCapabilities } from "@/lib/board/getBoardCapabilities";
 
 /* UI */
 import AppHeader from "@/components/AppHeader";
@@ -23,15 +28,17 @@ import { TILES_BY_CATEGORY } from "@/data/tiles";
 /* Types */
 import type { TileData } from "@/types/tile";
 import type { Group } from "@/types/group";
+import { tx } from "@/lib/i18n/tx";
 
 export default function BoardEntry() {
   const { t } = useTranslation();
   const { profile } = useUserProfile();
+  const { user } = useAuth();
 
   /* =========================
-     STATE
+     BOARD STATE
   ========================= */
-  const [activeCategory, setActiveCategory] = useState("food");
+  const [activeCategory, setActiveCategory] = useState<string>("food");
   const [activeGroup, setActiveGroup] = useState<Group | null>(null);
   const [sentence, setSentence] = useState<TileData[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -59,6 +66,14 @@ export default function BoardEntry() {
       (t) => t.groupKey === activeGroup.translateKey
     );
   }, [tiles, activeGroup]);
+
+  /* =========================
+     CAPABILITIES
+  ========================= */
+  const capabilities = useMemo(() => {
+    if (!user) return null;
+    return getBoardCapabilities(user.role, profile);
+  }, [user, profile]);
 
   /* =========================
      RENDER
@@ -91,7 +106,7 @@ export default function BoardEntry() {
       />
 
       <main className={styles.main}>
-        {/* Screen-reader title */}
+        {/* Screen-reader only title */}
         <h1 className="sr-only">
           {t(tx("common", "boardTitle"))}
         </h1>
@@ -126,6 +141,7 @@ export default function BoardEntry() {
 
         <BoardContainer
           tiles={filteredTiles}
+          capabilities={capabilities}
           onTileSelect={(tile) =>
             setSentence((prev) =>
               prev.some((t) => t.id === tile.id)

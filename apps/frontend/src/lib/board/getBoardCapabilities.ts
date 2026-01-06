@@ -6,41 +6,34 @@ export function getBoardCapabilities(
   userRole: UserRole,
   profile: Profile
 ): BoardCapabilities {
-  // Adult patient using his own board
-  if (profile.role === "adult") {
+  // 👤 Individual usage (single patient)
+  if (profile.usageMode === "single") {
     return {
-      canEditVocabulary: false,
-      canAddTiles: false,
-      canRemoveTiles: false,
-      canViewStats: false,
+      canEditVocabulary: userRole !== "PATIENT",
+      canAddTiles: userRole !== "PATIENT",
+      canRemoveTiles: userRole !== "PATIENT",
+      canViewStats: userRole !== "PATIENT",
       canChangeSettings: true,
     };
   }
 
-  // Child profile
-  if (profile.role === "child") {
-    // Parent or professional supervising
-    if (userRole === "PARENT" || userRole === "PROFESSIONAL") {
-      return {
-        canEditVocabulary: true,
-        canAddTiles: true,
-        canRemoveTiles: true,
-        canViewStats: true,
-        canChangeSettings: true,
-      };
-    }
-
-    // Child using alone
+  // 👥 Group usage (school / therapy / class)
+  if (profile.usageMode === "group") {
     return {
-      canEditVocabulary: false,
-      canAddTiles: false,
-      canRemoveTiles: false,
-      canViewStats: false,
-      canChangeSettings: false,
+      canEditVocabulary:
+        userRole === "PROFESSIONAL" || userRole === "ADMIN",
+      canAddTiles:
+        userRole === "PROFESSIONAL" || userRole === "ADMIN",
+      canRemoveTiles:
+        userRole === "PROFESSIONAL" || userRole === "ADMIN",
+      canViewStats:
+        userRole === "PROFESSIONAL" || userRole === "ADMIN",
+      canChangeSettings:
+        userRole === "PROFESSIONAL" || userRole === "ADMIN",
     };
   }
 
-  // Fallback safe mode
+  // 🛑 Safe fallback
   return {
     canEditVocabulary: false,
     canAddTiles: false,

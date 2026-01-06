@@ -12,9 +12,8 @@ import AuthToggle from "@/components/auth/AuthToggle";
 import styles from "./RegisterForm.module.scss";
 
 const ALLOWED_ROLES: UserRole[] = [
-  "PARENT",
+  "PATIENT",
   "PROFESSIONAL",
-  "PATIENT_ADULT",
 ];
 
 export default function RegisterForm() {
@@ -23,7 +22,7 @@ export default function RegisterForm() {
   const { locale } = useParams<{ locale: string }>();
   const { register, user } = useAuth();
 
-  const [role, setRole] = useState<UserRole>("PARENT");
+  const [role, setRole] = useState<UserRole>("PATIENT");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
