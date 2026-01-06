@@ -2,20 +2,23 @@
 
 import { useState } from "react";
 import Tile from "@/components/Tile";
-import styles from "./Board.module.scss";
-import useTTS from "@/hooks/useTTS";
+import BoardGrid from "@/components/BoardGrid";
 import TilePreviewModal from "@/components/TilePreviewModal";
+import useTTS from "@/hooks/useTTS";
 import { useUsageTracker } from "@/hooks/useUsageTracker";
-import type { TileData } from "@/types/tile";
 import { useTranslation } from "react-i18next";
 import { tx } from "@/lib/i18n/tx";
+import type { TileData } from "@/types/tile";
 
-interface BoardProps {
+interface BoardContainerProps {
   tiles: TileData[];
   onTileSelect: (tile: TileData) => void;
 }
 
-export default function Board({ tiles, onTileSelect }: BoardProps) {
+export default function BoardContainer({
+  tiles,
+  onTileSelect,
+}: BoardContainerProps) {
   const { speak } = useTTS();
   const { t } = useTranslation();
   const { trackTile } = useUsageTracker();
@@ -24,7 +27,7 @@ export default function Board({ tiles, onTileSelect }: BoardProps) {
 
   return (
     <>
-      <div className={styles.board}>
+      <BoardGrid>
         {tiles.map((tile) => (
           <Tile
             key={tile.id}
@@ -37,7 +40,7 @@ export default function Board({ tiles, onTileSelect }: BoardProps) {
             onLongPress={(t) => setPreviewTile(t)}
           />
         ))}
-      </div>
+      </BoardGrid>
 
       {previewTile && (
         <TilePreviewModal

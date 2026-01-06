@@ -1,0 +1,72 @@
+@use "@/styles/breakpoints.scss" as *;
+
+/* =========================
+   BOARD GRID
+========================= */
+
+.board {
+  display: grid;
+  gap: var(--gap-md);
+
+  /* Default grid (mobile first) */
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+
+  padding: var(--padding-md);
+
+  background: var(--bg);
+  color: var(--text);
+
+  direction: var(--dir);
+
+  /* =========================
+     RESPONSIVE
+  ========================= */
+
+  @include respond(tablet) {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: var(--gap-lg);
+  }
+
+  @include respond(desktop) {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+/* =========================
+   ACCESSIBILITY MODES
+========================= */
+
+/* 🔲 Big buttons */
+:global(body.big) .board {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+
+  @include respond(tablet) {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}
+
+/* 🟨 High contrast */
+:global(body.hc) .board {
+  background: var(--hc-bg);
+  color: var(--hc-text);
+}
+
+/* =========================
+   RTL ADJUSTMENTS
+========================= */
+
+:global(body.rtl) .board {
+  direction: rtl;
+}
+
+/* =========================
+   EMPTY STATE (optional)
+========================= */
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  opacity: 0.7;
+  padding: var(--padding-lg);
+  font-size: var(--font-size-md);
+}
