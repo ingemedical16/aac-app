@@ -37,6 +37,17 @@
     "child": "Copil",
     "group": "Grup"
   },
+  "parentDashboard": {
+  "title": "Panoul părintelui",
+  "subtitle": "Gestionează profilurile copiilor și accesează tabloul de comunicare",
+  "noChild": "Nu există încă niciun profil de copil.",
+  "createChild": "Creează un profil de copil",
+  "selectChild": "Selectează un profil de copil",
+  "defaultChildName": "Copilul meu"
+},
+"childDashboard": {
+  "title": "Tabloul de comunicare pentru {{name}}"
+},
 
   "profile": {
     "title": "Setări profil",
@@ -57,9 +68,16 @@
     "email": "Adresă de e-mail",
     "password": "Parolă",
     "role": "Rol",
+    "roles": {
+      "parent": "Părinte",
+      "professional": "Profesional",
+      "patient_adult": "Pacient adult"
+    },
     "create_account": "Creează cont",
     "invalid_credentials": "E-mail sau parolă incorecte",
-    "logout": "Deconectare"
+    "logout": "Deconectare",
+    "noAccount": "Nu ai un cont?",
+    "haveAccount": "Ai deja un cont?"
   },
 
   "sentence": {

@@ -37,6 +37,17 @@
     "child": "Enfant",
     "group": "Groupe"
   },
+  "parentDashboard": {
+  "title": "Tableau de bord des parents",
+  "subtitle": "Gérez les profils de vos enfants et accédez au tableau de communication",
+  "noChild": "Aucun profil d’enfant n’existe pour le moment.",
+  "createChild": "Créer un profil d’enfant",
+  "selectChild": "Sélectionner un profil d’enfant",
+  "defaultChildName": "Mon enfant"
+},
+"childDashboard": {
+  "title": "Tableau de communication de {{name}}"
+},
 
   "profile": {
     "title": "Paramètres du profil",
@@ -57,9 +68,16 @@
     "email": "Adresse e-mail",
     "password": "Mot de passe",
     "role": "Rôle",
+    "roles": {
+      "parent": "Parent",
+      "professional": "Professionnel",
+      "patient_adult": "Patient adulte"
+    },
     "create_account": "Créer un compte",
     "invalid_credentials": "E-mail ou mot de passe invalide",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "noAccount": "Vous n’avez pas de compte ?",
+    "haveAccount": "Vous avez déjà un compte ?"
   },
 
   "sentence": {

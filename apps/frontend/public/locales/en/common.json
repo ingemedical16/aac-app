@@ -37,6 +37,17 @@
     "child": "Child",
     "group": "Group"
   },
+  "parentDashboard": {
+    "title": "Parent dashboard",
+    "subtitle": "Manage your child profiles and access the communication board",
+    "noChild": "No child profile exists yet.",
+    "createChild": "Create a child profile",
+    "selectChild": "Select a child profile",
+    "defaultChildName": "My child"
+  },
+  "childDashboard": {
+  "title": "Communication board for {{name}}"
+},
 
   "profile": {
     "title": "Profile settings",
@@ -57,9 +68,16 @@
     "email": "Email address",
     "password": "Password",
     "role": "Role",
+    "roles": {
+      "parent": "Parent",
+      "professional": "Professional",
+      "patient_adult": "Adult patient"
+    },
     "create_account": "Create account",
     "invalid_credentials": "Invalid email or password",
-    "logout": "Logout"
+    "logout": "Logout",
+    "noAccount": "Don’t have an account?",
+    "haveAccount": "Already have an account?"
   },
     
 

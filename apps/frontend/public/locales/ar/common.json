@@ -37,6 +37,17 @@
     "child": "طفل",
     "group": "مجموعة"
   },
+  "parentDashboard": {
+  "title": "لوحة تحكم الوالدين",
+  "subtitle": "إدارة ملفات الأطفال والوصول إلى لوحة التواصل",
+  "noChild": "لا يوجد ملف لطفل حتى الآن.",
+  "createChild": "إنشاء ملف طفل",
+  "selectChild": "اختيار ملف طفل",
+  "defaultChildName": "طفلي"
+},
+"childDashboard": {
+  "title": "لوحة التواصل الخاصة بـ {{name}}"
+},
 
   "profile": {
     "title": "إعدادات الملف",
@@ -57,9 +68,16 @@
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "role": "الدور",
+    "roles": {
+      "parent": "والد",
+      "professional": "محترف",
+      "patient_adult": "مريض بالغ"
+    },
     "create_account": "إنشاء حساب",
     "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "noAccount": "ليس لديك حساب؟",
+    "haveAccount": "هل لديك حساب بالفعل؟"
   },
 
   "sentence": {

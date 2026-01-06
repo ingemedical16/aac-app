@@ -1,7 +1,5 @@
-"use client";
-
 import Home from "@/components/Home";
 
-export default function HomePage() {
-  return <Home />;
+export default function LocaleHomePage() {
+  return ( <Home />);
 }
