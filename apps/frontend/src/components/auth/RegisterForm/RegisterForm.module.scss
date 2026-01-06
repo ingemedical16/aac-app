@@ -1,0 +1,111 @@
+/* src/components/auth/RegisterForm/RegisterForm.module.scss */
+
+.form {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: var(--padding-lg);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* =========================
+   TITLE
+========================= */
+.form h1 {
+  margin-bottom: var(--gap-sm);
+  text-align: center;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+/* =========================
+   LABEL + SELECT
+========================= */
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+
+  font-size: var(--font-size-sm);
+}
+
+.form select {
+  padding: var(--padding-md);
+  font-size: var(--font-size-md);
+
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+
+  background: var(--input-bg);
+  color: var(--text);
+}
+
+/* =========================
+   INPUTS
+========================= */
+.form input {
+  padding: var(--padding-md);
+  font-size: var(--font-size-md);
+
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+
+  background: var(--input-bg);
+  color: var(--text);
+
+  direction: var(--dir);
+}
+
+.form input:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* =========================
+   BUTTON
+========================= */
+.form button {
+  margin-top: var(--gap-sm);
+  padding: var(--padding-md);
+
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+
+  border-radius: var(--radius-sm);
+  border: none;
+
+  background: var(--accent);
+  color: var(--accent-text);
+
+  cursor: pointer;
+}
+
+/* =========================
+   HIGH CONTRAST
+========================= */
+.hc .form {
+  border-width: 2px;
+}
+
+.hc .form input,
+.hc .form select {
+  border-width: 2px;
+}
+
+/* =========================
+   BIG BUTTONS
+========================= */
+.big .form input,
+.big .form select,
+.big .form button {
+  font-size: var(--font-size-lg);
+  padding: var(--padding-lg);
+}
