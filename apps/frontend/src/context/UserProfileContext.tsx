@@ -7,17 +7,23 @@ import React, {
   useMemo,
   useState,
 } from "react";
+
 import { Profile, UserProfileState } from "@/types/userProfile";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n/languages";
-import { migrateToV2 } from "./profileMigration";
+import { useTranslation } from "react-i18next";
 
+/* =========================
+   STORAGE
+========================= */
 const STORAGE_KEY = "aac.userProfile.v2";
-const LEGACY_KEY = "aac.userProfile.v1";
 
+/* =========================
+   DEFAULT PROFILE
+========================= */
 const DEFAULT_PROFILE: Profile = {
   id: "default",
   name: "Default",
-  role: "child",
+  usageMode: "single", // ✅ single | group
   settings: {
     preferredLanguages: [...SUPPORTED_LANGUAGES],
     highContrast: false,
@@ -25,6 +31,9 @@ const DEFAULT_PROFILE: Profile = {
   },
 };
 
+/* =========================
+   CONTEXT TYPE
+========================= */
 type Ctx = {
   profiles: Profile[];
   activeProfileId: string;
@@ -32,7 +41,9 @@ type Ctx = {
 
   setActiveProfileId: (id: string) => void;
 
-  createProfile: (data: Pick<Profile, "name" | "role">) => void;
+  createProfile: (
+    data: Pick<Profile, "name" | "usageMode">
+  ) => void;
   updateProfile: (id: string, data: Partial<Profile>) => void;
   deleteProfile: (id: string) => void;
 
@@ -42,56 +53,74 @@ type Ctx = {
 
 const UserProfileContext = createContext<Ctx | null>(null);
 
-export function UserProfileProvider({ children }: { children: React.ReactNode }) {
+/* =========================
+   PROVIDER
+========================= */
+export function UserProfileProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [state, setState] = useState<UserProfileState>({
     profiles: [DEFAULT_PROFILE],
     activeProfileId: DEFAULT_PROFILE.id,
   });
 
-  /* LOAD + MIGRATE */
+  /* =========================
+     LOAD
+  ========================= */
   useEffect(() => {
     try {
-      const raw =
-        localStorage.getItem(STORAGE_KEY) ??
-        localStorage.getItem(LEGACY_KEY);
-
+      const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
 
       const parsed = JSON.parse(raw);
-      const migrated = migrateToV2(parsed);
-      setState(migrated);
+      if (parsed?.profiles && parsed?.activeProfileId) {
+        setState(parsed);
+      }
     } catch {
       // silent fallback
     }
   }, []);
 
-  /* SAVE (versioned) */
+  /* =========================
+     SAVE
+  ========================= */
   useEffect(() => {
     try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ version: 2, data: state })
-      );
-    } catch {}
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // silent fallback
+    }
   }, [state]);
 
+  /* =========================
+     DERIVED
+  ========================= */
   const profile =
     state.profiles.find((p) => p.id === state.activeProfileId) ??
     state.profiles[0];
 
+  /* =========================
+     ACTIONS
+  ========================= */
   const setActiveProfileId = (id: string) => {
     setState((s) => ({ ...s, activeProfileId: id }));
   };
 
-  const createProfile = ({ name, role }: Pick<Profile, "name" | "role">) => {
+  const createProfile = ({
+    name,
+    usageMode,
+  }: Pick<Profile, "name" | "usageMode">) => {
     const id = crypto.randomUUID();
+
     setState((s) => ({
       profiles: [
         ...s.profiles,
         {
           id,
           name,
-          role,
+          usageMode,
           settings: { ...DEFAULT_PROFILE.settings },
         },
       ],
@@ -136,6 +165,9 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
     });
   };
 
+  /* =========================
+     CONTEXT VALUE
+  ========================= */
   const value = useMemo(
     () => ({
       profiles: state.profiles,
@@ -160,8 +192,16 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
   );
 }
 
+/* =========================
+   HOOK
+========================= */
 export function useUserProfile() {
+  const { t } = useTranslation()
   const ctx = useContext(UserProfileContext);
-  if (!ctx) throw new Error("useUserProfile must be used within provider");
+  if (!ctx) {
+    throw new Error(
+      t("errors.userProfileContext.missingProvider")
+    );
+  }
   return ctx;
 }

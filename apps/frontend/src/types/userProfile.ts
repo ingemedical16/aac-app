@@ -1,6 +1,6 @@
 export type LocaleCode = "en" | "fr" | "ar" | "ro" | (string & {});
 
-export type ProfileRole = "child" | "group";
+
 
 export interface ProfileSettings {
   preferredLanguages: LocaleCode[];
@@ -8,10 +8,12 @@ export interface ProfileSettings {
   bigButtons: boolean;
 }
 
+export type UsageMode = "single" | "group";
+
 export interface Profile {
   id: string;
   name: string;
-  role: ProfileRole;
+  usageMode: UsageMode;
   settings: ProfileSettings;
 }
 
