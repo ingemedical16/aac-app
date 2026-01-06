@@ -30,7 +30,7 @@ export class Child {
   dateOfBirth?: Date;
 
   @Column({
-    type: "enum",
+    type: "simple-enum",
     enum: Sex,
     nullable: true,
   })

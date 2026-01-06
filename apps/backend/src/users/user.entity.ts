@@ -4,9 +4,17 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
 
 import { UserRole } from "../auth/roles.enum";
+import { Child } from "../children/child.entity";
+
+export enum Sex {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHER = "OTHER",
+}
 
 @Entity("users")
 export class User {
@@ -20,25 +28,55 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ select: false }) // 👈 Hides password from all queries
+  @Column({ select: false })
   password: string;
 
   @Column({
-    type: 'simple-enum',
+    type: "simple-enum",
     enum: UserRole,
-    default: UserRole.PARENT,
+    default: UserRole.PATIENT,
   })
   role: UserRole;
 
   /* =========================
-     PROFILE (optional / future)
+     PATIENT / PERSON
   ========================= */
+
+  /**
+   * True if this user represents a patient
+   * (adult patient OR parent managing children)
+   */
+  @Column({ default: false })
+  isPatient: boolean;
 
   @Column({ nullable: true })
   firstName?: string;
 
   @Column({ nullable: true })
   lastName?: string;
+
+  @Column({
+    type: "simple-enum",
+    enum: Sex,
+    nullable: true,
+  })
+  sex?: Sex;
+
+  @Column({ type: "date", nullable: true })
+  dateOfBirth?: Date;
+
+  /* =========================
+     RELATIONS
+  ========================= */
+
+  /**
+   * Children profiles owned by this user
+   * Only meaningful if role === PATIENT
+   */
+  @OneToMany(() => Child, (child) => child.parent, {
+    cascade: true,
+  })
+  children?: Child[];
 
   /* =========================
      SYSTEM

@@ -8,10 +8,9 @@
  * - NEVER localized
  * - Stable across backend & frontend
  */
+
 export enum UserRole {
   ADMIN = "ADMIN",
   PROFESSIONAL = "PROFESSIONAL",
-  PARENT = "PARENT",
-  PATIENT_ADULT = "PATIENT_ADULT",
-  CHILD = "CHILD",
+  PATIENT = "PATIENT",
 }

@@ -27,73 +27,85 @@ export class AuthService {
      REGISTER
   ========================= */
   async register(dto: RegisterDto, lang = "en") {
-    const exists = await this.userRepo.findOne({
-      where: { email: dto.email },
-    });
+  const exists = await this.userRepo.findOne({
+    where: { email: dto.email },
+  });
 
-    if (exists) {
-      throw new ConflictException(
-        this.i18n.t("auth.user_exists", { lang })
-      );
-    }
-
-    const hash = await bcrypt.hash(dto.password, 10);
-
-    const role =
-      dto.role && dto.role !== UserRole.ADMIN
-        ? dto.role
-        : UserRole.PARENT;
-
-    const user = this.userRepo.create({
-      email: dto.email,
-      password: hash,
-      role,
-      firstName: dto.firstName,
-      lastName: dto.lastName,
-    });
-
-    await this.userRepo.save(user);
-
-    return this.sign(user);
+  if (exists) {
+    throw new ConflictException(
+      this.i18n.t("auth.user_exists", { lang })
+    );
   }
 
-  /* =========================
-     LOGIN
-  ========================= */
-  async login(dto: LoginDto, lang = "en") {
-    const user = await this.userRepo
-      .createQueryBuilder("user")
-      .addSelect("user.password")
-      .where("user.email = :email", { email: dto.email })
-      .getOne();
+  const hash = await bcrypt.hash(dto.password, 10);
 
-    if (!user) {
-      throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang })
-      );
-    }
+  /**
+   * ✅ SECURITY RULES
+   * - ADMIN cannot be self-registered
+   * - Default role = PATIENT
+   * - PROFESSIONAL may be allowed only if you explicitly want it
+   */
+  const role =
+    dto.role && dto.role !== UserRole.ADMIN
+      ? dto.role
+      : UserRole.PATIENT;
 
-    const valid = await bcrypt.compare(dto.password, user.password);
+  const isPatient = role === UserRole.PATIENT;
 
-    if (!valid) {
-      throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang })
-      );
-    }
+  const user = this.userRepo.create({
+    email: dto.email,
+    password: hash,
+    role,
+    isPatient,
+    firstName: dto.firstName,
+    lastName: dto.lastName,
+    // children, sex, dob → handled later via profile APIs
+  });
 
-    return this.sign(user);
+  await this.userRepo.save(user);
+
+  return this.sign(user);
+}
+
+/* =========================
+   LOGIN
+========================= */
+async login(dto: LoginDto, lang = "en") {
+  const user = await this.userRepo
+    .createQueryBuilder("user")
+    .addSelect("user.password")
+    .where("user.email = :email", { email: dto.email })
+    .getOne();
+
+  if (!user) {
+    throw new UnauthorizedException(
+      this.i18n.t("auth.invalid_credentials", { lang })
+    );
   }
 
-  /* =========================
-     JWT SIGN
-  ========================= */
-  private sign(user: User) {
-    return {
-      access_token: this.jwtService.sign({
-        sub: user.id,
-        email: user.email,
-        role: user.role, // ✅ REQUIRED FOR RBAC
-      }),
-    };
+  const valid = await bcrypt.compare(dto.password, user.password);
+
+  if (!valid) {
+    throw new UnauthorizedException(
+      this.i18n.t("auth.invalid_credentials", { lang })
+    );
   }
+
+  return this.sign(user);
+}
+
+/* =========================
+   JWT SIGN
+========================= */
+private sign(user: User) {
+  return {
+    access_token: this.jwtService.sign({
+      sub: user.id,
+      email: user.email,
+      role: user.role,        // ✅ RBAC
+      isPatient: user.isPatient, // ✅ FRONTEND BOARD LOGIC
+      children: user.children ? user.children.map((c) => c.id) : [], // ✅ FRONTEND BOARD LOGIC
+    }),
+  };
+}
 }
