@@ -113,5 +113,11 @@
       "sit": "stai jos",
       "stand": "ridică-te"
     }
-  }
+  },
+  "errors": {
+    "userProfileContext": {
+      "missingProvider": "Contextul profilului utilizatorului trebuie utilizat în interiorul UserProfileProvider"
+    }
+}
+
 }

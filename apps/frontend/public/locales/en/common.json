@@ -114,5 +114,10 @@
       "sit": "sit",
       "stand": "stand"
     }
+  },
+  "errors": {
+  "userProfileContext": {
+    "missingProvider": "User profile context must be used within UserProfileProvider"
   }
+}
 }

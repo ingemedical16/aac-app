@@ -113,5 +113,11 @@
       "sit": "اجلس",
       "stand": "قف"
     }
-  }
+  },
+  "errors": {
+      "userProfileContext": {
+        "missingProvider": "يجب استخدام سياق ملف المستخدم داخل UserProfileProvider"
+      }
+    }
+
 }
