@@ -1,4 +1,4 @@
 export enum ProfileType {
-  SELF = "SELF",
-  CHILD = "CHILD",
+  INDIVIDUAL = "INDIVIDUAL", // adult patient or single person
+  CHILD = "CHILD",          // linked to Child entity
 }

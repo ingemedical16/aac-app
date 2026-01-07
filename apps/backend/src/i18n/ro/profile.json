@@ -1,0 +1,8 @@
+{
+  "profile_not_found": "Profil negăsit",
+  "child_required": "Este necesar un copil pentru acest tip de profil",
+  "child_not_found": "Copilul nu a fost găsit sau nu aparține utilizatorului",
+  "profile_created": "Profil creat cu succes",
+  "profile_updated": "Profil actualizat cu succes",
+  "profile_deactivated": "Profil dezactivat"
+}

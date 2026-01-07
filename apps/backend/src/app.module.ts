@@ -15,7 +15,7 @@ import { ChildrenModule } from './children/children.module';
 import { VocabularyModule } from './vocab/vocabulary.module';
 import { ImagesModule } from './images/images.module';
 import { Profile } from './profiles/profile.entity';
-import { ProfilesModule } from './profiles/profiles.module';
+import { ProfileModule } from './profiles/profile.module';
 
 @Module({
   imports: [
@@ -56,7 +56,7 @@ import { ProfilesModule } from './profiles/profiles.module';
     ========================= */
     AuthModule,
     ChildrenModule,
-    ProfilesModule,
+    ProfileModule,
     VocabularyModule,
     ImagesModule,
   ],

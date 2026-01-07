@@ -38,9 +38,9 @@ export class Profile {
   name: string;
 
   @Column({
-  type: "simple-enum",
-  enum: ProfileType,
-})
+    type: "simple-enum",
+    enum: ProfileType,
+  })
   type: ProfileType;
 
   /* =========================

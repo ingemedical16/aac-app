@@ -1,0 +1,8 @@
+{
+  "profile_not_found": "Profil introuvable",
+  "child_required": "Un enfant est requis pour ce type de profil",
+  "child_not_found": "Enfant introuvable ou n'appartenant pas à l'utilisateur",
+  "profile_created": "Profil créé avec succès",
+  "profile_updated": "Profil mis à jour avec succès",
+  "profile_deactivated": "Profil désactivé"
+}

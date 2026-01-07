@@ -1,0 +1,8 @@
+{
+  "profile_not_found": "Profile not found",
+  "child_required": "Child is required for this profile type",
+  "child_not_found": "Child not found or not owned by user",
+  "profile_created": "Profile created successfully",
+  "profile_updated": "Profile updated successfully",
+  "profile_deactivated": "Profile deactivated"
+}
