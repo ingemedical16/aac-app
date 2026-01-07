@@ -1,29 +1,34 @@
-export type LocaleCode = "en" | "fr" | "ar" | "ro" | (string & {});
+// src/types/userProfile.ts
 
-
-
-export interface ProfileSettings {
-  preferredLanguages: LocaleCode[];
-  highContrast: boolean;
-  bigButtons: boolean;
-}
-
-export type UsageMode = "single" | "group";
+export type ProfileType =
+  | "INDIVIDUAL" // adult patient / self
+  | "CHILD";     // linked to Child entity
 
 export interface Profile {
   id: string;
+
+  /* =========================
+     IDENTITY
+  ========================= */
   name: string;
-  usageMode: UsageMode;
-  settings: ProfileSettings;
-}
+  type: ProfileType;
 
-export interface UserProfileState {
-  profiles: Profile[];
-  activeProfileId: string;
-}
+  /**
+   * Only present when type === CHILD
+   */
+  childId?: string | null;
 
-/* 🔐 Persisted storage shape (v2) */
-export interface PersistedStateV2 {
-  version: 2;
-  data: UserProfileState;
+  /* =========================
+     SETTINGS
+  ========================= */
+  preferredLanguages: string[];
+  highContrast: boolean;
+  bigButtons: boolean;
+
+  /* =========================
+     METADATA
+  ========================= */
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
