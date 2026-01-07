@@ -114,6 +114,14 @@
       "stand": "ridică-te"
     }
   },
+  "patientDashboard": {
+  "title": "Tablou de bord",
+  "subtitle": "Gestionează profilurile de comunicare",
+  "noProfile": "Nu există încă profiluri.",
+  "createProfile": "Creează profil",
+  "selectProfile": "Selectează un profil",
+  "defaultProfileName": "Copil"
+},
   "errors": {
   "userProfileContext": {
     "missingProvider": "Contextul profilului utilizatorului trebuie utilizat în interiorul UserProfileProvider"

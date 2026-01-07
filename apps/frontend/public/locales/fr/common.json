@@ -114,6 +114,14 @@
       "stand": "se lever"
     }
   },
+  "patientDashboard": {
+  "title": "Tableau de bord",
+  "subtitle": "Gérer les profils de communication",
+  "noProfile": "Aucun profil pour le moment.",
+  "createProfile": "Créer un profil",
+  "selectProfile": "Sélectionner un profil",
+  "defaultProfileName": "Enfant"
+},
    "errors": {
   "userProfileContext": {
     "missingProvider": "Le contexte du profil utilisateur doit être utilisé à l’intérieur de UserProfileProvider"

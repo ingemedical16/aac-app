@@ -114,6 +114,15 @@
       "stand": "قف"
     }
   },
+  "patientDashboard": {
+  "title": "لوحة التحكم",
+  "subtitle": "إدارة ملفات التواصل",
+  "noProfile": "لا توجد ملفات حتى الآن.",
+  "createProfile": "إنشاء ملف",
+  "selectProfile": "اختيار ملف",
+  "defaultProfileName": "طفل"
+}
+,
   "errors": {
   "userProfileContext": {
     "missingProvider": "يجب استخدام سياق ملف المستخدم داخل UserProfileProvider"

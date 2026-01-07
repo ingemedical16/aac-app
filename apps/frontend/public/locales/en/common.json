@@ -115,6 +115,14 @@
       "stand": "stand"
     }
   },
+  "patientDashboard": {
+  "title": "Dashboard",
+  "subtitle": "Manage communication profiles",
+  "noProfile": "No profiles yet.",
+  "createProfile": "Create profile",
+  "selectProfile": "Select a profile",
+  "defaultProfileName": "Child"
+},
   "errors": {
     "userProfileContext": {
       "missingProvider": "User profile context must be used within UserProfileProvider"

@@ -11,13 +11,13 @@ import AuthToggle from "@/components/auth/AuthToggle";
 import styles from "./LoginForm.module.scss";
 
 export default function LoginForm() {
-  const { t } = useTranslation(); // default namespace = common
+  const { t } = useTranslation();
   const router = useRouter();
   const { locale } = useParams<{ locale: string }>();
   const searchParams = useSearchParams();
   const next = searchParams.get("next");
 
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,11 +30,15 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      await login({ email, password });
+      const role = await login({ email, password });
+
+      if (!role) {
+        throw new Error("NO_ROLE_RETURNED");
+      }
 
       const redirectPath = getPostLoginRedirect(
         locale,
-        user.role,
+        role,
         next
       );
 
@@ -73,6 +77,7 @@ export default function LoginForm() {
       <button type="submit" disabled={loading}>
         {loading ? t("loading") : t("auth.login")}
       </button>
+
       <AuthToggle />
     </form>
   );

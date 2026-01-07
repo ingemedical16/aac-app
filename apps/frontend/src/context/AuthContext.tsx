@@ -51,11 +51,11 @@ interface AuthContextValue {
   token: string | null;
   user: AuthUser | null;
 
-  login: (input: LoginInput) => Promise<AuthUser>;
-  register: (input: RegisterInput) => Promise<AuthUser>;
+  login: (input: LoginInput) => Promise<UserRole | null>;
+  register: (input: RegisterInput) => Promise<void>;
   logout: () => void;
 
-  setTokenDirect: (token: string) => AuthUser; // helpful for testing
+  setTokenDirect: (token: string) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -64,61 +64,59 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<AuthUser | null>(null);
- 
 
-  const clearAuth = () => {
-    tokenStorage.clear();
-    setToken(null);
-    setUser(null);
-  };
-
-  const applyToken = (jwt: string): AuthUser => {
+  const applyToken = (jwt: string) => {
     const payload = decodeJwt(jwt);
 
-    if (!payload || isExpired(payload) || !payload.sub || !payload.email || !payload.role) {
-      clearAuth();
-      throw new Error("auth.invalid_token");
+    if (!payload || isExpired(payload)) {
+      tokenStorage.clear();
+      setToken(null);
+      setUser(null);
+      return;
     }
-
-    const nextUser: AuthUser = {
-      id: payload.sub,
-      email: payload.email,
-      role: payload.role,
-      // Optional claims (support both “now” and “later” backend shapes)
-      isPatient: (payload as any).isPatient ?? undefined,
-      children: (payload as any).children ?? undefined,
-    };
 
     tokenStorage.set(jwt);
     setToken(jwt);
-    setUser(nextUser);
-
-    return nextUser;
+    setUser({
+      id: payload.sub,
+      email: payload.email,
+      role: payload.role,
+    });
   };
 
+  /* =========================
+     BOOTSTRAP
+  ========================= */
   useEffect(() => {
     const stored = tokenStorage.get();
     if (stored) {
-      try {
-        applyToken(stored);
-      } catch {
-        // token invalid/expired -> cleared already
-      }
+      applyToken(stored);
     }
     setIsReady(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const logout = () => clearAuth();
+  const logout = () => {
+    tokenStorage.clear();
+    setToken(null);
+    setUser(null);
+  };
 
-  const login = async (input: LoginInput) => {
+  /* =========================
+     AUTH ACTIONS
+  ========================= */
+
+  const login = async (input: LoginInput): Promise<UserRole | null> => {
     const res = await loginApi(input);
-    return applyToken(res.access_token);
+    applyToken(res.access_token);
+
+    const payload = decodeJwt(res.access_token);
+    return payload?.role ?? null;
   };
 
   const register = async (input: RegisterInput) => {
     const res = await registerApi(input);
-    return applyToken(res.access_token);
+    applyToken(res.access_token);
   };
 
   const value = useMemo<AuthContextValue>(
@@ -135,12 +133,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [isReady, token, user]
   );
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-   const { t } = useTranslation();
+  const { t } = useTranslation();
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error(t("errors.auth.missingProvider")); // ✅ translate key
+
   return ctx;
 }
