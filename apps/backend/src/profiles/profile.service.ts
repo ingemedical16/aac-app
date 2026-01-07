@@ -36,6 +36,14 @@ export class ProfileService {
   ): Promise<Profile> {
     let child: Child | null = null;
 
+    // ❌ INDIVIDUAL profile must NOT have child
+    if (dto.type === ProfileType.INDIVIDUAL && dto.childId) {
+      throw new BadRequestException(
+        this.i18n.t("profile.child_not_allowed", { lang }),
+      );
+    }
+
+    // ✅ CHILD profile must have valid child
     if (dto.type === ProfileType.CHILD) {
       if (!dto.childId) {
         throw new BadRequestException(
@@ -44,7 +52,10 @@ export class ProfileService {
       }
 
       child = await this.childRepo.findOne({
-        where: { id: dto.childId, parent: { id: user.id } },
+        where: {
+          id: dto.childId,
+          parent: { id: user.id },
+        },
       });
 
       if (!child) {
@@ -72,7 +83,10 @@ export class ProfileService {
   ========================= */
   async findAllByUser(user: User): Promise<Profile[]> {
     return this.profileRepo.find({
-      where: { owner: { id: user.id }, isActive: true },
+      where: {
+        owner: { id: user.id },
+        isActive: true,
+      },
       relations: ["child"],
       order: { createdAt: "ASC" },
     });
@@ -87,7 +101,10 @@ export class ProfileService {
     lang = "en",
   ): Promise<Profile> {
     const profile = await this.profileRepo.findOne({
-      where: { id, owner: { id: user.id } },
+      where: {
+        id,
+        owner: { id: user.id },
+      },
       relations: ["child"],
     });
 
@@ -101,7 +118,7 @@ export class ProfileService {
   }
 
   /* =========================
-     UPDATE
+     UPDATE (SAFE)
   ========================= */
   async update(
     user: User,
@@ -110,12 +127,29 @@ export class ProfileService {
     lang = "en",
   ): Promise<Profile> {
     const profile = await this.findOne(user, id, lang);
-    Object.assign(profile, dto);
+
+    // ✅ Explicit allowed updates only
+    if (dto.name !== undefined) {
+      profile.name = dto.name;
+    }
+
+    if (dto.preferredLanguages !== undefined) {
+      profile.preferredLanguages = dto.preferredLanguages;
+    }
+
+    if (dto.highContrast !== undefined) {
+      profile.highContrast = dto.highContrast;
+    }
+
+    if (dto.bigButtons !== undefined) {
+      profile.bigButtons = dto.bigButtons;
+    }
+
     return this.profileRepo.save(profile);
   }
 
   /* =========================
-     DEACTIVATE (soft delete)
+     DEACTIVATE (SOFT DELETE)
   ========================= */
   async deactivate(
     user: User,

@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  ArrayNotEmpty,
 } from "class-validator";
 import { ProfileType } from "../../common/enums/profileType.enum";
 
@@ -17,14 +18,16 @@ export class CreateProfileDto {
   type: ProfileType;
 
   /**
-   * Required for CHILD profiles
-   * Optional for INDIVIDUAL
+   * Required when type === CHILD
+   * Must be null/undefined when type === INDIVIDUAL
+   * (validated in service layer)
    */
   @IsOptional()
   @IsString()
   childId?: string;
 
   @IsArray()
+  @ArrayNotEmpty()
   @IsString({ each: true })
   preferredLanguages: string[];
 

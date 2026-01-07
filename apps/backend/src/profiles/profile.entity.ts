@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -24,12 +25,12 @@ export class Profile {
   })
   owner: User;
 
+ @Index()
   @ManyToOne(() => Child, (child) => child.profiles, {
     nullable: true,
     onDelete: "SET NULL",
   })
   child?: Child | null;
-
   /* =========================
      IDENTITY
   ========================= */
@@ -47,7 +48,7 @@ export class Profile {
      SETTINGS
   ========================= */
 
-  @Column("simple-array")
+  @Column("simple-array",{ default: "" })
   preferredLanguages: string[];
 
   @Column({ default: false })
