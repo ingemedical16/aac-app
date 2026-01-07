@@ -14,6 +14,8 @@ import { AuthModule } from './auth/auth.module';
 import { ChildrenModule } from './children/children.module';
 import { VocabularyModule } from './vocab/vocabulary.module';
 import { ImagesModule } from './images/images.module';
+import { Profile } from './profiles/profile.entity';
+import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { ImagesModule } from './images/images.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'dev.db',
-      entities: [User, Child, Vocabulary, ImageAsset],
+      entities: [User, Child, Vocabulary, ImageAsset, Profile],
       synchronize: true,
     }),
 
@@ -54,6 +56,7 @@ import { ImagesModule } from './images/images.module';
     ========================= */
     AuthModule,
     ChildrenModule,
+    ProfilesModule,
     VocabularyModule,
     ImagesModule,
   ],

@@ -6,15 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  OneToMany,
 } from "typeorm";
-import { User } from "../users/user.entity";
+import {  User } from "../users/user.entity";
 import { Profile } from "../profiles/profile.entity";
+import { Sex } from "../common/enums/sex.enum";
 
-export enum Sex {
-  MALE = "male",
-  FEMALE = "female",
-  OTHER = "other",
-}
 
 @Entity("children")
 export class Child {
@@ -38,12 +35,6 @@ export class Child {
   sex?: Sex;
 
   /* =========================
-     AAC / PROFILE
-  ========================= */
-
-
-
-  /* =========================
      RELATIONS
   ========================= */
 
@@ -53,7 +44,7 @@ export class Child {
   })
   parent: User;
 
-  @OneToMany(() => Profile, (profile) => profile.owner)
+  @OneToMany(() => Profile, (profile) => profile.child)
   profiles: Profile[];
 
   /* =========================

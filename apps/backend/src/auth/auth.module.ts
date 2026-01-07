@@ -12,10 +12,11 @@ import { AuthController } from "./auth.controller";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { RolesGuard } from "./guards/roles.guard";
 import { JwtStrategy } from "./strategies/jwt.strategy";
+import { Profile } from "../profiles/profile.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User,Profile]),
 
     // ✅ makes ConfigService available here (even if global)
     ConfigModule,

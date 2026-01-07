@@ -10,12 +10,8 @@ import {
 import { UserRole } from "../common/enums/roles.enum";
 import { Child } from "../children/child.entity";
 import { Profile } from "../profiles/profile.entity";
+import { Sex } from "../common/enums/sex.enum";
 
-export enum Sex {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
-  OTHER = "OTHER",
-}
 
 @Entity("users")
 export class User {

@@ -1,7 +1,14 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User } from "../users/user.entity";
 import { Child } from "../children/child.entity";
-
+import { ProfileType } from "../common/enums/profileType.enum";
 
 @Entity("profiles")
 export class Profile {
@@ -17,7 +24,7 @@ export class Profile {
   })
   owner: User;
 
-  @ManyToOne(() => Child, {
+  @ManyToOne(() => Child, (child) => child.profiles, {
     nullable: true,
     onDelete: "SET NULL",
   })
@@ -31,10 +38,10 @@ export class Profile {
   name: string;
 
   @Column({
-    type: "enum",
-    enum: ["SELF", "CHILD"],
-  })
-  type: "SELF" | "CHILD";
+  type: "simple-enum",
+  enum: ProfileType,
+})
+  type: ProfileType;
 
   /* =========================
      SETTINGS
