@@ -8,6 +8,7 @@ import {
   Index,
 } from "typeorm";
 import { User } from "../users/user.entity";
+import { Profile } from "../profiles/profile.entity";
 
 export enum Sex {
   MALE = "male",
@@ -40,8 +41,7 @@ export class Child {
      AAC / PROFILE
   ========================= */
 
-  @Column({ default: false })
-  isGroupProfile: boolean;
+
 
   /* =========================
      RELATIONS
@@ -52,6 +52,9 @@ export class Child {
     onDelete: "CASCADE",
   })
   parent: User;
+
+  @OneToMany(() => Profile, (profile) => profile.owner)
+  profiles: Profile[];
 
   /* =========================
      SYSTEM

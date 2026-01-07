@@ -12,7 +12,7 @@ import { I18nService } from "nestjs-i18n";
 import { User } from "../users/user.entity";
 import { RegisterDto } from "./dto/register.dto";
 import { LoginDto } from "./dto/login.dto";
-import { UserRole } from "./roles.enum";
+import { UserRole } from "../common/enums/roles.enum";
 
 @Injectable()
 export class AuthService {

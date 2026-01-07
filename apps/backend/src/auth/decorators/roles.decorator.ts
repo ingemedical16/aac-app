@@ -1,5 +1,5 @@
 import { SetMetadata } from "@nestjs/common";
-import { UserRole } from "../roles.enum";
+import { UserRole } from "../../common/enums/roles.enum";
 
 /**
  * Roles decorator

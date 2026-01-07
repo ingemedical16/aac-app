@@ -5,7 +5,7 @@ import {
   IsString,
   MinLength,
 } from "class-validator";
-import { UserRole } from "../roles.enum";
+import { UserRole } from "../../common/enums/roles.enum";
 
 /**
  * Registration DTO

@@ -7,8 +7,9 @@ import {
   OneToMany,
 } from "typeorm";
 
-import { UserRole } from "../auth/roles.enum";
+import { UserRole } from "../common/enums/roles.enum";
 import { Child } from "../children/child.entity";
+import { Profile } from "../profiles/profile.entity";
 
 export enum Sex {
   MALE = "MALE",
@@ -77,6 +78,9 @@ export class User {
     cascade: true,
   })
   children?: Child[];
+
+  @OneToMany(() => Profile, (profile) => profile.owner)
+    profiles: Profile[];
 
   /* =========================
      SYSTEM
