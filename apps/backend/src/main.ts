@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:3000',
-      'https://ubiquitous-zebra-wv7ggxpwp5frrv-3000.app.github.dev/v',
+      'https://ubiquitous-zebra-wv7ggxpwp5frrv-3000.app.github.dev',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization, Accept-Language',
