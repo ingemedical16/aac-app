@@ -48,7 +48,7 @@ Accept-Language: fr
 ### =====================================================
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
-Accept-Language: en
+Accept-Language: fr
 
 {
   "email": "admin@example.com",

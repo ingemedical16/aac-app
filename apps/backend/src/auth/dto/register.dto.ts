@@ -8,11 +8,11 @@ import {
 import { UserRole } from "../../common/enums/roles.enum";
 
 export class RegisterDto {
-  @IsEmail({}, { message: "auth.email_invalid" })
+  @IsEmail()
   email: string;
 
-  @IsString({ message: "auth.password_invalid" })
-  @MinLength(8, { message: "auth.password_too_short" })
+  @IsString()
+  @MinLength(8)
   password: string;
 
   /**
@@ -21,9 +21,7 @@ export class RegisterDto {
    * Forbidden: ADMIN (enforced again in service)
    */
   @IsOptional()
-  @IsEnum([UserRole.USER, UserRole.PROFESSIONAL], {
-    message: "auth.role_not_allowed",
-  })
+  @IsEnum(UserRole)
   role?: UserRole;
 
   /**
@@ -31,10 +29,10 @@ export class RegisterDto {
    * Used to generate default INDIVIDUAL profile
    */
   @IsOptional()
-  @IsString({ message: "auth.first_name_invalid" })
+  @IsString()
   firstName?: string;
 
   @IsOptional()
-  @IsString({ message: "auth.last_name_invalid" })
+  @IsString()
   lastName?: string;
 }

@@ -45,14 +45,15 @@ export class AuthService {
     }
 
     if (dto.role === UserRole.ADMIN) {
-      const errorMessage = this.i18n.t("auth.role_not_allowed", { lang })
+      const errorMessage = this.i18n.t("auth.roleNotAllowed", { lang });
+      throw new BadRequestException(errorMessage);
   throw new BadRequestException(errorMessage);
 }
 
 
     const hash = await bcrypt.hash(dto.password, 10);
 
-
+    const role = dto.role || UserRole.USER;
 
     const primaryLanguage = (lang?.split(",")?.[0] ?? "en").trim() || "en";
 
@@ -93,6 +94,7 @@ export class AuthService {
       });
 
       const savedProfile = await manager.getRepository(Profile).save(profile);
+      console.log("Created profile for new user:", savedProfile);
 
       return { user: savedUser, profile: savedProfile };
     });
