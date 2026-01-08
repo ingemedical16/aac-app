@@ -1,4 +1,3 @@
-// src/components/auth/LoginForm/index.tsx
 "use client";
 
 import { useState } from "react";
@@ -30,19 +29,10 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const role = await login({ email, password });
+      const u = await login({ email, password });
 
-      if (!role) {
-        throw new Error("NO_ROLE_RETURNED");
-      }
-
-      const redirectPath = getPostLoginRedirect(
-        locale,
-        role,
-        next
-      );
-
-      router.replace(withLocale(locale, redirectPath));
+      const path = getPostLoginRedirect(u.role, next);
+      router.replace(withLocale(locale, path));
     } catch {
       setError(t("auth.invalid_credentials"));
     } finally {

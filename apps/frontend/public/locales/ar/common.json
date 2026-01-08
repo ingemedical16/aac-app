@@ -124,13 +124,14 @@
 }
 ,
   "errors": {
-  "userProfileContext": {
-    "missingProvider": "يجب استخدام سياق ملف المستخدم داخل UserProfileProvider"
-  },
-  "auth": {
-    "missingProvider": "يجب استخدام سياق المصادقة داخل AuthProvider"
+    "userProfileContext": {
+      "missingProvider": "يجب استخدام سياق ملف المستخدم داخل UserProfileProvider"
+    },
+    "auth": {
+      "missingProvider": "يجب استخدام سياق المصادقة داخل AuthProvider",
+      "tokenInvalid": "رمز المصادقة غير صالح أو منتهي الصلاحية"
+    }
   }
-}
 
 
 }

@@ -123,12 +123,16 @@
   "selectProfile": "Select a profile",
   "defaultProfileName": "Child"
 },
+ 
   "errors": {
     "userProfileContext": {
       "missingProvider": "User profile context must be used within UserProfileProvider"
     },
     "auth": {
-      "missingProvider": "Auth context must be used within AuthProvider"
+      "missingProvider": "Auth context must be used within AuthProvider",
+      "tokenInvalid": "Authentication token is invalid or has expired"
     }
-  }
+  
+}
+
 }

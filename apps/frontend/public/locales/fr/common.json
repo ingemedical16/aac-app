@@ -123,13 +123,12 @@
   "defaultProfileName": "Enfant"
 },
    "errors": {
-  "userProfileContext": {
-    "missingProvider": "Le contexte du profil utilisateur doit être utilisé à l’intérieur de UserProfileProvider"
-  },
-  "auth": {
-    "missingProvider": "Le contexte d’authentification doit être utilisé à l’intérieur de AuthProvider"
+    "userProfileContext": {
+      "missingProvider": "Le contexte du profil utilisateur doit être utilisé dans UserProfileProvider"
+    },
+    "auth": {
+      "missingProvider": "Le contexte d’authentification doit être utilisé dans AuthProvider",
+      "tokenInvalid": "Le jeton d’authentification est invalide ou a expiré"
+    }
   }
-}
-
-
 }

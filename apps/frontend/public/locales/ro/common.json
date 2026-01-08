@@ -123,13 +123,14 @@
   "defaultProfileName": "Copil"
 },
   "errors": {
-  "userProfileContext": {
-    "missingProvider": "Contextul profilului utilizatorului trebuie utilizat în interiorul UserProfileProvider"
-  },
-  "auth": {
-    "missingProvider": "Contextul de autentificare trebuie utilizat în interiorul AuthProvider"
+    "userProfileContext": {
+      "missingProvider": "Contextul profilului utilizatorului trebuie utilizat în UserProfileProvider"
+    },
+    "auth": {
+      "missingProvider": "Contextul de autentificare trebuie utilizat în AuthProvider",
+      "tokenInvalid": "Tokenul de autentificare este invalid sau a expirat"
+    }
   }
-}
 
 
 }
