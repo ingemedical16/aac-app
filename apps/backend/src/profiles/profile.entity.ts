@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,6 +9,7 @@ import {
 import { User } from "../users/user.entity";
 import { Child } from "../children/child.entity";
 import { ProfileType } from "../common/enums/profileType.enum";
+import { Sex } from "../common/enums/sex.enum";
 
 @Entity("profiles")
 export class Profile {
@@ -20,17 +20,15 @@ export class Profile {
      OWNERSHIP
   ========================= */
 
-  @ManyToOne(() => User, (user) => user.profiles, {
-    onDelete: "CASCADE",
-  })
+  @ManyToOne(() => User, (user) => user.profiles, { onDelete: "CASCADE" })
   owner: User;
 
- @Index()
   @ManyToOne(() => Child, (child) => child.profiles, {
     nullable: true,
     onDelete: "SET NULL",
   })
   child?: Child | null;
+
   /* =========================
      IDENTITY
   ========================= */
@@ -38,17 +36,35 @@ export class Profile {
   @Column()
   name: string;
 
-  @Column({
-    type: "simple-enum",
-    enum: ProfileType,
-  })
+  @Column({ type: "simple-enum", enum: ProfileType })
   type: ProfileType;
 
+  @Column({ nullable: true })
+  firstName?: string;
+
+  @Column({ nullable: true })
+  lastName?: string;
+
+  @Column({ type: "date", nullable: true })
+  dateOfBirth?: Date;
+
+  @Column({ type: "simple-enum", enum: Sex, nullable: true })
+  sex?: Sex;
+
+  @Column({ nullable: true })
+  avatarUrl?: string;
+
   /* =========================
-     SETTINGS
+     AAC SETTINGS
   ========================= */
 
-  @Column("simple-array",{ default: "" })
+  @Column({ default: true })
+  isPatient: boolean;
+
+  @Column({ default: "en" })
+  primaryLanguage: string;
+
+  @Column("simple-array")
   preferredLanguages: string[];
 
   @Column({ default: false })

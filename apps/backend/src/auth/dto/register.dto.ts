@@ -7,36 +7,34 @@ import {
 } from "class-validator";
 import { UserRole } from "../../common/enums/roles.enum";
 
-/**
- * Registration DTO
- * Controls which roles can be assigned at signup
- */
 export class RegisterDto {
-  @IsEmail()
+  @IsEmail({}, { message: "auth.email_invalid" })
   email: string;
 
-  @IsString()
-  @MinLength(8)
+  @IsString({ message: "auth.password_invalid" })
+  @MinLength(8, { message: "auth.password_too_short" })
   password: string;
 
   /**
-   * Optional role:
-   * - Allowed: PARENT, PROFESSIONAL, PATIENT_ADULT
-   * - Forbidden at registration: ADMIN
+   * Optional role at registration
+   * Allowed: USER, PROFESSIONAL
+   * Forbidden: ADMIN (enforced again in service)
    */
   @IsOptional()
-  @IsEnum(UserRole)
+  @IsEnum([UserRole.USER, UserRole.PROFESSIONAL], {
+    message: "auth.role_not_allowed",
+  })
   role?: UserRole;
 
-  /* =========================
-     Optional profile info
-  ========================= */
-
+  /**
+   * Optional identity fields
+   * Used to generate default INDIVIDUAL profile
+   */
   @IsOptional()
-  @IsString()
+  @IsString({ message: "auth.first_name_invalid" })
   firstName?: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: "auth.last_name_invalid" })
   lastName?: string;
 }

@@ -1,30 +1,40 @@
-### =========================================
-### AUTH – REGISTER USERS
-### =========================================
+### =====================================================
+### ENVIRONMENT CONFIGURATION
+### =====================================================
+@local = http://localhost:4000
+@codespace = https://ubiquitous-zebra-wv7ggxpwp5frrv-4000.app.github.dev
 
-### Register PATIENT
-POST http://localhost:4000/auth/register
+### 👉 Select active backend
+# @baseUrl = {{local}}
+ @baseUrl = {{codespace}}
+
+### =====================================================
+### AUTH – REGISTER (USER)
+### =====================================================
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 Accept-Language: en
 
 {
-  "email": "parent@test.com",
-  "password": "Parent123!",
-  "role": "PATIENT",
+  "email": "user@example.com",
+  "password": "Password123",
+  "role": "USER",
   "firstName": "John",
   "lastName": "Doe"
 }
 
 ###
 
-### Register PROFESSIONAL
-POST http://localhost:4000/auth/register
+### =====================================================
+### AUTH – REGISTER (PROFESSIONAL)
+### =====================================================
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 Accept-Language: fr
 
 {
-  "email": "pro@test.com",
-  "password": "Pro123456!",
+  "email": "pro@example.com",
+  "password": "Password123",
   "role": "PROFESSIONAL",
   "firstName": "Marie",
   "lastName": "Dupont"
@@ -32,69 +42,73 @@ Accept-Language: fr
 
 ###
 
-### Register PATIENT
-POST http://localhost:4000/auth/register
-Content-Type: application/json
-Accept-Language: ar
-
-{
-  "email": "patient@test.com",
-  "password": "Patient123!",
-  "role": "PATIENT",
-  "firstName": "Ali",
-  "lastName": "Ahmed"
-}
-
-###
-
-### ❌ Attempt to register ADMIN (should fail)
-POST http://localhost:4000/auth/register
+### =====================================================
+### AUTH – REGISTER (FORBIDDEN ROLE: ADMIN)
+### Expect: auth.role_not_allowed
+### =====================================================
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 Accept-Language: en
 
 {
-  "email": "admin@test.com",
-  "password": "Admin123!",
+  "email": "admin@example.com",
+  "password": "Password123",
   "role": "ADMIN"
 }
 
----
+###
 
-### =========================================
-### AUTH – LOGIN
-### =========================================
-
-### Login PARENT
-POST http://localhost:4000/auth/login
+### =====================================================
+### AUTH – LOGIN (SUCCESS)
+### =====================================================
+POST {{baseUrl}}/auth/login
 Content-Type: application/json
 Accept-Language: en
 
 {
-  "email": "parent@test.com",
-  "password": "Parent123!"
+  "email": "user@example.com",
+  "password": "Password123"
 }
+
+> {% 
+  client.global.set("access_token", response.body.access_token);
+%}
 
 ###
 
-### Login PROFESSIONAL
-POST http://localhost:4000/auth/login
-Content-Type: application/json
-Accept-Language: fr
-
-{
-  "email": "pro@test.com",
-  "password": "Pro123456!"
-}
-
-###
-
-### Login PATIENT_ADULT
-POST http://localhost:4000/auth/login
+### =====================================================
+### AUTH – LOGIN (INVALID PASSWORD)
+### Expect: auth.invalid_credentials
+### =====================================================
+POST {{baseUrl}}/auth/login
 Content-Type: application/json
 Accept-Language: ar
 
 {
-  "email": "patient@test.com",
-  "password": "Patient123!"
+  "email": "user@example.com",
+  "password": "WrongPassword"
 }
 
+###
+
+### =====================================================
+### AUTH – LOGIN (UNKNOWN USER)
+### =====================================================
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+Accept-Language: ro
+
+{
+  "email": "unknown@example.com",
+  "password": "Password123"
+}
+
+###
+
+### =====================================================
+### AUTH – ME (JWT REQUIRED)
+### Example protected endpoint
+### =====================================================
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{access_token}}
+Accept-Language: en
