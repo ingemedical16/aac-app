@@ -10,7 +10,6 @@ import { ProfileController } from "./profile.controller";
 @Module({
   imports: [
     TypeOrmModule.forFeature([Profile, Child]),
-    I18nModule,
   ],
   controllers: [ProfileController],
   providers: [ProfileService],
