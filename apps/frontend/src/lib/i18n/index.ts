@@ -35,10 +35,10 @@ import roTiles from "../../../public/locales/ro/tiles.json";
 import roCategories from "../../../public/locales/ro/categories.json";
 import roGroups from "../../../public/locales/ro/groups.json";
 
-let initialized = false;
 
-export function initI18n() {
-  if (initialized) return;
+
+
+  if (!i18next.isInitialized) {
 
   i18next.use(initReactI18next).init({
     resources: {
@@ -74,13 +74,12 @@ export function initI18n() {
 
     /* ✅ DO NOT FORCE lng */
     fallbackLng: "en",
-
     interpolation: {
       escapeValue: false,
     },
   });
 
-  initialized = true;
-}
+  }
+
 
 export default i18next;
