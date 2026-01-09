@@ -1,5 +1,3 @@
-// src/lib/api/profile.api.ts
-
 import { http } from "@/lib/api/http";
 import type { ProfileType } from "@/types/userProfile";
 
@@ -13,7 +11,6 @@ export type ProfileResponseDto = {
   highContrast: boolean;
   bigButtons: boolean;
 
-  // optional (future)
   firstName?: string | null;
   lastName?: string | null;
   dateOfBirth?: string | null;
@@ -21,46 +18,31 @@ export type ProfileResponseDto = {
   avatarUrl?: string | null;
 
   isActive: boolean;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 };
-
-export type CreateProfileInput = {
-  name: string;
-  type: ProfileType;
-  childId?: string;
-
-  preferredLanguages: string[];
-  highContrast?: boolean;
-  bigButtons?: boolean;
-
-  // optional (future)
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: string;
-  sex?: string;
-  avatarUrl?: string;
-};
-
-export type UpdateProfileInput = Partial<CreateProfileInput>;
 
 export async function getProfiles(): Promise<ProfileResponseDto[]> {
-  return http.get("/profiles");
+  const { data } = await http.get("/profiles");
+  return data;
 }
 
 export async function createProfile(
-  input: CreateProfileInput
+  input: Omit<ProfileResponseDto, "id" | "isActive" | "createdAt" | "updatedAt">
 ): Promise<ProfileResponseDto> {
-  return http.post("/profiles", input);
+  const { data } = await http.post("/profiles", input);
+  return data;
 }
 
 export async function updateProfile(
   id: string,
-  input: UpdateProfileInput
+  input: Partial<Omit<ProfileResponseDto, "id">>
 ): Promise<ProfileResponseDto> {
-  return http.patch(`/profiles/${id}`, input);
+  const { data } = await http.patch(`/profiles/${id}`, input);
+  return data;
 }
 
 export async function deactivateProfile(id: string): Promise<{ success: boolean }> {
-  return http.delete(`/profiles/${id}`);
+  const { data } = await http.delete(`/profiles/${id}`);
+  return data;
 }

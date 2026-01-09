@@ -1,15 +1,7 @@
-// src/types/userProfile.ts
-
 export type LocaleCode = "en" | "fr" | "ar" | "ro" | (string & {});
-export type ProfileType =
-  | "INDIVIDUAL" // adult patient / self
-  | "CHILD";     // linked to Child entity
 
-export interface ProfileSettings {
-  preferredLanguages: LocaleCode[];
-  highContrast: boolean;
-  bigButtons: boolean;
-}
+export type ProfileType = "INDIVIDUAL" | "CHILD";
+
 export interface Profile {
   id: string;
 
@@ -18,23 +10,20 @@ export interface Profile {
   ========================= */
   name: string;
   type: ProfileType;
-
-  /**
-   * Only present when type === CHILD
-   */
   childId?: string | null;
 
-   // optional identity fields (if you add them later on backend)
   firstName?: string | null;
   lastName?: string | null;
-  dateOfBirth?: string | null; // ISO date string from API
+  dateOfBirth?: string | null;
   sex?: string | null;
   avatarUrl?: string | null;
 
   /* =========================
-     SETTINGS
+     SETTINGS (FLAT)
   ========================= */
-  settings: ProfileSettings;
+  preferredLanguages: LocaleCode[];
+  highContrast: boolean;
+  bigButtons: boolean;
 
   /* =========================
      METADATA
