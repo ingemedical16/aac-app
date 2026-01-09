@@ -1,3 +1,4 @@
+// src/components/ProfileSwitcher/index.tsx
 "use client";
 
 import styles from "./ProfileSwitcher.module.scss";
@@ -14,15 +15,17 @@ export default function ProfileSwitcher() {
 
   return (
     <div className={styles.switcher}>
-      {profiles.map((p) => (
+      {profiles.map((profile) => (
         <button
-          key={p.id}
-          type="button"
-          className={p.id === activeProfileId ? styles.active : styles.btn}
-          onClick={() => setActiveProfileId(p.id)}
-          aria-pressed={p.id === activeProfileId}
+          key={profile.id}
+          className={
+            profile.id === activeProfileId
+              ? styles.active
+              : styles.inactive
+          }
+          onClick={() => setActiveProfileId(profile.id)}
         >
-          {p.name}
+          {profile.name}
         </button>
       ))}
     </div>
