@@ -18,8 +18,8 @@ export function HighContrastProvider({
   const { profile, toggleHighContrast } = useUserProfile();
 
   const value = useMemo(
-    () => ({ highContrast: profile.settings.highContrast, toggleHighContrast }),
-    [profile.settings.highContrast, toggleHighContrast]
+    () => ({ highContrast: profile.highContrast, toggleHighContrast }),
+    [profile.highContrast, toggleHighContrast]
   );
 
   return (

@@ -5,8 +5,8 @@
 @codespace = https://ubiquitous-zebra-wv7ggxpwp5frrv-4000.app.github.dev
 
 ### 👉 Select active backend
-# @baseUrl = {{local}}
- @baseUrl = {{codespace}}
+ @baseUrl = {{local}}
+# @baseUrl = {{codespace}}
 
 ### =====================================================
 ### AUTH – REGISTER (USER)

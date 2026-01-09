@@ -51,6 +51,7 @@ http.interceptors.request.use(
  * Currently passive by design.
  */
 http.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response},
   (error) => Promise.reject(error)
 );

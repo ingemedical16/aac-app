@@ -17,7 +17,7 @@ export default function Tile({ tile, onSpeak, onSelect, onLongPress }: Props) {
   const { t } = useTranslation();
   const { profile } = useUserProfile();
 
-  const label = t(tx("tiles",tile.translateKey));
+  const label = t(tx("tiles", tile.translateKey));
 
   let timer: any;
 
@@ -35,7 +35,7 @@ export default function Tile({ tile, onSpeak, onSelect, onLongPress }: Props) {
   return (
     <div
       className={`${styles.tile} ${
-        profile.settings.highContrast ? styles.highContrastTile : ""
+        profile.highContrast ? styles.highContrastTile : ""
       }`}
       onMouseDown={handleDown}
       onMouseUp={handleUp}

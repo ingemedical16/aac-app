@@ -31,8 +31,9 @@ export default function ClientShell({
   }, [locale, isRTL, profile]);
 
   return (
-    <AuthGate>
+    <>
       {children}
-    </AuthGate>
+    </>
+   
   );
 }

@@ -9,24 +9,19 @@ import type { LocaleCode } from "@/types/userProfile";
 const ALL_LANGS: LocaleCode[] = ["en", "fr", "ar", "ro"];
 
 export default function ProfileEditor() {
-  const {
-    profile,
-    updateProfile,
-    createProfile,
-    deleteProfile,
-    profiles,
-  } = useUserProfile();
+  const { profile, updateProfile, createProfile, deleteProfile, profiles } =
+    useUserProfile();
 
   const { t } = useTranslation("common");
 
   const [name, setName] = useState(profile.name);
   const [languages, setLanguages] = useState<LocaleCode[]>(
-    profile.settings.preferredLanguages
+    profile.preferredLanguages
   );
 
   useEffect(() => {
     setName(profile.name);
-    setLanguages(profile.settings.preferredLanguages);
+    setLanguages(profile.preferredLanguages);
   }, [profile]);
 
   const toggleLanguage = (lng: LocaleCode) => {
@@ -42,7 +37,7 @@ export default function ProfileEditor() {
     updateProfile(profile.id, {
       name,
       settings: {
-        ...profile.settings,
+        ...profile,
         preferredLanguages: languages,
       },
     });
@@ -70,9 +65,7 @@ export default function ProfileEditor() {
 
       {/* LANGUAGES */}
       <div className={styles.section}>
-        <div className={styles.sectionTitle}>
-          {t("profile.languages")}
-        </div>
+        <div className={styles.sectionTitle}>{t("profile.languages")}</div>
 
         <div className={styles.langGrid}>
           {ALL_LANGS.map((lng) => (
@@ -87,9 +80,7 @@ export default function ProfileEditor() {
           ))}
         </div>
 
-        <small className={styles.hint}>
-          {t("profile.languagesHint")}
-        </small>
+        <small className={styles.hint}>{t("profile.languagesHint")}</small>
       </div>
 
       {/* ACCESSIBILITY */}
@@ -97,12 +88,12 @@ export default function ProfileEditor() {
         <label className={styles.toggle}>
           <input
             type="checkbox"
-            checked={profile.settings.highContrast}
+            checked={profile.highContrast}
             onChange={() =>
               updateProfile(profile.id, {
                 settings: {
-                  ...profile.settings,
-                  highContrast: !profile.settings.highContrast,
+                  ...profile,
+                  highContrast: !profile.highContrast,
                 },
               })
             }
@@ -113,12 +104,12 @@ export default function ProfileEditor() {
         <label className={styles.toggle}>
           <input
             type="checkbox"
-            checked={profile.settings.bigButtons}
+            checked={profile.bigButtons}
             onChange={() =>
               updateProfile(profile.id, {
                 settings: {
-                  ...profile.settings,
-                  bigButtons: !profile.settings.bigButtons,
+                  ...profile,
+                  bigButtons: !profile.bigButtons,
                 },
               })
             }

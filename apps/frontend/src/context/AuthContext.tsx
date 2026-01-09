@@ -11,7 +11,6 @@ import React, {
 import type { AuthUser, JwtPayload, UserRole } from "@/types/auth";
 import { tokenStorage } from "@/lib/auth/tokenStorage";
 import { loginApi, registerApi } from "@/lib/api/auth.api";
-import { useTranslation } from "react-i18next";
 
 /* =========================
    JWT HELPERS
@@ -22,11 +21,9 @@ function decodeJwt(token: string): JwtPayload | null {
     const payload = token.split(".")[1];
     if (!payload) return null;
 
-    const json = JSON.parse(
+    return JSON.parse(
       atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
-    );
-
-    return json as JwtPayload;
+    ) as JwtPayload;
   } catch {
     return null;
   }
@@ -84,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   /**
    * Apply JWT → state
-   * Returns the created AuthUser (important for redirects)
+   * Returns AuthUser or null
    */
   const applyToken = (jwt: string): AuthUser | null => {
     const payload = decodeJwt(jwt);
@@ -111,15 +108,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   /* =========================
-     BOOTSTRAP (on refresh)
+     BOOTSTRAP
   ========================= */
+
   useEffect(() => {
     const stored = tokenStorage.get();
     if (stored) {
       applyToken(stored);
     }
     setIsReady(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* =========================
@@ -128,17 +125,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (input: LoginInput): Promise<AuthUser> => {
     const res = await loginApi(input);
-    const { t } = useTranslation();
     const u = applyToken(res.access_token);
-    if (!u) throw new Error(t("errors.auth.tokenInvalid"));
+    if (!u) throw new Error("AUTH_TOKEN_INVALID");
     return u;
   };
 
   const register = async (input: RegisterInput): Promise<AuthUser> => {
     const res = await registerApi(input);
-    const { t } = useTranslation();
     const u = applyToken(res.access_token);
-    if (!u) throw new Error(t("errors.auth.tokenInvalid"));
+    if (!u) throw new Error("AUTH_TOKEN_INVALID");
     return u;
   };
 
@@ -178,10 +173,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 ========================= */
 
 export function useAuth() {
-  const { t } = useTranslation();
   const ctx = useContext(AuthContext);
   if (!ctx) {
-    throw new Error(t("errors.auth.missingProvider"));
+    throw new Error("AuthContext missing provider");
   }
   return ctx;
 }

@@ -62,14 +62,11 @@ export default function SentenceBar({
     <div
       className={[
         styles.wrapper,
-        profile.settings.highContrast ? styles.highContrast : "",
+        profile.highContrast ? styles.highContrast : "",
       ].join(" ")}
     >
       <div
-        className={[
-          styles.bar,
-          isSpeaking ? styles.barSpeaking : "",
-        ].join(" ")}
+        className={[styles.bar, isSpeaking ? styles.barSpeaking : ""].join(" ")}
       >
         <div ref={wordsRef} className={styles.words}>
           {sentence.map((tile) => (
