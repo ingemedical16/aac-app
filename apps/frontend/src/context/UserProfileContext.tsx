@@ -1,200 +1,163 @@
 // src/context/UserProfileContext.tsx
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import type { Profile, UserProfileState } from "@/types/userProfile";
-import { SUPPORTED_LANGUAGES } from "@/lib/i18n/languages";
-import { useAuth } from "@/context/AuthContext";
 import {
   getProfiles,
   createProfile as apiCreateProfile,
   updateProfile as apiUpdateProfile,
   deactivateProfile as apiDeactivateProfile,
-  type ProfileResponseDto,
-  type CreateProfileInput,
-  type UpdateProfileInput,
 } from "@/lib/api/profile.api";
 
-const CACHE_KEY = "aac.profiles.cache.v1";
-const ACTIVE_ID_KEY = "aac.profiles.activeId.v1";
+const STORAGE_PROFILES = "aac.profiles.cache";
+const STORAGE_ACTIVE_ID = "aac.profiles.activeId";
 
 type Ctx = {
-  isReady: boolean;
-
   profiles: Profile[];
   activeProfileId: string | null;
   profile: Profile | null;
 
-  setActiveProfileId: (id: string) => void;
+  refreshProfiles: () => Promise<void>;
 
-  refresh: () => Promise<void>;
-  createProfile: (input: CreateProfileInput) => Promise<void>;
-  updateProfile: (id: string, input: UpdateProfileInput) => Promise<void>;
+  setActiveProfileId: (id: string) => void;
+  createProfile: (input: Parameters<typeof apiCreateProfile>[0]) => Promise<void>;
+  updateProfile: (id: string, input: Parameters<typeof apiUpdateProfile>[1]) => Promise<void>;
   deleteProfile: (id: string) => Promise<void>;
 };
 
 const UserProfileContext = createContext<Ctx | null>(null);
 
-function mapDtoToProfile(dto: ProfileResponseDto): Profile {
-  return {
-    id: dto.id,
-    name: dto.name,
-    type: dto.type,
-    childId: dto.childId ?? null,
+export function UserProfileProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [activeProfileId, setActiveProfileIdState] = useState<string | null>(
+    null
+  );
+  const [isLoaded, setIsLoaded] = useState(false);
 
-    firstName: dto.firstName ?? null,
-    lastName: dto.lastName ?? null,
-    dateOfBirth: dto.dateOfBirth ?? null,
-    sex: dto.sex ?? null,
-    avatarUrl: dto.avatarUrl ?? null,
+  /* =========================
+     LOAD FROM BACKEND (PRIMARY)
+  ========================= */
+  const refreshProfiles = async () => {
+    const data = await getProfiles();
 
-    settings: {
-      preferredLanguages: (dto.preferredLanguages?.length
-        ? dto.preferredLanguages
-        : [...SUPPORTED_LANGUAGES]) as any,
-      highContrast: !!dto.highContrast,
-      bigButtons: !!dto.bigButtons,
-    },
+    setProfiles(data);
 
-    isActive: !!dto.isActive,
-    createdAt: dto.createdAt,
-    updatedAt: dto.updatedAt,
-  };
-}
+    localStorage.setItem(STORAGE_PROFILES, JSON.stringify(data));
 
-function readCache(): Profile[] {
-  try {
-    const raw = localStorage.getItem(CACHE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as Profile[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
+    // Restore active profile if possible
+    const storedActiveId =
+      localStorage.getItem(STORAGE_ACTIVE_ID) ?? data[0]?.id ?? null;
 
-function writeCache(profiles: Profile[]) {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(profiles));
-  } catch {}
-}
-
-function readActiveId(): string | null {
-  try {
-    return localStorage.getItem(ACTIVE_ID_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function writeActiveId(id: string) {
-  try {
-    localStorage.setItem(ACTIVE_ID_KEY, id);
-  } catch {}
-}
-
-export function UserProfileProvider({ children }: { children: React.ReactNode }) {
-  const { isReady: authReady, isAuthenticated } = useAuth();
-
-  const [isReady, setIsReady] = useState(false);
-  const [state, setState] = useState<UserProfileState>({
-    profiles: [],
-    activeProfileId: null,
-  });
-
-  const refresh = async () => {
-    // If not authenticated: load cache only (public pages shouldn’t crash)
-    if (!isAuthenticated) {
-      const cached = readCache();
-      const activeId = readActiveId();
-      setState({
-        profiles: cached,
-        activeProfileId:
-          activeId && cached.some((p) => p.id === activeId)
-            ? activeId
-            : cached[0]?.id ?? null,
-      });
-      return;
-    }
-
-    try {
-      const dtos = await getProfiles();
-      const profiles = dtos.map(mapDtoToProfile).filter((p) => p.isActive);
-
-      writeCache(profiles);
-
-      const storedActive = readActiveId();
-      const nextActive =
-        storedActive && profiles.some((p) => p.id === storedActive)
-          ? storedActive
-          : profiles[0]?.id ?? null;
-
-      if (nextActive) writeActiveId(nextActive);
-
-      setState({ profiles, activeProfileId: nextActive });
-    } catch {
-      // Offline fallback
-      const cached = readCache();
-      const storedActive = readActiveId();
-      setState({
-        profiles: cached,
-        activeProfileId:
-          storedActive && cached.some((p) => p.id === storedActive)
-            ? storedActive
-            : cached[0]?.id ?? null,
-      });
-    }
+    setActiveProfileIdState(storedActiveId);
   };
 
+  /* =========================
+     BOOTSTRAP (API → CACHE)
+  ========================= */
   useEffect(() => {
-    if (!authReady) return;
-
     (async () => {
-      await refresh();
-      setIsReady(true);
+      try {
+        await refreshProfiles();
+      } catch {
+        // Offline fallback
+        try {
+          const cached = localStorage.getItem(STORAGE_PROFILES);
+          const activeId = localStorage.getItem(STORAGE_ACTIVE_ID);
+
+          if (cached) {
+            setProfiles(JSON.parse(cached));
+            setActiveProfileIdState(activeId);
+          }
+        } catch {
+          // silent
+        }
+      } finally {
+        setIsLoaded(true);
+      }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authReady, isAuthenticated]);
+  }, []);
 
+  /* =========================
+     ACTIVE PROFILE
+  ========================= */
   const setActiveProfileId = (id: string) => {
-    setState((s) => ({ ...s, activeProfileId: id }));
-    writeActiveId(id);
+    setActiveProfileIdState(id);
+    localStorage.setItem(STORAGE_ACTIVE_ID, id);
   };
 
-  const createProfile = async (input: CreateProfileInput) => {
-    await apiCreateProfile(input);
-    await refresh();
+  const profile =
+    profiles.find((p) => p.id === activeProfileId) ?? null;
+
+  /* =========================
+     CRUD ACTIONS
+  ========================= */
+  const createProfile = async (
+    input: Parameters<typeof apiCreateProfile>[0]
+  ) => {
+    const created = await apiCreateProfile(input);
+    const next = [...profiles, created];
+
+    setProfiles(next);
+    localStorage.setItem(STORAGE_PROFILES, JSON.stringify(next));
+    setActiveProfileId(created.id);
   };
 
-  const updateProfile = async (id: string, input: UpdateProfileInput) => {
-    await apiUpdateProfile(id, input);
-    await refresh();
+  const updateProfile = async (
+    id: string,
+    input: Parameters<typeof apiUpdateProfile>[1]
+  ) => {
+    const updated = await apiUpdateProfile(id, input);
+    const next = profiles.map((p) => (p.id === id ? updated : p));
+
+    setProfiles(next);
+    localStorage.setItem(STORAGE_PROFILES, JSON.stringify(next));
   };
 
   const deleteProfile = async (id: string) => {
     await apiDeactivateProfile(id);
-    await refresh();
-  };
 
-  const profile =
-    state.activeProfileId
-      ? state.profiles.find((p) => p.id === state.activeProfileId) ?? null
-      : null;
+    const next = profiles.filter((p) => p.id !== id);
+    setProfiles(next);
+    localStorage.setItem(STORAGE_PROFILES, JSON.stringify(next));
+
+    if (activeProfileId === id) {
+      const fallback = next[0]?.id ?? null;
+      setActiveProfileIdState(fallback);
+      if (fallback) {
+        localStorage.setItem(STORAGE_ACTIVE_ID, fallback);
+      }
+    }
+  };
 
   const value = useMemo<Ctx>(
     () => ({
-      isReady,
-      profiles: state.profiles,
-      activeProfileId: state.activeProfileId,
+      profiles,
+      activeProfileId,
       profile,
+
+      refreshProfiles,
+
       setActiveProfileId,
-      refresh,
       createProfile,
       updateProfile,
       deleteProfile,
     }),
-    [isReady, state.profiles, state.activeProfileId, profile]
+    [profiles, activeProfileId, profile]
   );
+
+  if (!isLoaded) return null;
 
   return (
     <UserProfileContext.Provider value={value}>
@@ -206,7 +169,6 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
 export function useUserProfile() {
   const ctx = useContext(UserProfileContext);
   if (!ctx) {
-    // Keep runtime message simple; UI i18n handling can be added later
     throw new Error("useUserProfile must be used within UserProfileProvider");
   }
   return ctx;
