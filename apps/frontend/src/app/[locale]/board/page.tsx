@@ -6,10 +6,9 @@ import { ViewMode } from "@/types/viewMode";
 export default function BoardPage() {
   return (
     <AuthGate>
-      <AppShell mode={ViewMode.BOARD}>
-  <BoardEntry />
-</AppShell>
-      
+      <AppShell viewMode={ViewMode.BOARD}>
+        <BoardEntry />
+      </AppShell>
     </AuthGate>
   );
 }

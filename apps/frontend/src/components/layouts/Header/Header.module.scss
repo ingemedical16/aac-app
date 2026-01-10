@@ -1,0 +1,131 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: var(--header-height, 56px);
+  padding: 0 var(--padding-md);
+
+  background: var(--bg-header);
+  color: var(--text);
+
+  border-bottom: 1px solid var(--border);
+
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* =========================
+   LEFT
+========================= */
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.burger {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+
+  @include respond(desktop) {
+    display: none; // ❌ desktop → no burger
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* =========================
+   RIGHT
+========================= */
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.quickNav {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.logout {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.authLinks {
+  display: flex;
+  gap: var(--gap-sm);
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* =========================
+   MOBILE BEHAVIOR
+========================= */
+
+@media (max-width: 767px) {
+  .title {
+    font-size: 0.85rem;
+  }
+
+  .subtitle {
+    display: none;
+  }
+}

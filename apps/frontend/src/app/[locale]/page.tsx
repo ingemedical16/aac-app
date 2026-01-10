@@ -3,7 +3,9 @@ import { AppShell } from "@/components/layouts";
 import { ViewMode } from "@/types/viewMode";
 
 export default function LocaleHomePage() {
-  return ( <AppShell mode={ViewMode.PUBLIC}>
-    <Home />
-</AppShell>);
+  return (
+    <AppShell viewMode={ViewMode.PUBLIC}>
+      <Home />
+    </AppShell>
+  );
 }

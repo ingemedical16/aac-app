@@ -6,7 +6,7 @@ export default function AdminPage() {
   return (
   
   <AuthGate roles={["ADMIN"]}>
-  <AppShell mode={ViewMode.DASHBOARD}>
+  <AppShell viewMode={ViewMode.DASHBOARD}>
     <div>Admin Page</div>
 </AppShell>
 </AuthGate>)

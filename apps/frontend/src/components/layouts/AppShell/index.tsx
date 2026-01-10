@@ -1,93 +1,84 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AppShell.module.scss";
 import { ViewMode } from "@/types/viewMode";
-
-/* Shared UI */
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import ProfileSwitcher from "@/components/ProfileSwitcher";
-
-/* Icons (replace later if needed) */
-function Burger({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      className={styles.burger}
-      onClick={onClick}
-      aria-label="Open menu"
-    >
-      ☰
-    </button>
-  );
-}
+import Header from "@/components/layouts/Header";
+import Aside from "@/components/layouts/Aside";
 
 interface AppShellProps {
-  mode: ViewMode;
-  children: ReactNode;
+  children: React.ReactNode;
+  viewMode: ViewMode;
 }
 
-/**
- * AppShell
- *
- * Layout controller ONLY.
- * - No auth
- * - No roles
- * - No routing logic
- */
-export default function AppShell({ mode, children }: AppShellProps) {
+export default function AppShell({ children, viewMode }: AppShellProps) {
+  const [isMobile, setIsMobile] = useState(false);
   const [asideOpen, setAsideOpen] = useState(false);
 
-  const showHeader = true;
-  const showAside = mode === ViewMode.DASHBOARD;
+  /* =========================
+     DETECT MOBILE
+  ========================= */
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  /* =========================
+     RULES
+  ========================= */
+
+  const showHeader = !isMobile;
+  const showAside =
+    viewMode === ViewMode.DASHBOARD && (!isMobile || asideOpen);
+
+  const showBurger = isMobile;
+
+  /* =========================
+     RENDER
+  ========================= */
 
   return (
-    <div className={`${styles.shell} ${styles[mode]}`}>
-      {/* =========================
-         HEADER
-      ========================= */}
+    <div className={styles.shell}>
+      {/* Header (desktop only) */}
       {showHeader && (
-        <header className={styles.header}>
-          <div className={styles.headerLeft}>
-            {showAside && (
-              <Burger onClick={() => setAsideOpen((v) => !v)} />
-            )}
-            <span className={styles.logo}>AAC</span>
-          </div>
-
-          <div className={styles.headerRight}>
-            <LanguageSwitcher />
-            {mode !== ViewMode.PUBLIC && <ProfileSwitcher />}
-          </div>
-        </header>
+        <Header
+          viewMode={viewMode}
+          onBurgerClick={() => setAsideOpen(true)}
+        />
       )}
 
-      {/* =========================
-         BODY
-      ========================= */}
-      <div className={styles.body}>
-        {/* =========================
-           ASIDE (Dashboard only)
-        ========================= */}
-        {showAside && (
-          <aside
-            className={`${styles.aside} ${
-              asideOpen ? styles.open : ""
-            }`}
-          >
-            <nav className={styles.nav}>
-              <a href="#">Profiles</a>
-              <a href="#">Settings</a>
-              <a href="#">Security</a>
-            </nav>
-          </aside>
-        )}
+      {/* Aside */}
+      {showAside && (
+        <Aside
+          viewMode={viewMode}
+          onClose={() => setAsideOpen(false)}
+          isMobile={isMobile}
+        />
+      )}
 
-        {/* =========================
-           MAIN
-        ========================= */}
-        <main className={styles.main}>{children}</main>
-      </div>
+      {/* Mobile burger button */}
+      {showBurger && (
+        <button
+          className={styles.mobileBurger}
+          onClick={() => setAsideOpen(true)}
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+      )}
+
+      {/* Main content */}
+      <main className={styles.main}>{children}</main>
+
+      {/* Mobile overlay */}
+      {isMobile && asideOpen && (
+        <div
+          className={styles.overlay}
+          onClick={() => setAsideOpen(false)}
+        />
+      )}
     </div>
   );
 }
