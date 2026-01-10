@@ -46,8 +46,8 @@
     "defaultChildName": "My child"
   },
   "childDashboard": {
-  "title": "Communication board for {{name}}"
-},
+    "title": "Communication board for {{name}}"
+  },
 
   "profile": {
     "title": "Profile settings",
@@ -79,7 +79,6 @@
     "noAccount": "Don’t have an account?",
     "haveAccount": "Already have an account?"
   },
-    
 
   "sentence": {
     "iFeel": "I feel"
@@ -115,15 +114,15 @@
       "stand": "stand"
     }
   },
-  "patientDashboard": {
-  "title": "Dashboard",
-  "subtitle": "Manage communication profiles",
-  "noProfile": "No profiles yet.",
-  "createProfile": "Create profile",
-  "selectProfile": "Select a profile",
-  "defaultProfileName": "Child"
-},
- 
+  "userDashboard": {
+    "title": "Dashboard",
+    "subtitle": "Manage communication profiles",
+    "noProfile": "No profiles yet.",
+    "createProfile": "Create profile",
+    "selectProfile": "Select a profile",
+    "defaultProfileName": "Child"
+  },
+
   "errors": {
     "userProfileContext": {
       "missingProvider": "User profile context must be used within UserProfileProvider"
@@ -132,7 +131,5 @@
       "missingProvider": "Auth context must be used within AuthProvider",
       "tokenInvalid": "Authentication token is invalid or has expired"
     }
-  
-}
-
+  }
 }

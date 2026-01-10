@@ -38,16 +38,16 @@
     "group": "Grup"
   },
   "parentDashboard": {
-  "title": "Panoul părintelui",
-  "subtitle": "Gestionează profilurile copiilor și accesează tabloul de comunicare",
-  "noChild": "Nu există încă niciun profil de copil.",
-  "createChild": "Creează un profil de copil",
-  "selectChild": "Selectează un profil de copil",
-  "defaultChildName": "Copilul meu"
-},
-"childDashboard": {
-  "title": "Tabloul de comunicare pentru {{name}}"
-},
+    "title": "Panoul părintelui",
+    "subtitle": "Gestionează profilurile copiilor și accesează tabloul de comunicare",
+    "noChild": "Nu există încă niciun profil de copil.",
+    "createChild": "Creează un profil de copil",
+    "selectChild": "Selectează un profil de copil",
+    "defaultChildName": "Copilul meu"
+  },
+  "childDashboard": {
+    "title": "Tabloul de comunicare pentru {{name}}"
+  },
 
   "profile": {
     "title": "Setări profil",
@@ -114,14 +114,14 @@
       "stand": "ridică-te"
     }
   },
-  "patientDashboard": {
-  "title": "Tablou de bord",
-  "subtitle": "Gestionează profilurile de comunicare",
-  "noProfile": "Nu există încă profiluri.",
-  "createProfile": "Creează profil",
-  "selectProfile": "Selectează un profil",
-  "defaultProfileName": "Copil"
-},
+  "userDashboard": {
+    "title": "Tablou de bord",
+    "subtitle": "Gestionează profilurile de comunicare",
+    "noProfile": "Nu există încă profiluri.",
+    "createProfile": "Creează profil",
+    "selectProfile": "Selectează un profil",
+    "defaultProfileName": "Copil"
+  },
   "errors": {
     "userProfileContext": {
       "missingProvider": "Contextul profilului utilizatorului trebuie utilizat în UserProfileProvider"
@@ -131,6 +131,4 @@
       "tokenInvalid": "Tokenul de autentificare este invalid sau a expirat"
     }
   }
-
-
 }

@@ -1,0 +1,36 @@
+
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  background: var(--bg);
+}
+
+.aside {
+  border-right: 1px solid var(--border);
+  background: var(--bg-soft);
+  padding: var(--padding-lg);
+}
+
+.main {
+  padding: var(--padding-xl);
+  overflow-y: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .aside {
+    display: none; /* mobile menu later */
+  }
+}

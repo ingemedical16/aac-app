@@ -38,16 +38,16 @@
     "group": "مجموعة"
   },
   "parentDashboard": {
-  "title": "لوحة تحكم الوالدين",
-  "subtitle": "إدارة ملفات الأطفال والوصول إلى لوحة التواصل",
-  "noChild": "لا يوجد ملف لطفل حتى الآن.",
-  "createChild": "إنشاء ملف طفل",
-  "selectChild": "اختيار ملف طفل",
-  "defaultChildName": "طفلي"
-},
-"childDashboard": {
-  "title": "لوحة التواصل الخاصة بـ {{name}}"
-},
+    "title": "لوحة تحكم الوالدين",
+    "subtitle": "إدارة ملفات الأطفال والوصول إلى لوحة التواصل",
+    "noChild": "لا يوجد ملف لطفل حتى الآن.",
+    "createChild": "إنشاء ملف طفل",
+    "selectChild": "اختيار ملف طفل",
+    "defaultChildName": "طفلي"
+  },
+  "childDashboard": {
+    "title": "لوحة التواصل الخاصة بـ {{name}}"
+  },
 
   "profile": {
     "title": "إعدادات الملف",
@@ -114,15 +114,14 @@
       "stand": "قف"
     }
   },
-  "patientDashboard": {
-  "title": "لوحة التحكم",
-  "subtitle": "إدارة ملفات التواصل",
-  "noProfile": "لا توجد ملفات حتى الآن.",
-  "createProfile": "إنشاء ملف",
-  "selectProfile": "اختيار ملف",
-  "defaultProfileName": "طفل"
-}
-,
+  "userDashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "إدارة ملفات التواصل",
+    "noProfile": "لا توجد ملفات حتى الآن.",
+    "createProfile": "إنشاء ملف",
+    "selectProfile": "اختيار ملف",
+    "defaultProfileName": "طفل"
+  },
   "errors": {
     "userProfileContext": {
       "missingProvider": "يجب استخدام سياق ملف المستخدم داخل UserProfileProvider"
@@ -132,6 +131,4 @@
       "tokenInvalid": "رمز المصادقة غير صالح أو منتهي الصلاحية"
     }
   }
-
-
 }

@@ -38,16 +38,16 @@
     "group": "Groupe"
   },
   "parentDashboard": {
-  "title": "Tableau de bord des parents",
-  "subtitle": "Gérez les profils de vos enfants et accédez au tableau de communication",
-  "noChild": "Aucun profil d’enfant n’existe pour le moment.",
-  "createChild": "Créer un profil d’enfant",
-  "selectChild": "Sélectionner un profil d’enfant",
-  "defaultChildName": "Mon enfant"
-},
-"childDashboard": {
-  "title": "Tableau de communication de {{name}}"
-},
+    "title": "Tableau de bord des parents",
+    "subtitle": "Gérez les profils de vos enfants et accédez au tableau de communication",
+    "noChild": "Aucun profil d’enfant n’existe pour le moment.",
+    "createChild": "Créer un profil d’enfant",
+    "selectChild": "Sélectionner un profil d’enfant",
+    "defaultChildName": "Mon enfant"
+  },
+  "childDashboard": {
+    "title": "Tableau de communication de {{name}}"
+  },
 
   "profile": {
     "title": "Paramètres du profil",
@@ -114,15 +114,15 @@
       "stand": "se lever"
     }
   },
-  "patientDashboard": {
-  "title": "Tableau de bord",
-  "subtitle": "Gérer les profils de communication",
-  "noProfile": "Aucun profil pour le moment.",
-  "createProfile": "Créer un profil",
-  "selectProfile": "Sélectionner un profil",
-  "defaultProfileName": "Enfant"
-},
-   "errors": {
+  "userDashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Gérer les profils de communication",
+    "noProfile": "Aucun profil pour le moment.",
+    "createProfile": "Créer un profil",
+    "selectProfile": "Sélectionner un profil",
+    "defaultProfileName": "Enfant"
+  },
+  "errors": {
     "userProfileContext": {
       "missingProvider": "Le contexte du profil utilisateur doit être utilisé dans UserProfileProvider"
     },
