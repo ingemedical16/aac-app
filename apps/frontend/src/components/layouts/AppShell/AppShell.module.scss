@@ -1,0 +1,71 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--padding-md);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.headerLeft,
+.headerCenter,
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.menuBtn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* =========================
+   BODY
+========================= */
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* =========================
+   ASIDE
+========================= */
+
+.aside {
+  width: 240px;
+  background: var(--bg-soft);
+  border-right: 1px solid var(--border);
+  padding: var(--padding-md);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--padding-md);
+}

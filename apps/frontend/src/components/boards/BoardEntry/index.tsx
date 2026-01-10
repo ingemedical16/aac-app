@@ -13,7 +13,7 @@ import { useAuth } from "@/context/AuthContext";
 import { getBoardCapabilities } from "@/lib/board/getBoardCapabilities";
 
 /* UI */
-import AppHeader from "@/components/AppHeader";
+
 import MobileMenu from "@/components/MobileMenu";
 import CategoryBar from "@/components/CategoryBar";
 import SubcategoryBar from "@/components/SubcategoryBar";
@@ -80,7 +80,7 @@ export default function BoardEntry() {
   ========================= */
   return (
     <section className={styles.wrapper}>
-      <AppHeader onOpenMenu={() => setMenuOpen(true)} />
+      
 
       <MobileMenu
         open={menuOpen}
