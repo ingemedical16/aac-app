@@ -1,14 +1,15 @@
 import AuthGate from "@/components/auth/AuthGate";
 import UserDashboard from "@/components/dashboards/userDashboard";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
+import { AppShell } from "@/components/layouts";
+import { ViewMode } from "@/types/viewMode";
 
 
 export default function UserDashboardPage() {
   return (
     <AuthGate roles={["USER"]}>
-      <DashboardLayout aside={<div>Profiles / Settings</div>}>
-        <UserDashboard />
-      </DashboardLayout>
+      <AppShell mode={ViewMode.DASHBOARD}>
+  <UserDashboard />
+</AppShell>
     </AuthGate>
   );
 }

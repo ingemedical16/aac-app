@@ -1,42 +1,91 @@
 "use client";
 
-import React from "react";
+import { ReactNode, useState } from "react";
 import styles from "./AppShell.module.scss";
+import { ViewMode } from "@/types/viewMode";
 
-interface AppShellProps {
-  children: React.ReactNode;
+/* Shared UI */
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ProfileSwitcher from "@/components/ProfileSwitcher";
+
+/* Icons (replace later if needed) */
+function Burger({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      className={styles.burger}
+      onClick={onClick}
+      aria-label="Open menu"
+    >
+      ☰
+    </button>
+  );
 }
 
-export default function AppShell({ children }: AppShellProps) {
+interface AppShellProps {
+  mode: ViewMode;
+  children: ReactNode;
+}
+
+/**
+ * AppShell
+ *
+ * Layout controller ONLY.
+ * - No auth
+ * - No roles
+ * - No routing logic
+ */
+export default function AppShell({ mode, children }: AppShellProps) {
+  const [asideOpen, setAsideOpen] = useState(false);
+
+  const showHeader = true;
+  const showAside = mode === ViewMode.DASHBOARD;
+
   return (
-    <div className={styles.shell}>
-      {/* HEADER (shared) */}
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          {/* ☰ menu button placeholder */}
-          <button className={styles.menuBtn} aria-label="Open menu">
-            ☰
-          </button>
-        </div>
+    <div className={`${styles.shell} ${styles[mode]}`}>
+      {/* =========================
+         HEADER
+      ========================= */}
+      {showHeader && (
+        <header className={styles.header}>
+          <div className={styles.headerLeft}>
+            {showAside && (
+              <Burger onClick={() => setAsideOpen((v) => !v)} />
+            )}
+            <span className={styles.logo}>AAC</span>
+          </div>
 
-        <div className={styles.headerCenter}>
-          {/* App title / logo placeholder */}
-          <span className={styles.logo}>AAC</span>
-        </div>
+          <div className={styles.headerRight}>
+            <LanguageSwitcher />
+            {mode !== ViewMode.PUBLIC && <ProfileSwitcher />}
+          </div>
+        </header>
+      )}
 
-        <div className={styles.headerRight}>
-          {/* User / language placeholder */}
-        </div>
-      </header>
-
-      {/* BODY */}
+      {/* =========================
+         BODY
+      ========================= */}
       <div className={styles.body}>
-        {/* ASIDE */}
-        <aside className={styles.aside}>
-          {/* Navigation placeholder */}
-        </aside>
+        {/* =========================
+           ASIDE (Dashboard only)
+        ========================= */}
+        {showAside && (
+          <aside
+            className={`${styles.aside} ${
+              asideOpen ? styles.open : ""
+            }`}
+          >
+            <nav className={styles.nav}>
+              <a href="#">Profiles</a>
+              <a href="#">Settings</a>
+              <a href="#">Security</a>
+            </nav>
+          </aside>
+        )}
 
-        {/* MAIN */}
+        {/* =========================
+           MAIN
+        ========================= */}
         <main className={styles.main}>{children}</main>
       </div>
     </div>

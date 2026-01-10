@@ -1,7 +1,12 @@
 import AuthGate from "@/components/auth/AuthGate";
+import { AppShell } from "@/components/layouts";
+import { ViewMode } from "@/types/viewMode";
 
 export default function ProfessionalDashboardPage() {
   return <AuthGate roles={["PROFESSIONAL"]}>
-    <div>Professional Dashboard (WIP)</div>
+    <AppShell mode={ViewMode.DASHBOARD}>
+ <div>Professional Dashboard (WIP)</div>
+</AppShell>
+   
   </AuthGate>;
 }

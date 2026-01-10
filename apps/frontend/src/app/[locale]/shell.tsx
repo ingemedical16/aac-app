@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useUserProfile } from "@/context/UserProfileContext";
-import { AppShell } from "@/components/layouts";
+
 
 export default function ClientShell({
   children,
@@ -23,15 +23,9 @@ export default function ClientShell({
 
     body.classList.toggle("rtl", isRTL);
     body.classList.toggle("ltr", !isRTL);
-
     body.classList.toggle("hc", profile?.highContrast ?? false);
     body.classList.toggle("big", profile?.bigButtons ?? false);
-  }, [
-    locale,
-    isRTL,
-    profile?.highContrast,
-    profile?.bigButtons,
-  ]);
+  }, [locale, isRTL, profile?.highContrast, profile?.bigButtons]);
 
-  return <AppShell>{children}</AppShell>;
+  return <>{children}</>;
 }

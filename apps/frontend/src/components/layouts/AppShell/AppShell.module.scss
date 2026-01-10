@@ -1,9 +1,9 @@
 @use "@/styles/breakpoints.scss" as *;
 
 .shell {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 /* =========================
@@ -11,31 +11,36 @@
 ========================= */
 
 .header {
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
   padding: 0 var(--padding-md);
-  background: var(--bg);
   border-bottom: 1px solid var(--border);
+  background: var(--bg);
 }
 
-.headerLeft,
-.headerCenter,
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
 .headerRight {
   display: flex;
   align-items: center;
+  gap: var(--gap-sm);
 }
 
 .logo {
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 700;
 }
 
-.menuBtn {
+/* Burger */
+.burger {
+  font-size: 22px;
   background: none;
   border: none;
-  font-size: 1.4rem;
   cursor: pointer;
 }
 
@@ -44,8 +49,8 @@
 ========================= */
 
 .body {
-  display: flex;
   flex: 1;
+  display: flex;
   min-height: 0;
 }
 
@@ -55,9 +60,29 @@
 
 .aside {
   width: 240px;
-  background: var(--bg-soft);
   border-right: 1px solid var(--border);
+  background: var(--bg-soft);
   padding: var(--padding-md);
+
+  @include respond(mobile) {
+    position: fixed;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 10;
+  }
+}
+
+.aside.open {
+  transform: translateX(0);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
 }
 
 /* =========================
@@ -66,6 +91,30 @@
 
 .main {
   flex: 1;
-  overflow-y: auto;
+  overflow: auto;
   padding: var(--padding-md);
+}
+
+/* =========================
+   VIEW MODES
+========================= */
+
+.public {
+  .aside {
+    display: none;
+  }
+}
+
+.board {
+  .aside {
+    display: none;
+  }
+
+  .main {
+    padding: 0;
+  }
+}
+
+.dashboard {
+  /* default dashboard layout */
 }
