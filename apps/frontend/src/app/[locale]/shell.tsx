@@ -1,9 +1,8 @@
-// src/app/[locale]/shell.tsx
 "use client";
 
 import { useEffect } from "react";
 import { useUserProfile } from "@/context/UserProfileContext";
-import AuthGate from "@/components/auth/AuthGate";
+import { AppShell } from "@/components/layouts";
 
 export default function ClientShell({
   children,
@@ -16,8 +15,6 @@ export default function ClientShell({
   const isRTL = locale === "ar";
 
   useEffect(() => {
-    if (!profile) return;
-
     const html = document.documentElement;
     const body = document.body;
 
@@ -26,14 +23,15 @@ export default function ClientShell({
 
     body.classList.toggle("rtl", isRTL);
     body.classList.toggle("ltr", !isRTL);
-    body.classList.toggle("hc", profile.highContrast);
-    body.classList.toggle("big", profile.bigButtons);
-  }, [locale, isRTL, profile]);
 
-  return (
-    <>
-      {children}
-    </>
-   
-  );
+    body.classList.toggle("hc", profile?.highContrast ?? false);
+    body.classList.toggle("big", profile?.bigButtons ?? false);
+  }, [
+    locale,
+    isRTL,
+    profile?.highContrast,
+    profile?.bigButtons,
+  ]);
+
+  return <AppShell>{children}</AppShell>;
 }
