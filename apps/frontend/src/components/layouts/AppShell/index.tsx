@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./AppShell.module.scss";
-import { ViewMode } from "@/types/viewMode";
+
 import Header from "@/components/layouts/Header";
 import Aside from "@/components/layouts/Aside";
+import MobileMenu from "@/components/MobileMenu";
+
+import { ViewMode } from "@/types/viewMode";
+import useAutoHideHeader  from "@/hooks/useAutoHideHeader";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -12,73 +17,49 @@ interface AppShellProps {
 }
 
 export default function AppShell({ children, viewMode }: AppShellProps) {
-  const [isMobile, setIsMobile] = useState(false);
-  const [asideOpen, setAsideOpen] = useState(false);
+
 
   /* =========================
-     DETECT MOBILE
+     VISIBILITY RULES (LOCKED)
   ========================= */
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+const isMobile = useIsMobile();
+const [isAsideOpen, setIsAsideOpen] = useState(false);
 
-  /* =========================
-     RULES
-  ========================= */
+/* =========================
+   VISIBILITY RULES (FINAL)
+========================= */
 
-  const showHeader = !isMobile;
-  const showAside =
-    viewMode === ViewMode.DASHBOARD && (!isMobile || asideOpen);
+const showHeader = !isMobile;
 
-  const showBurger = isMobile;
+const showAside =
+  (isMobile && isAsideOpen) ||
+  (viewMode === ViewMode.DASHBOARD && !isMobile);
 
-  /* =========================
-     RENDER
-  ========================= */
+const showMobileToggle = isMobile;
+
+  /* ========================= */
 
   return (
-    <div className={styles.shell}>
-      {/* Header (desktop only) */}
-      {showHeader && (
-        <Header
-          viewMode={viewMode}
-          onBurgerClick={() => setAsideOpen(true)}
+    <div className={styles.shell} data-view={viewMode}>
+      {showHeader && <Header viewMode={viewMode} />}
+
+      {showMobileToggle && (
+        <MobileMenu
+          isOpen={isAsideOpen}
+          onToggle={() => setIsAsideOpen((v) => !v)}
         />
       )}
 
-      {/* Aside */}
-      {showAside && (
-        <Aside
-          viewMode={viewMode}
-          onClose={() => setAsideOpen(false)}
-          isMobile={isMobile}
-        />
-      )}
+      <div className={styles.body}>
+        {showAside && (
+          <Aside
+            viewMode={viewMode}
+            onNavigate={() => setIsAsideOpen(false)}
+          />
+        )}
 
-      {/* Mobile burger button */}
-      {showBurger && (
-        <button
-          className={styles.mobileBurger}
-          onClick={() => setAsideOpen(true)}
-          aria-label="Open menu"
-        >
-          ☰
-        </button>
-      )}
-
-      {/* Main content */}
-      <main className={styles.main}>{children}</main>
-
-      {/* Mobile overlay */}
-      {isMobile && asideOpen && (
-        <div
-          className={styles.overlay}
-          onClick={() => setAsideOpen(false)}
-        />
-      )}
+        <main className={styles.content}>{children}</main>
+      </div>
     </div>
   );
 }

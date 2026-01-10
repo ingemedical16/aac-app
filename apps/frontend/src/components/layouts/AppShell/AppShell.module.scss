@@ -1,40 +1,36 @@
 .shell {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  background: var(--bg);
+  width: 100%;
 }
 
-.main {
+.body {
+  display: flex;
   flex: 1;
-  min-width: 0;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  padding: 1.5rem;
+  overflow-y: auto;
 }
 
 /* =========================
-   MOBILE BURGER
+   DASHBOARD MODE
 ========================= */
 
-.mobileBurger {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 120;
-
-  font-size: 1.5rem;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.25rem 0.5rem;
-
-  cursor: pointer;
+.shell[data-view="dashboard"] .body {
+  display: flex;
 }
 
 /* =========================
-   OVERLAY
+   BOARD & PUBLIC
 ========================= */
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  z-index: 90;
+.shell[data-view="board"] .body,
+.shell[data-view="public"] .body {
+  display: block;
 }
