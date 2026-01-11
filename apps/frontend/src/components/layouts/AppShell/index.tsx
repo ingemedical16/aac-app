@@ -8,8 +8,8 @@ import Aside from "@/components/layouts/Aside";
 import MobileMenu from "@/components/MobileMenu";
 
 import { ViewMode } from "@/types/viewMode";
-import useAutoHideHeader  from "@/hooks/useAutoHideHeader";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import MobileMenuButton from "../MobileMenuButton";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -30,10 +30,12 @@ const [isAsideOpen, setIsAsideOpen] = useState(false);
 ========================= */
 
 const showHeader = !isMobile;
+const toggle = (val: boolean) => !val;
 
 const showAside =
   (isMobile && isAsideOpen) ||
   (viewMode === ViewMode.DASHBOARD && !isMobile);
+  console.log("showAside", showAside);
 
 const showMobileToggle = isMobile;
 
@@ -42,13 +44,9 @@ const showMobileToggle = isMobile;
   return (
     <div className={styles.shell} data-view={viewMode}>
       {showHeader && <Header viewMode={viewMode} />}
+      {showMobileToggle && <MobileMenuButton onClick={() => setIsAsideOpen(toggle)} />}
 
-      {showMobileToggle && (
-        <MobileMenu
-          isOpen={isAsideOpen}
-          onToggle={() => setIsAsideOpen((v) => !v)}
-        />
-      )}
+     
 
       <div className={styles.body}>
         {showAside && (

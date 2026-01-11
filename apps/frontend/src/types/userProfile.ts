@@ -22,6 +22,7 @@ export interface Profile {
      SETTINGS (FLAT)
   ========================= */
   preferredLanguages: LocaleCode[];
+  primaryLanguage?: LocaleCode ;
   highContrast: boolean;
   bigButtons: boolean;
 
