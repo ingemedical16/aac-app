@@ -1,0 +1,25 @@
+.toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--tile-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--padding-sm) var(--padding-md);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  color: var(--text);
+}
+
+.toggle:hover {
+  background: var(--bg-hover);
+}
+
+.active {
+  border-color: var(--accent);
+}
+
+.state {
+  font-weight: var(--font-weight-bold);
+  color: var(--accent);
+}

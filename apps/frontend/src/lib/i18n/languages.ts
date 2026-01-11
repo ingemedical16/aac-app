@@ -1,5 +1,6 @@
 // src/lib/i18n/languages.ts
 
+export type LocaleCode = "en" | "fr" | "ar" | "ro" | (string & {});
 /**
  * Supported locales for the application.
  * Can later be hydrated from ENV or backend.

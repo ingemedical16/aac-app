@@ -1,0 +1,8 @@
+.button {
+  font-size: var(--font-size-xl);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  transform: scaleX(var(--icon-scale-x));
+}

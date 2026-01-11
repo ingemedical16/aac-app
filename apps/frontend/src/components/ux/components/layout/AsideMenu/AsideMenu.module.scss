@@ -1,0 +1,31 @@
+@use "@/styles/breakpoints.scss" as *;
+.aside {
+  width: 280px;
+  height: 100vh;
+  background: var(--bg);
+  border-inline-end: 1px solid var(--border);
+  padding: var(--padding-lg);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.collapsed {
+  width: 80px;
+  padding: var(--padding-md);
+  align-items: center;
+}
+
+/* Mobile & tablet overlay */
+@include respond(mobile) {
+  .aside {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+  }
+
+  .aside.open {
+    transform: translateX(0);
+  }
+}

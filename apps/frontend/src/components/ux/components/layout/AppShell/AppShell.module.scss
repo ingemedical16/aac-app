@@ -1,0 +1,21 @@
+@use "@/styles/breakpoints.scss" as *;
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* Desktop layout: sidebar + main */
+@include respond(desktop) {
+  .shell {
+    flex-direction: row;
+  }
+}
+
+.main {
+  flex: 1;
+  padding: var(--padding-lg);
+  background: var(--bg);
+  min-height: 100vh;
+}

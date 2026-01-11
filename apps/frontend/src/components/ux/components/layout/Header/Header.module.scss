@@ -1,0 +1,30 @@
+@use "@/styles/breakpoints.scss" as *;
+.header {
+  display: flex;
+  flex-direction: var(--flex-row-dir);
+  align-items: center;
+  justify-content: space-between;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  padding: var(--padding-md);
+  gap: var(--gap-md);
+}
+
+.right, .middle, .left {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-md);
+}
+
+/* Hide header on mobile & tablet portrait */
+@include respond(mobile) {
+  .header {
+    display: none;
+  }
+}
+
+@include respond(tablet-portrait) {
+  .header {
+    display: none;
+  }
+}

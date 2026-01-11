@@ -1,0 +1,46 @@
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.name {
+  font-size: var(--font-size-sm);
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  inset-inline-end: 0;
+  background: var(--tile-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--padding-md);
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  z-index: 50;
+}
+
+.logout {
+  background: var(--danger);
+  color: var(--accent-text);
+  border: none;
+  padding: var(--padding-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

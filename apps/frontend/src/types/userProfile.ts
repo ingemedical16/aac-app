@@ -1,4 +1,5 @@
-export type LocaleCode = "en" | "fr" | "ar" | "ro" | (string & {});
+import { LocaleCode } from "@/lib/i18n/languages";
+
 
 export type ProfileType = "INDIVIDUAL" | "CHILD";
 

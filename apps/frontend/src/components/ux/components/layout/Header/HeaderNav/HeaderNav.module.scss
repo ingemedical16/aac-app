@@ -1,0 +1,17 @@
+.nav {
+  display: flex;
+  gap: var(--gap-md);
+}
+
+.item {
+  background: transparent;
+  border: none;
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-md);
+}
+
+.item:hover {
+  background: var(--bg-hover);
+}
