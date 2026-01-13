@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  width="48"
+  height="48"
+  viewBox="0 0 48 48"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="AAC icon"
+>
+  <!-- Bubble -->
+  <rect
+    x="4"
+    y="4"
+    width="40"
+    height="32"
+    rx="8"
+    fill="currentColor"
+  />
+  <path
+    d="M16 36 L20 28 H28 L32 36 Z"
+    fill="currentColor"
+  />
+
+  <!-- Dots -->
+  <circle cx="16" cy="20" r="3" fill="white" />
+  <circle cx="24" cy="20" r="3" fill="white" />
+  <circle cx="32" cy="20" r="3" fill="white" />
+</svg>
