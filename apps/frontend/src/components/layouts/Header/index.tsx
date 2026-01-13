@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import styles from "./Header.module.scss";
 import SandwichButton from "./SandwichButton";
 import Logo from "../Logo";
@@ -13,6 +15,8 @@ export default function Header() {
 
 
 const { avatarUrl, displayName } = useProfileIdentity();
+const router = useRouter();
+
   return (
     <header className={styles.header}>
       {/* Mobile only */}
@@ -21,9 +25,23 @@ const { avatarUrl, displayName } = useProfileIdentity();
       </div>
 
       {/* Desktop / Tablet landscape */}
+       {/* Left */}
       <div className={styles.left}>
-        { /* <Logo /> */ }
+        <button
+          className={styles.logoButton}
+          onClick={() => router.push("/")}
+          aria-label="Go to home"
+        >
+          <span className={styles.logoFull}>
+            <Logo variant="full" />
+          </span>
+
+          <span className={styles.logoCompact}>
+            <Logo variant="compact" />
+          </span>
+        </button>
       </div>
+
 
       <div className={styles.center}>
        { /* <HeaderNavigation /> */ }
