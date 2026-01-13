@@ -2,24 +2,55 @@
 
 import { useEffect } from "react";
 import i18next from "@/lib/i18n";
-import { DEFAULT_LANGUAGE, isSupportedLanguage } from "@/lib/i18n/languages";
+import {
+  DEFAULT_LANGUAGE,
+  isSupportedLanguage,
+} from "@/lib/i18n/languages";
 
+/**
+ * I18nProvider
+ * -----------------------------
+ * Initializes and syncs application language.
+ *
+ * Priority:
+ * 1. localStorage ("aac-language")
+ * 2. browser language
+ * 3. DEFAULT_LANGUAGE
+ *
+ * Does NOT:
+ * - manipulate DOM (handled by AppEffects)
+ * - depend on routing
+ */
 export default function I18nProvider({
-  locale,
   children,
 }: {
-  locale: string;
   children: React.ReactNode;
 }) {
   useEffect(() => {
-    const safeLocale = isSupportedLanguage(locale)
-      ? locale
+    const storedLang =
+      typeof window !== "undefined"
+        ? localStorage.getItem("aac-language")
+        : null;
+
+    const browserLang =
+      typeof navigator !== "undefined"
+        ? navigator.language.split("-")[0]
+        : null;
+
+    const candidate =
+      storedLang ??
+      (browserLang && isSupportedLanguage(browserLang)
+        ? browserLang
+        : DEFAULT_LANGUAGE);
+
+    const safeLang = isSupportedLanguage(candidate)
+      ? candidate
       : DEFAULT_LANGUAGE;
 
-    if (i18next.language !== safeLocale) {
-      i18next.changeLanguage(safeLocale);
+    if (i18next.language !== safeLang) {
+      i18next.changeLanguage(safeLang);
     }
-  }, [locale]);
+  }, []);
 
   return <>{children}</>;
 }
