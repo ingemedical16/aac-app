@@ -12,7 +12,7 @@ export default function Home() {
   const locale = i18n.language || "en";
 
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       <h1 className={styles.title}>{t("appTitle")}</h1>
 
       <p className={styles.subtitle}>{t("boardTitle")}</p>
@@ -36,6 +36,6 @@ export default function Home() {
           </Link>
         )}
       </div>
-    </main>
+    </div>
   );
 }
