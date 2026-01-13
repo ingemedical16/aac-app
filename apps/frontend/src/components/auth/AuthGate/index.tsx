@@ -1,46 +1,45 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { withLocale } from "@/lib/navigation/withLocale";
-import type { UserRole } from "@/types/auth";
 
-interface AuthGateProps {
+/**
+ * AuthGate
+ * 🔐 Authentication guard ONLY
+ *
+ * Responsibilities:
+ * - Ensure the user is authenticated
+ * - Redirect to /login if not
+ *
+ * ❌ Does NOT handle:
+ * - Roles
+ * - Dashboards
+ * - Layouts
+ * - Profiles
+ */
+export default function AuthGate({
+  children,
+}: {
   children: React.ReactNode;
-  roles?: UserRole[]; // 👈 optional RBAC
-}
-
-export default function AuthGate({ children, roles }: AuthGateProps) {
-  const { isReady, isAuthenticated, user } = useAuth();
+}) {
   const router = useRouter();
-  const params = useParams<{ locale?: string }>();
-  const locale = params?.locale ?? "en";
+  const { isReady, isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (!isReady) return;
 
-    // 🔐 Not authenticated → login
     if (!isAuthenticated) {
-      router.replace(withLocale(locale, "/login"));
-      return;
+      router.replace("/login");
     }
+  }, [isReady, isAuthenticated, router]);
 
-    // 🔒 Authenticated but not authorized → home
-    if (roles && user && !roles.includes(user.role)) {
-      router.replace(withLocale(locale, "/"));
-    }
-  }, [isReady, isAuthenticated, user, roles, locale, router]);
-
-  /* =========================
-     RENDER GUARD
-  ========================= */
-
+  // ⏳ Wait for auth hydration
   if (!isReady) return null;
 
+  // 🚫 Not authenticated → nothing rendered (redirect in effect)
   if (!isAuthenticated) return null;
 
-  if (roles && user && !roles.includes(user.role)) return null;
-
+  // ✅ Authenticated
   return <>{children}</>;
 }
