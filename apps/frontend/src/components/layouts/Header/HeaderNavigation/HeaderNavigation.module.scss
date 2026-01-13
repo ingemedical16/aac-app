@@ -1,0 +1,15 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.nav {
+  display: none;
+
+  @include respond(tablet-landscape) {
+    display: block;
+  }
+}
+
+.list {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
