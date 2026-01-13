@@ -1,19 +1,24 @@
 .item {
-  list-style: none;
-}
-
-.link {
-  text-decoration: none;
-  font-weight: 500;
-  color: var(--text-primary, #111);
+  background: none;
+  border: 0;
   padding: 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-primary, #111);
+  position: relative;
 
   &:hover {
-    text-decoration: underline;
+    opacity: 0.8;
   }
 
-  body.hc & {
-    color: #000;
-    text-decoration: underline;
+  &:focus-visible {
+    outline: 2px solid var(--focus, #2563eb);
+    outline-offset: 2px;
   }
+}
+
+/* High contrast */
+body.hc & {
+  color: #000;
 }

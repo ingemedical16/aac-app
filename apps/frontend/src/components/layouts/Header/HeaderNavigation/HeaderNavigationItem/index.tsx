@@ -1,22 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./HeaderNavigationItem.module.scss";
 
-type HeaderNavigationItemProps = {
+type Props = {
   label: string;
-  href: string;
+  onClick: () => void;
 };
 
-export default function HeaderNavigationItem({
-  label,
-  href,
-}: HeaderNavigationItemProps) {
+export default function HeaderNavigationItem({ label, onClick }: Props) {
   return (
-    <li className={styles.item}>
-      <Link href={href} className={styles.link}>
-        {label}
-      </Link>
-    </li>
+    <button
+      type="button"
+      className={styles.item}
+      onClick={onClick}
+    >
+      {label}
+    </button>
   );
 }

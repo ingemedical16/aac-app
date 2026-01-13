@@ -1,15 +1,16 @@
 @use "@/styles/breakpoints.scss" as *;
 
 .nav {
-  display: none;
-
-  @include respond(tablet-landscape) {
-    display: block;
-  }
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.list {
-  display: flex;
-  gap: 1.25rem;
-  align-items: center;
+/* High contrast */
+body.hc & {
+  a,
+  button {
+    color: #000;
+    font-weight: 600;
+  }
 }
