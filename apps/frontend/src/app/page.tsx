@@ -1,10 +1,11 @@
 import Home from "@/components/Home";
-import { AppShell } from "@/components/layouts";
+import { AppShell } from "@/components/ux/components/layout/AppShell";
+
 import { ViewMode } from "@/types/viewMode";
 
 export default function LocaleHomePage() {
   return (
-    <AppShell viewMode={ViewMode.PUBLIC}>
+    <AppShell asidePolicy="always-open" >
       <Home />
     </AppShell>
   );
