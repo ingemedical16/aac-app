@@ -1,21 +1,54 @@
 @use "@/styles/breakpoints.scss" as *;
+
+$header-height: 64px;
+$aside-width: 300px;
+$aside-collapsed-width: 90px;
+
+/* Base mobile-first */
 .shell {
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
   background: var(--bg);
-}
-
-/* Desktop layout: sidebar + main */
-@include respond(desktop) {
-  .shell {
-    flex-direction: row;
-  }
 }
 
 .main {
-  flex: 1;
   padding: var(--padding-lg);
-  background: var(--bg);
-  min-height: 100vh;
+}
+
+/* Desktop layout */
+@include respond(tablet-landscape) {
+  .shell {
+    display: flex;
+  }
+
+  .main {
+    margin-top: $header-height;
+    transition: margin-inline-start 0.25s ease;
+  }
+}
+
+/* ===== Layout States ===== */
+
+.layoutMobile {
+  .main {
+    margin-inline-start: 0;
+    margin-top: 0;
+  }
+}
+
+.layoutAsideClosed {
+  .main {
+    margin-inline-start: 0;
+  }
+}
+
+.layoutAsideOpen {
+  .main {
+    margin-inline-start: $aside-width;
+  }
+}
+
+.layoutAsideCollapsed {
+  .main {
+    margin-inline-start: $aside-collapsed-width;
+  }
 }

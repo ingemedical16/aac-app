@@ -15,7 +15,7 @@ export function ProfileMenu() {
         onClick={() => setOpen(v => !v)}
         aria-label="Profile menu"
       >
-        <img src="/avatar.png" className={styles.avatar} />
+        <img src="images/me.png" className={styles.avatar} />
         <span className={styles.name}>Mohammed</span>
         ▼
       </button>

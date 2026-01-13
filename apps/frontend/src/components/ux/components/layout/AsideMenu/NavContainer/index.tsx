@@ -1,21 +1,35 @@
-import { NavItem } from "../NavItem";
+import { NavGroup } from "../NavGroup";
 
-const navItems = [
-  { title: "Dashboard", icon: "🏠" },
-  { title: "Board", icon: "🧩" },
-  { title: "Profiles", icon: "👤" },
-  { title: "Settings", icon: "⚙️" },
+
+const navGroups = [
+  {
+    title: "Main",
+    items: [
+      { title: "Dashboard", icon: "🏠" },
+      { title: "Board", icon: "🧩" },
+    ],
+  },
+  {
+    title: "Profiles",
+    items: [{ title: "Children", icon: "👶" }],
+  },
 ];
 
-export function NavContainer({ collapsed }: { collapsed: boolean }) {
+export function NavContainer({
+  collapsed,
+  onItemClick,
+}: {
+  collapsed: boolean;
+  onItemClick: () => void;
+}) {
   return (
     <nav>
-      {navItems.map(item => (
-        <NavItem
-          key={item.title}
-          title={item.title}
-          icon={item.icon}
+      {navGroups.map(group => (
+        <NavGroup
+          key={group.title}
+          {...group}
           collapsed={collapsed}
+          onItemClick={onItemClick}
         />
       ))}
     </nav>

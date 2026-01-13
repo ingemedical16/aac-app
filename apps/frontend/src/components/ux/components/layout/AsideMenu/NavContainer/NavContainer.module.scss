@@ -1,5 +1,5 @@
 nav {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-sm);
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--padding-md) 0;
 }

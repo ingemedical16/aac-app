@@ -1,0 +1,22 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.button {
+  position: fixed;
+  bottom: 20px;
+  inset-inline-end: 20px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  font-size: 28px;
+  z-index: 100;
+}
+
+/* Hide on tablet landscape + desktop */
+@include respond(tablet-landscape) {
+  .button {
+    display: none;
+  }
+}

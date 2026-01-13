@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./LanguageSwitcher.module.scss";
 import i18next from "@/lib/i18n";
 import {
@@ -11,7 +12,20 @@ import {
 
 export function LanguageSwitcher() {
   const [lang, setLang] = useState<LocaleCode>(DEFAULT_LANGUAGE);
+  const { t } = useTranslation();
+  const isRTL = lang === "ar";
+  
+useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
 
+    html.lang = lang;
+    html.dir = isRTL ? "rtl" : "ltr";
+
+    body.classList.toggle("rtl", isRTL);
+    body.classList.toggle("ltr", !isRTL);
+   
+  }, [lang, isRTL,] );
   useEffect(() => {
     setLang(i18next.language as LocaleCode);
   }, []);
@@ -24,7 +38,7 @@ export function LanguageSwitcher() {
 
   return (
     <div className={styles.wrapper}>
-      <label className={styles.label}>Language</label>
+      <label className={styles.label}>{t("language")}</label>
 
       <select
         className={styles.select}

@@ -1,38 +1,61 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AppShell.module.scss";
 import { Header } from "../Header";
 import { AsideMenu } from "../AsideMenu";
+import { MenuButton } from "../MenuButton";
+
+export type AsidePolicy = "always-open" | "always-closed";
 
 type Props = {
   children: React.ReactNode;
+  asidePolicy: AsidePolicy;
 };
 
-export function AppShell({ children }: Props) {
+export function AppShell({ children, asidePolicy }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
-  // Close menu automatically on desktop resize
   useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth >= 1024) {
-        setMenuOpen(false);
-      }
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const update = () => setIsDesktop(window.innerWidth >= 820);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
+  useEffect(() => {
+    if (isDesktop) {
+      setMenuOpen(asidePolicy === "always-open");
+    } else {
+      setMenuOpen(false);
+    }
+  }, [asidePolicy, isDesktop]);
+
+  const layoutClass = !isDesktop
+    ? styles.layoutMobile
+    : !menuOpen
+    ? styles.layoutAsideClosed
+    : collapsed
+    ? styles.layoutAsideCollapsed
+    : styles.layoutAsideOpen;
+
   return (
-    <div className={styles.shell}>
-      {/* Desktop Header */}
-      <Header onToggleMenu={() => setMenuOpen(v => !v)} />
+    <div className={`${styles.shell} ${layoutClass}`}>
+      {isDesktop && <Header />}
 
-      {/* Sidebar / Mobile Overlay */}
-      <AsideMenu isOpen={menuOpen} />
+      {!isDesktop && !menuOpen && (
+        <MenuButton onClick={() => setMenuOpen(true)} />
+      )}
 
-      {/* Main Content */}
+      <AsideMenu
+        isOpen={menuOpen}
+        isMobile={!isDesktop}
+        onClose={() => setMenuOpen(false)}
+        onCollapseChange={setCollapsed}   // ✅ safe now
+      />
+
       <main className={styles.main}>{children}</main>
     </div>
   );

@@ -4,9 +4,10 @@ type Props = {
   title: string;
   icon: string;
   collapsed: boolean;
+  onClick?: () => void;
 };
 
-export function NavItem({ title, icon, collapsed }: Props) {
+export function NavItem({ title, icon, collapsed, onClick }: Props) {
   return (
     <div
       className={styles.item}
@@ -14,6 +15,7 @@ export function NavItem({ title, icon, collapsed }: Props) {
       role="button"
       aria-label={title}
       data-tooltip={collapsed ? title : undefined}
+      onClick={onClick}
     >
       <span
         className={styles.icon}

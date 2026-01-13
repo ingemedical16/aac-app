@@ -1,0 +1,16 @@
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: var(--padding-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.logout {
+  background: var(--danger);
+  color: var(--accent-text);
+  border: none;
+  padding: var(--padding-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

@@ -1,30 +1,19 @@
-"use client";
-
 import styles from "./Header.module.scss";
-import { MenuButton } from "./MenuButton";
 import { Logo } from "./Logo";
-import { ProfileMenu } from "./ProfileMenu";
 import { HeaderNav } from "./HeaderNav";
+import { ProfileMenu } from "./ProfileMenu";
 
-type Props = {
-  onToggleMenu: () => void;
-};
-
-export function Header({ onToggleMenu }: Props) {
+export function Header() {
   return (
     <header className={styles.header}>
-      {/* Right */}
       <div className={styles.right}>
-        <MenuButton onClick={onToggleMenu} />
         <Logo short />
       </div>
 
-      {/* Middle */}
       <div className={styles.middle}>
         <HeaderNav />
       </div>
 
-      {/* Left */}
       <div className={styles.left}>
         <ProfileMenu />
       </div>

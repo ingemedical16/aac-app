@@ -1,31 +1,82 @@
 @use "@/styles/breakpoints.scss" as *;
+
+$header-height: 64px;
+$aside-width: 280px;
+$aside-collapsed-width: 80px;
+
+/* ============================
+   Mobile First — Overlay Menu
+============================= */
 .aside {
-  width: 280px;
+  position: fixed;
+  inset: 0;
+  width: 80%;
+  max-width: $aside-width;
   height: 100vh;
   background: var(--bg);
-  border-inline-end: 1px solid var(--border);
-  padding: var(--padding-lg);
+  z-index: 90;
+
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease, transform 0.3s ease;
+  padding: var(--padding-lg);
 }
 
-.collapsed {
-  width: 80px;
-  padding: var(--padding-md);
-  align-items: center;
-}
-
-/* Mobile & tablet overlay */
-@include respond(mobile) {
+/* ============================
+   Desktop / Tablet Landscape
+============================= */
+@include respond(tablet-landscape) {
   .aside {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    transform: translateX(-100%);
-  }
+    inset: auto;
+    top: $header-height;
+    inset-inline-start: 0;
+    width: $aside-width;
+    height: calc(100vh - $header-height);
 
-  .aside.open {
-    transform: translateX(0);
+    border-inline-end: 1px solid var(--border);
+  }
+}
+
+/* ============================
+   Collapsed Mode (Desktop ONLY)
+============================= */
+@include respond(tablet-landscape) {
+  .collapsed {
+    width: $aside-collapsed-width;
+    padding: var(--padding-md);
+    align-items: center;
+  }
+}
+
+/* ============================
+   Close Button (Mobile ONLY)
+============================= */
+.close {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  background: var(--danger);
+  color: var(--accent-text);
+  border: none;
+
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 10;
+}
+
+/* Hide close button on desktop */
+@include respond(tablet-landscape) {
+  .close {
+    display: none;
   }
 }
