@@ -2,10 +2,17 @@
 
 import styles from "./Header.module.scss";
 import SandwichButton from "./SandwichButton";
+import Logo from "../Logo";
+import HeaderNavigation from "./HeaderNavigation";
+import ProfileInfo from "./ProfileInfo";
+ import { useProfileIdentity } from "@/hooks/useProfileIdentity";
 
 
 
 export default function Header() {
+
+
+const { avatarUrl, displayName } = useProfileIdentity();
   return (
     <header className={styles.header}>
       {/* Mobile only */}
@@ -23,7 +30,7 @@ export default function Header() {
       </div>
 
       <div className={styles.right}>
-        { /* <ProfileInfo /> */ }
+       <ProfileInfo name={displayName} avatarUrl={avatarUrl} /> 
       </div>
     </header>
   );
