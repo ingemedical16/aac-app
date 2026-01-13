@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./Header.module.scss";
+import SandwichButton from "./SandwichButton";
 
 
 
@@ -9,7 +10,7 @@ export default function Header() {
     <header className={styles.header}>
       {/* Mobile only */}
       <div className={styles.mobileLeft}>
-       { /* <SandwichButton /> */ }
+        <SandwichButton />
       </div>
 
       {/* Desktop / Tablet landscape */}
