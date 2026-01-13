@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.select {
+  background: var(--tile-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--padding-sm);
+  font-size: var(--font-size-md);
+  color: var(--text);
+  cursor: pointer;
+}
