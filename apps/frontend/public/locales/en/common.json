@@ -63,6 +63,8 @@
   },
 
   "auth": {
+    "welcome": "Welcome",
+    "account": "Account",
     "login": "Login",
     "register": "Register",
     "email": "Email address",
@@ -73,6 +75,12 @@
       "professional": "Professional",
       "patient_adult": "Adult patient"
     },
+    "dashboard": "Dashboard",
+    "profiles": "Profiles",
+    "goToBoard": "Go to board",
+
+    "adminTools": "Admin tools",
+    "professionalTools": "Professional tools",
     "create_account": "Create account",
     "invalid_credentials": "Invalid email or password",
     "logout": "Logout",

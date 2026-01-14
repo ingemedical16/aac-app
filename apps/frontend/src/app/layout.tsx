@@ -11,14 +11,15 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning>
-      <body suppressHydrationWarning> <AuthProvider>
-          <UserProfileProvider>
-            <I18nProvider>
+      <body suppressHydrationWarning>
+        <I18nProvider>
+          <AuthProvider>
+            <UserProfileProvider>
               {children}
-            </I18nProvider>
-          </UserProfileProvider>
-           </AuthProvider>
-          </body>
+            </UserProfileProvider>
+          </AuthProvider>
+        </I18nProvider>
+      </body>
     </html>
   );
 }

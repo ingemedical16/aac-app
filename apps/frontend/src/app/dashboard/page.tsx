@@ -4,7 +4,7 @@ import { ViewMode } from "@/types/viewMode";
 
 export default function ProfessionalDashboardPage() {
   return (
-    <AuthGate roles={["PROFESSIONAL"]}>
+    <AuthGate >
       <AppShell viewMode={ViewMode.DASHBOARD}>
         <div>Professional Dashboard (WIP)</div>
       </AppShell>

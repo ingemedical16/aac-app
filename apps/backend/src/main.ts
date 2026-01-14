@@ -6,9 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // ✅ Use i18n-aware validation pipe
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-
+  // ✅ CORS must be FIRST
   app.enableCors({
     origin: [
       'http://localhost:3000',
@@ -19,10 +17,12 @@ async function bootstrap() {
     credentials: true,
   });
 
+  // ✅ Then pipes, guards, interceptors, etc.
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
   const port = process.env.PORT || 4000;
   await app.listen(port, '0.0.0.0');
 
-  // eslint-disable-next-line no-console
   console.log(`Backend listening on http://localhost:${port}`);
 }
 

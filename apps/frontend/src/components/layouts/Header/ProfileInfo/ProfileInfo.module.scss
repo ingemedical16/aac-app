@@ -12,7 +12,8 @@
   height: 32px;
   border-radius: 50%;
   overflow: hidden;
-  background: var(--surface-muted, #e5e7eb);
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,28 +26,17 @@
 }
 
 .initial {
-  font-weight: 600;
-  color: var(--text-primary, #111);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
 }
 
 .name {
   display: none;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--text-muted);
 
   @include respond(tablet-landscape) {
     display: inline;
-  }
-}
-
-/* High contrast */
-body.hc & {
-  .avatar {
-    background: #000;
-  }
-
-  .initial,
-  .name {
-    color: #000;
   }
 }

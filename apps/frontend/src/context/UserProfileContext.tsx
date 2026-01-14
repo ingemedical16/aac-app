@@ -1,4 +1,3 @@
-// src/context/UserProfileContext.tsx
 "use client";
 
 import React, {
@@ -9,7 +8,7 @@ import React, {
   useState,
 } from "react";
 
-import type { Profile, UserProfileState } from "@/types/userProfile";
+import type { Profile } from "@/types/userProfile";
 import {
   getProfiles,
   createProfile as apiCreateProfile,
@@ -17,8 +16,18 @@ import {
   deactivateProfile as apiDeactivateProfile,
 } from "@/lib/api/profile.api";
 
+import { useAuth } from "@/context/AuthContext";
+
+/* =========================
+   STORAGE KEYS
+========================= */
+
 const STORAGE_PROFILES = "aac.profiles.cache";
 const STORAGE_ACTIVE_ID = "aac.profiles.activeId";
+
+/* =========================
+   CONTEXT TYPE
+========================= */
 
 type Ctx = {
   profiles: Profile[];
@@ -35,28 +44,31 @@ type Ctx = {
 
 const UserProfileContext = createContext<Ctx | null>(null);
 
+/* =========================
+   PROVIDER
+========================= */
+
 export function UserProfileProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { isReady, isAuthenticated } = useAuth();
+
   const [profiles, setProfiles] = useState<Profile[]>([]);
-  const [activeProfileId, setActiveProfileIdState] = useState<string | null>(
-    null
-  );
+  const [activeProfileId, setActiveProfileIdState] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   /* =========================
-     LOAD FROM BACKEND (PRIMARY)
+     LOAD FROM BACKEND
   ========================= */
+
   const refreshProfiles = async () => {
     const data = await getProfiles();
 
     setProfiles(data);
-
     localStorage.setItem(STORAGE_PROFILES, JSON.stringify(data));
 
-    // Restore active profile if possible
     const storedActiveId =
       localStorage.getItem(STORAGE_ACTIVE_ID) ?? data[0]?.id ?? null;
 
@@ -64,9 +76,21 @@ export function UserProfileProvider({
   };
 
   /* =========================
-     BOOTSTRAP (API → CACHE)
+     BOOTSTRAP (AUTH → API → CACHE)
   ========================= */
+
   useEffect(() => {
+    if (!isReady) return;
+
+    // User is not authenticated → reset state
+    if (!isAuthenticated) {
+      setProfiles([]);
+      setActiveProfileIdState(null);
+      setIsLoaded(true);
+      return;
+    }
+
+    // User authenticated → load profiles
     (async () => {
       try {
         await refreshProfiles();
@@ -87,11 +111,12 @@ export function UserProfileProvider({
         setIsLoaded(true);
       }
     })();
-  }, []);
+  }, [isReady, isAuthenticated]);
 
   /* =========================
      ACTIVE PROFILE
   ========================= */
+
   const setActiveProfileId = (id: string) => {
     setActiveProfileIdState(id);
     localStorage.setItem(STORAGE_ACTIVE_ID, id);
@@ -103,6 +128,7 @@ export function UserProfileProvider({
   /* =========================
      CRUD ACTIONS
   ========================= */
+
   const createProfile = async (
     input: Parameters<typeof apiCreateProfile>[0]
   ) => {
@@ -135,11 +161,18 @@ export function UserProfileProvider({
     if (activeProfileId === id) {
       const fallback = next[0]?.id ?? null;
       setActiveProfileIdState(fallback);
+
       if (fallback) {
         localStorage.setItem(STORAGE_ACTIVE_ID, fallback);
+      } else {
+        localStorage.removeItem(STORAGE_ACTIVE_ID);
       }
     }
   };
+
+  /* =========================
+     CONTEXT VALUE
+  ========================= */
 
   const value = useMemo<Ctx>(
     () => ({
@@ -157,7 +190,7 @@ export function UserProfileProvider({
     [profiles, activeProfileId, profile]
   );
 
-  if (!isLoaded) return null;
+ 
 
   return (
     <UserProfileContext.Provider value={value}>
@@ -165,6 +198,10 @@ export function UserProfileProvider({
     </UserProfileContext.Provider>
   );
 }
+
+/* =========================
+   HOOK
+========================= */
 
 export function useUserProfile() {
   const ctx = useContext(UserProfileContext);

@@ -5,8 +5,8 @@
 @codespace = https://ubiquitous-zebra-wv7ggxpwp5frrv-4000.app.github.dev
 
 ### 👉 Select active backend
- @baseUrl = {{local}}
-# @baseUrl = {{codespace}}
+# @baseUrl = {{local}}
+ @baseUrl = {{codespace}}
 
 ### =====================================================
 ### AUTH – REGISTER (USER)
@@ -58,23 +58,22 @@ Accept-Language: fr
 
 ###
 
-### =====================================================
-### AUTH – LOGIN (SUCCESS)
-### =====================================================
+### AUTH – LOGIN
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
-Accept-Language: en
 
 {
   "email": "user@example.com",
   "password": "Password123"
 }
 
+###
+
+### Scripts
 > {% 
   client.global.set("access_token", response.body.access_token);
 %}
 
-###
 
 ### =====================================================
 ### AUTH – LOGIN (INVALID PASSWORD)
