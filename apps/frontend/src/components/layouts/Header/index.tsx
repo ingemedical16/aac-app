@@ -7,25 +7,35 @@ import SandwichButton from "./SandwichButton";
 import Logo from "../Logo";
 import HeaderNavigation from "./HeaderNavigation";
 import ProfileInfo from "./ProfileInfo";
- import { useProfileIdentity } from "@/hooks/useProfileIdentity";
+import DropdownMenu from "./DropdownMenu";
 
+import { useProfileIdentity } from "@/hooks/useProfileIdentity";
+import { ViewMode } from "@/types/viewMode";
 
+type HeaderProps = {
+  viewMode: ViewMode;
+  isMobile: boolean;
+  onToggleAside?: () => void;
+};
 
-export default function Header() {
-
-
-const { avatarUrl, displayName } = useProfileIdentity();
-const router = useRouter();
+export default function Header({
+  viewMode,
+  isMobile,
+  onToggleAside,
+}: HeaderProps) {
+  const router = useRouter();
+  const { avatarUrl, displayName } = useProfileIdentity();
 
   return (
     <header className={styles.header}>
-      {/* Mobile only */}
-      <div className={styles.mobileLeft}>
-        <SandwichButton />
-      </div>
+      {/* ================= MOBILE LEFT ================= */}
+      {isMobile && (
+        <div className={styles.mobileLeft}>
+          <SandwichButton onClick={onToggleAside} />
+        </div>
+      )}
 
-      {/* Desktop / Tablet landscape */}
-       {/* Left */}
+      {/* ================= LEFT ================= */}
       <div className={styles.left}>
         <button
           className={styles.logoButton}
@@ -42,13 +52,22 @@ const router = useRouter();
         </button>
       </div>
 
-
+      {/* ================= CENTER ================= */}
       <div className={styles.center}>
-       { /* <HeaderNavigation /> */ }
+        <HeaderNavigation viewMode={viewMode} />
       </div>
 
+      {/* ================= RIGHT ================= */}
       <div className={styles.right}>
-       <ProfileInfo name={displayName} avatarUrl={avatarUrl} /> 
+        <DropdownMenu
+          viewMode={viewMode}
+          trigger={
+            <ProfileInfo
+              name={displayName}
+              avatarUrl={avatarUrl}
+            />
+          }
+        />
       </div>
     </header>
   );
