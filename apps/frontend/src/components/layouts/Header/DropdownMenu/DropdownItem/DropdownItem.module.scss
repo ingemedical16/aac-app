@@ -1,0 +1,52 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  text-align: left;
+  color: var(--text, #111);
+
+  transition: background 120ms ease;
+}
+
+.item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.item:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--focus, #2563eb);
+  outline-offset: 2px;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.right {
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
+
+.danger {
+  color: #b91c1c;
+}
+
+:global(body.hc) .item:hover {
+  background: #fff;
+  outline: 1px solid #000;
+}
