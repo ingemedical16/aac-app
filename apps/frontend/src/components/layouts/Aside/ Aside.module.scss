@@ -1,123 +1,65 @@
 @use "@/styles/breakpoints.scss" as *;
 
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 90;
+}
+
 .aside {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
+  height: 100dvh;
   width: 280px;
-  z-index: 999;
+  background: var(--surface, #fff);
+  z-index: 100;
 
-  background: var(--color-surface, #fff);
-  border-right: 1px solid var(--color-border, #ddd);
+  display: flex;
+  flex-direction: column;
 
-  overflow-y: auto;
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+}
+
+/* Hide aside completely on tablet landscape & up */
+@include respond(tablet-landscape) {
+  .backdrop {
+    display: none;
+  }
+
+  .aside {
+    display: none;
+  }
 }
 
 /* =========================
    SECTIONS
 ========================= */
 
-.section {
-  margin-bottom: var(--gap-lg);
+.header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--border-muted, #e5e7eb);
 }
 
-.sectionTitle {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  opacity: 0.6;
-  margin-bottom: var(--gap-sm);
-}
-
-/* =========================
-   NAV
-========================= */
-
-.navList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.navItem {
-  width: 100%;
-  text-align: left;
-
+.closeBtn {
   background: none;
   border: none;
-
-  padding: 0.5rem 0.6rem;
-  margin-bottom: 0.25rem;
-
-  border-radius: 6px;
+  font-size: 1.25rem;
   cursor: pointer;
-
-  font-size: 0.9rem;
-
-  &:hover {
-    background: var(--bg-hover);
-  }
 }
 
-/* =========================
-   PROFILE SWITCHER
-========================= */
-
-.profileList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.content {
+  flex: 1 1 auto;
+  padding: 1rem;
 }
 
-.profileItem {
-  width: 100%;
-  text-align: left;
-
-  background: none;
-  border: 1px solid var(--border);
-
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-
-  border-radius: 8px;
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-
-  &:hover {
-    background: var(--bg-hover);
-  }
-}
-
-.profileItem.active {
-  border-color: var(--primary);
-  background: rgba(0, 120, 255, 0.08);
-}
-
-.profileName {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.profileMeta {
-  font-size: 0.7rem;
-  opacity: 0.6;
-}
-
-.muted {
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
-
-/* =========================
-   DIVIDER
-========================= */
-
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin: var(--gap-md) 0;
+.footer {
+  padding: 1rem;
+  border-top: 1px solid var(--border-muted, #e5e7eb);
 }
