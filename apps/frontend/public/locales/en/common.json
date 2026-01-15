@@ -71,13 +71,15 @@
     "password": "Password",
     "role": "Role",
     "roles": {
-      "parent": "Parent",
+      "admin": "Admin",
       "professional": "Professional",
-      "patient_adult": "Adult patient"
+      "user": "User"
     },
     "dashboard": "Dashboard",
     "profiles": "Profiles",
     "goToBoard": "Go to board",
+    "goToDashboard": "Go to dashboard",
+    "goToHome": "Go to home",
 
     "adminTools": "Admin tools",
     "professionalTools": "Professional tools",

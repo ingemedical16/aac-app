@@ -11,6 +11,7 @@ import DropdownMenu from "./DropdownMenu";
 
 import { useProfileIdentity } from "@/hooks/useProfileIdentity";
 import { ViewMode } from "@/types/viewMode";
+import { useTranslation } from "react-i18next";
 
 type HeaderProps = {
   viewMode: ViewMode;
@@ -25,6 +26,7 @@ export default function Header({
 }: HeaderProps) {
   const router = useRouter();
   const { avatarUrl, displayName } = useProfileIdentity();
+  const { t } = useTranslation();
 
   return (
     <header className={styles.header}>
@@ -40,7 +42,7 @@ export default function Header({
         <button
           className={styles.logoButton}
           onClick={() => router.push("/")}
-          aria-label="Go to home"
+          aria-label={t("goToHome")}
         >
           <span className={styles.logoFull}>
             <Logo variant="full" />
