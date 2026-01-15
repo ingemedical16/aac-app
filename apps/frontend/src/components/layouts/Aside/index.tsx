@@ -2,6 +2,13 @@
 
 import styles from "./Aside.module.scss";
 import { ViewMode } from "@/types/viewMode";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+
+import AsideHeader from "./AsideHeader";
+import AsideNav from "./AsideNav";
+import AsideProfileSection from "./AsideProfileSection";
+import AsideFooter from "./AsideFooter";
+import CollapseToggle from "./CollapseToggle";
 
 type AsideProps = {
   viewMode: ViewMode;
@@ -10,45 +17,53 @@ type AsideProps = {
 };
 
 export default function Aside({ viewMode, isOpen, onClose }: AsideProps) {
-  // Mobile shell only for now
+  const isTabletLandscapeUp = useMediaQuery("(min-width: 820px)");
+
+  /**
+   * Tablet Landscape+ behavior
+   * - Only dashboard has a visible aside
+   */
+  if (isTabletLandscapeUp && viewMode !== ViewMode.DASHBOARD) {
+    return null;
+  }
+
+  /**
+   * Desktop / Tablet Landscape → fixed aside
+   */
+  if (isTabletLandscapeUp && viewMode === ViewMode.DASHBOARD) {
+    return (
+      <aside className={`${styles.aside} ${styles.fixed}`}>
+        <AsideHeader />
+
+        <AsideNav />
+
+        <AsideProfileSection />
+
+        <AsideFooter />
+
+        <CollapseToggle />
+      </aside>
+    );
+  }
+
+  /**
+   * Mobile & Tablet Portrait → overlay drawer
+   * Same behavior for ALL views
+   */
   if (!isOpen) return null;
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        className={styles.backdrop}
-        onClick={onClose}
-        aria-hidden
-      />
+      <div className={styles.backdrop} onClick={onClose} />
 
-      {/* Aside panel */}
-      <aside
-        className={styles.aside}
-        role="navigation"
-        aria-label="Side menu"
-      >
-        {/* Header */}
-        <div className={styles.header}>
-          <button
-            type="button"
-            className={styles.closeBtn}
-            onClick={onClose}
-            aria-label="Close menu"
-          >
-            ✕
-          </button>
-        </div>
+      <aside className={`${styles.aside} ${styles.overlay}`}>
+        <AsideHeader onClose={onClose} />
 
-        {/* Content placeholder */}
-        <div className={styles.content}>
-          {/* Navigation groups will be added later */}
-        </div>
+        <AsideNav onNavigate={onClose} />
 
-        {/* Footer placeholder */}
-        <div className={styles.footer}>
-          {/* Collapse / settings later */}
-        </div>
+        <AsideProfileSection />
+
+        <AsideFooter />
       </aside>
     </>
   );

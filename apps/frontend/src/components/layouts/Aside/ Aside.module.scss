@@ -1,65 +1,39 @@
 @use "@/styles/breakpoints.scss" as *;
 
-.backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 90;
-}
-
 .aside {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100dvh;
-  width: 280px;
-  background: var(--surface, #fff);
-  z-index: 100;
-
+  background: var(--surface);
+  color: var(--text-primary);
+  width: 260px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-
-  transform: translateX(0);
-  transition: transform 0.2s ease;
-}
-
-/* Hide aside completely on tablet landscape & up */
-@include respond(tablet-landscape) {
-  .backdrop {
-    display: none;
-  }
-
-  .aside {
-    display: none;
-  }
 }
 
 /* =========================
-   SECTIONS
+   DESKTOP FIXED
 ========================= */
-
-.header {
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 1rem;
-  border-bottom: 1px solid var(--border-muted, #e5e7eb);
+.fixed {
+  position: sticky;
+  top: 56px; // header height
+  height: calc(100vh - 56px);
+  border-right: 1px solid var(--border);
 }
 
-.closeBtn {
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  cursor: pointer;
+/* =========================
+   MOBILE OVERLAY
+========================= */
+.overlay {
+  position: fixed;
+  inset: 0 auto 0 0;
+  height: 100vh;
+  z-index: 120;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
 }
 
-.content {
-  flex: 1 1 auto;
-  padding: 1rem;
-}
-
-.footer {
-  padding: 1rem;
-  border-top: 1px solid var(--border-muted, #e5e7eb);
+/* Backdrop */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 110;
 }
