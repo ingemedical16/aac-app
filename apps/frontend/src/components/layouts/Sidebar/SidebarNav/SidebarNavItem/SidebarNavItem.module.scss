@@ -1,0 +1,92 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  text-align: left;
+
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+
+  &:hover:not(.disabled) {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-primary);
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  color: inherit;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+/* =========================
+   STATES
+========================= */
+
+.active {
+  background-color: var(--color-surface-active);
+  color: var(--color-text-primary);
+}
+
+.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* =========================
+   COLLAPSED MODE
+   (icon only)
+========================= */
+
+.collapsed {
+  justify-content: center;
+
+  .label {
+    display: none;
+  }
+}
+
+/* =========================
+   TABLET LANDSCAPE+
+========================= */
+
+@include respond(tablet-landscape) {
+  .item {
+    padding: var(--space-sm) var(--space-lg);
+  }
+}
+
+/* =========================
+   HIGH CONTRAST
+========================= */
+
+body.hc & {
+  .item {
+    border: 1px solid var(--color-border-strong);
+  }
+
+  .active {
+    background-color: var(--color-text-primary);
+    color: var(--color-text-inverse);
+  }
+}
