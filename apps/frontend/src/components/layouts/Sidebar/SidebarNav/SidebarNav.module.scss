@@ -1,0 +1,20 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+
+  padding: var(--padding-md);
+}
+
+/* =========================
+   TABLET LANDSCAPE+
+========================= */
+
+@include respond(tablet-landscape) {
+  .nav {
+    padding: var(--padding-lg);
+    gap: var(--gap-lg);
+  }
+}
