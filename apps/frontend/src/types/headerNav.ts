@@ -7,6 +7,7 @@ export type HeaderNavItem = {
   labelKey: string;
   href: string;
   roles?: UserRole[];
+  disabled?: boolean;
   requiresAuth?: boolean;
   /** hide when active profile is CHILD */
   hideForChildProfile?: boolean;
