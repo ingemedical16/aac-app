@@ -1,3 +1,12 @@
+/* =====================================================
+   DESIGN TOKENS — AAC APPLICATION
+   Single Source of Truth
+===================================================== */
+
+/* =====================================================
+   DEFAULT THEME — CHILD FRIENDLY (AAC)
+===================================================== */
+
 :root {
   /* =========================
      DIRECTION (DEFAULT LTR)
@@ -8,33 +17,35 @@
   --icon-scale-x: 1;
 
   /* =========================
-     COLORS – NORMAL MODE
+     COLORS — CHILD FRIENDLY
   ========================== */
-  --bg: #f7f7f7;
-  --bg-hover: #eef4ff;
+  --bg: #f4f9ff;
+  --bg-hover: #e8f2ff;
 
-  --border: #dddddd;
-  --border-hover: #9bbcff;
+  --border: #cfe1ff;
+  --border-hover: #8bb7ff;
 
-  --text: #222222;
-  --text-muted: #666666;
+  --text: #1f2937;
+  --text-muted: #6b7280;
 
   --tile-bg: #ffffff;
-  --tile-bg-hover: #eef4ff;
-  --tile-border: #dddddd;
+  --tile-bg-hover: #e8f2ff;
+  --tile-border: #cfe1ff;
 
   --header-bg: #ffffff;
+  --sidebar-bg: #f8fbff;
 
   --accent: #4a8cff;
-  --accent-hover: #3c70d8;
+  --accent-hover: #3b6fd8;
   --accent-text: #ffffff;
 
-  --danger: #ff5c5c;
-  --danger-hover: #d94848;
+  --danger: #ff6b6b;
+  --danger-hover: #e25555;
 
-  --warning: #ffd763;
-  --warning-hover: #f1c652;
-  --logo-color: #2563eb;
+  --warning: #ffd166;
+  --warning-hover: #f2c14e;
+
+  --logo-color: #4a8cff;
 
   /* =========================
      TYPOGRAPHY
@@ -70,9 +81,10 @@
   --tile-row-min: 120px;
 }
 
-/* =========================
+/* =====================================================
    RTL MODE
-========================= */
+===================================================== */
+
 body.rtl {
   --dir: rtl;
   --flex-row-dir: row-reverse;
@@ -80,9 +92,10 @@ body.rtl {
   --icon-scale-x: -1;
 }
 
-/* =========================
+/* =====================================================
    LTR MODE (EXPLICIT)
-========================= */
+===================================================== */
+
 body.ltr {
   --dir: ltr;
   --flex-row-dir: row;
@@ -90,41 +103,44 @@ body.ltr {
   --icon-scale-x: 1;
 }
 
-/* =========================
-   HIGH CONTRAST (AAC)
-========================= */
+/* =====================================================
+   HIGH CONTRAST (AAC — ALWAYS WINS)
+===================================================== */
+
 body.hc {
-  --bg: #000;
-  --bg-hover: #e8f802;
+  --bg: #000000;
+  --bg-hover: #111111;
 
   --border: #ffeb3b;
   --border-hover: #f1550c;
 
   --text: #ffeb3b;
   --text-muted: #ffe082;
-  --text-hover: #111;
 
-  --tile-bg: #000;
-  --tile-bg-hover: #111;
+  --tile-bg: #000000;
+  --tile-bg-hover: #111111;
   --tile-border: #ffeb3b;
 
-  --header-bg: #000;
+  --header-bg: #000000;
+  --sidebar-bg: #000000;
 
   --accent: #ffeb3b;
   --accent-hover: #ffe082;
-  --accent-text: #000;
+  --accent-text: #000000;
 
   --danger: #ffeb3b;
   --danger-hover: #ffe082;
 
   --warning: #ffeb3b;
   --warning-hover: #ffe082;
-   --logo-color: #000;
+
+  --logo-color: #ffeb3b;
 }
 
-/* =========================
+/* =====================================================
    BIG BUTTON MODE
-========================= */
+===================================================== */
+
 body.big {
   --font-size-sm: 1rem;
   --font-size-md: 1.2rem;
@@ -142,4 +158,106 @@ body.big {
   --tile-size: 150px;
   --tile-min: 150px;
   --tile-row-min: 150px;
+}
+
+/* =====================================================
+   THEME — CALM (SENSORY FRIENDLY)
+===================================================== */
+
+body.theme-calm {
+  --bg: #f6f7f8;
+  --bg-hover: #eceff1;
+
+  --border: #d1d5db;
+  --border-hover: #9ca3af;
+
+  --text: #374151;
+  --text-muted: #6b7280;
+
+  --tile-bg: #ffffff;
+  --tile-bg-hover: #f1f5f9;
+  --tile-border: #d1d5db;
+
+  --header-bg: #ffffff;
+  --sidebar-bg: #f9fafb;
+
+  --accent: #6b8e7f;
+  --accent-hover: #587a6d;
+  --accent-text: #ffffff;
+
+  --danger: #c97064;
+  --danger-hover: #b05c52;
+
+  --warning: #e9c46a;
+  --warning-hover: #d4b55f;
+
+  --logo-color: #6b8e7f;
+}
+
+/* =====================================================
+   THEME — PLAYFUL
+===================================================== */
+
+body.theme-playful {
+  --bg: #fff7ed;
+  --bg-hover: #ffedd5;
+
+  --border: #fed7aa;
+  --border-hover: #fb923c;
+
+  --text: #3f1d0b;
+  --text-muted: #7c2d12;
+
+  --tile-bg: #ffffff;
+  --tile-bg-hover: #ffedd5;
+  --tile-border: #fed7aa;
+
+  --header-bg: #ffffff;
+  --sidebar-bg: #fffaf0;
+
+  --accent: #f97316;
+  --accent-hover: #ea580c;
+  --accent-text: #ffffff;
+
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+
+  --warning: #facc15;
+  --warning-hover: #eab308;
+
+  --logo-color: #f97316;
+}
+
+/* =====================================================
+   THEME — PROFESSIONAL
+===================================================== */
+
+body.theme-pro {
+  --bg: #f3f4f6;
+  --bg-hover: #e5e7eb;
+
+  --border: #d1d5db;
+  --border-hover: #9ca3af;
+
+  --text: #111827;
+  --text-muted: #6b7280;
+
+  --tile-bg: #ffffff;
+  --tile-bg-hover: #f3f4f6;
+  --tile-border: #d1d5db;
+
+  --header-bg: #ffffff;
+  --sidebar-bg: #f9fafb;
+
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-text: #ffffff;
+
+  --danger: #dc2626;
+  --danger-hover: #b91c1c;
+
+  --warning: #f59e0b;
+  --warning-hover: #d97706;
+
+  --logo-color: #2563eb;
 }
