@@ -1,24 +1,38 @@
+@use "@/styles/breakpoints.scss" as *;
+
 .item {
   background: none;
-  border: 0;
-  padding: 0.25rem 0;
-  font-size: 0.95rem;
-  font-weight: 500;
+  border: none;
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-sm);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+
+  color: var(--text);
   cursor: pointer;
-  color: var(--text-primary, #111);
-  position: relative;
 
-  &:hover {
-    opacity: 0.8;
-  }
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 
-  &:focus-visible {
-    outline: 2px solid var(--focus, #2563eb);
-    outline-offset: 2px;
+  &:hover:not(.disabled) {
+    background-color: var(--bg-hover);
+    color: var(--accent);
   }
 }
 
-/* High contrast */
-body.hc & {
-  color: #000;
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   TABLET LANDSCAPE +
+========================= */
+@include respond(tablet-landscape) {
+  .item {
+    font-size: var(--font-size-md);
+    padding: var(--padding-sm) var(--padding-lg);
+  }
 }

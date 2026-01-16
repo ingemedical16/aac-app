@@ -2,17 +2,24 @@
 
 import styles from "./HeaderNavigationItem.module.scss";
 
-type Props = {
+type HeaderNavigationItemProps = {
   label: string;
   onClick: () => void;
+  disabled?: boolean;
 };
 
-export default function HeaderNavigationItem({ label, onClick }: Props) {
+export default function HeaderNavigationItem({
+  label,
+  onClick,
+  disabled = false,
+}: HeaderNavigationItemProps) {
   return (
     <button
       type="button"
-      className={styles.item}
+      className={`${styles.item} ${disabled ? styles.disabled : ""}`}
       onClick={onClick}
+      disabled={disabled}
+      aria-disabled={disabled || undefined}
     >
       {label}
     </button>
