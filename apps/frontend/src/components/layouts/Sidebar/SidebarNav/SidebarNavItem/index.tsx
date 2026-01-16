@@ -1,64 +1,41 @@
 "use client";
 
-import styles from "./SidebarNavItem.module.scss";
-import { useRouter, usePathname } from "next/navigation";
-import { useTranslation } from "react-i18next";
-
-import type { SidebarNavItem as SidebarNavItemType } from "@/types/sidebar";
 import { renderNavIcon } from "@/components/icons";
+import { NavIconName } from "@/components/icons";
+import styles from "./SidebarNavItem.module.scss";
 
 
-type Props = {
-  item: SidebarNavItemType;
+type SidebarNavItemProps = {
+  label: string;
+  icon?: NavIconName;
+  active?: boolean;
+  disabled?: boolean;
   collapsed?: boolean;
-  onNavigate?: () => void;
+  onClick: () => void;
 };
 
 export default function SidebarNavItem({
-  item,
-  collapsed = false,
-  onNavigate,
-}: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const { t } = useTranslation();
-
-  const isActive =
-    item.href === "/"
-      ? pathname === "/"
-      : pathname.startsWith(item.href);
-
-  const handleClick = () => {
-    if (item.disabled) return;
-    router.push(item.href);
-    onNavigate?.();
-  };
-
+  label,
+  icon,
+  active,
+  disabled,
+  collapsed,
+  onClick,
+}: SidebarNavItemProps) {
   return (
     <button
       type="button"
       className={[
         styles.item,
-        isActive ? styles.active : "",
-        item.disabled ? styles.disabled : "",
+        active ? styles.active : "",
+        disabled ? styles.disabled : "",
         collapsed ? styles.collapsed : "",
       ].join(" ")}
-      onClick={handleClick}
-      disabled={item.disabled}
-      aria-current={isActive ? "page" : undefined}
-      aria-disabled={item.disabled || undefined}
+      onClick={onClick}
+      disabled={disabled}
     >
-      {item.icon && (
-        <span className={styles.icon}>
-          {renderNavIcon(item.icon)}
-        </span>
-      )}
-
-      {!collapsed && (
-        <span className={styles.label}>
-          {t(item.labelKey)}
-        </span>
-      )}
+      {icon && <span className={styles.icon}>{renderNavIcon(icon)}</span>}
+      <span className={styles.label}>{label}</span>
     </button>
   );
 }

@@ -2,31 +2,46 @@
 
 import styles from "./SidebarNavGroup.module.scss";
 import SidebarNavItem from "../SidebarNavItem";
-
-import type { SidebarNavGroup as SidebarNavGroupType } from "@/types/sidebar";
+import { useTranslation } from "react-i18next";
+import { tx } from "@/lib/i18n/tx";
+import type { SidebarNavGroup as GroupType } from "@/types/sidebar";
 
 type SidebarNavGroupProps = {
-  group: SidebarNavGroupType;
-  collapsed?: boolean;
+  group: GroupType;
+  collapsed: boolean;
+  activePath: string;
+  onNavigate: () => void;
 };
 
 export default function SidebarNavGroup({
   group,
-  collapsed = false,
+  collapsed,
+  activePath,
+  onNavigate,
 }: SidebarNavGroupProps) {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.group}>
       {group.titleKey && !collapsed && (
         <div className={styles.title}>
-          {/* titleKey is translated in parent (SidebarNav) */}
-          {group.titleKey}
+          {t(tx("common", group.titleKey))}
         </div>
       )}
 
       <ul className={styles.list}>
         {group.items.map((item) => (
           <li key={item.key}>
-            <SidebarNavItem item={item} collapsed={collapsed} />
+            <SidebarNavItem
+              label={t(tx("common", item.labelKey))}
+              icon={item.icon}
+              collapsed={collapsed}
+              disabled={item.disabled}
+              active={activePath === item.href}
+              onClick={() => {
+                onNavigate();
+              }}
+            />
           </li>
         ))}
       </ul>
