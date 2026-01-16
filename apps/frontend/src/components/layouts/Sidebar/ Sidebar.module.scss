@@ -1,39 +1,97 @@
 @use "@/styles/breakpoints.scss" as *;
 
-.Sidebar {
-  background: var(--surface);
-  color: var(--text-primary);
+/* =====================================================
+   BASE SIDEBAR
+===================================================== */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+
+  height: 100vh;
   width: 260px;
-  height: 100%;
+
   display: flex;
   flex-direction: column;
+
+  background-color: var(--bg);
+  color: var(--text);
+
+  border-inline-end: 1px solid var(--border);
+
+  z-index: 100;
+  overflow: hidden;
+
+  transition:
+    width 0.25s ease,
+    transform 0.25s ease;
 }
 
-/* =========================
-   DESKTOP FIXED
-========================= */
-.fixed {
-  position: sticky;
-  top: 56px; // header height
-  height: calc(100vh - 56px);
-  border-right: 1px solid var(--border);
-}
+/* =====================================================
+   MOBILE / TABLET PORTRAIT — OVERLAY MODE
+===================================================== */
 
-/* =========================
-   MOBILE OVERLAY
-========================= */
 .overlay {
-  position: fixed;
-  inset: 0 auto 0 0;
-  height: 100vh;
-  z-index: 120;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(0);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.25);
 }
 
-/* Backdrop */
+/* Backdrop behind overlay */
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  z-index: 110;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 90;
+}
+
+/* =====================================================
+   TABLET LANDSCAPE + DESKTOP — FIXED MODE
+===================================================== */
+
+@include respond(tablet-landscape) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* =====================================================
+   COLLAPSED MODE (DESKTOP ONLY)
+===================================================== */
+
+.collapsed {
+  width: 72px;
+}
+
+/* =====================================================
+   STRUCTURE HELPERS
+===================================================== */
+
+.header {
+  flex-shrink: 0;
+}
+
+.nav {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.profile {
+  flex-shrink: 0;
+}
+
+.footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* =====================================================
+   RTL SAFETY
+===================================================== */
+
+.sidebar {
+  direction: var(--dir);
 }
