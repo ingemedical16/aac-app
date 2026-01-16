@@ -1,57 +1,78 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+
 import styles from "./AppShell.module.scss";
 
 import Header from "@/components/layouts/Header";
 import Sidebar from "@/components/layouts/Sidebar";
-import MobileMenu from "@/components/MobileMenu";
 
 import { ViewMode } from "@/types/viewMode";
-import { useIsMobile } from "@/hooks/useIsMobile";
-import MobileMenuButton from "../MobileMenuButton";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-interface AppShellProps {
-  children: React.ReactNode;
-  viewMode: ViewMode;
+/* =====================================================
+   VIEW MODE RESOLUTION
+===================================================== */
+
+function resolveViewMode(pathname: string): ViewMode {
+  if (pathname.startsWith("/dashboard")) return ViewMode.DASHBOARD;
+  if (pathname.startsWith("/board")) return ViewMode.BOARD;
+  return ViewMode.PUBLIC;
 }
 
-export default function AppShell({ children, viewMode }: AppShellProps) {
-  /* =========================
-     VISIBILITY RULES (LOCKED)
-  ========================= */
-  const isMobile = useIsMobile();
-  const [isAsideOpen, setIsAsideOpen] = useState(false);
+/* =====================================================
+   COMPONENT
+===================================================== */
 
-  /* =========================
-   VISIBILITY RULES (FINAL)
-========================= */
+export default function AppShell({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const viewMode = resolveViewMode(pathname);
 
-  const showHeader = !isMobile;
-  const toggle = (val: boolean) => !val;
+  const isTabletLandscapeUp = useMediaQuery("(min-width: 820px)");
 
-  const showAside =
-    (isMobile && isAsideOpen) || (viewMode === ViewMode.DASHBOARD && !isMobile);
-  console.log("showAside", showAside);
+  /* Sidebar state (mobile / tablet portrait only) */
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
-  const showMobileToggle = isMobile;
+  const closeSidebar = () => setSidebarOpen(false);
+  const onToggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const onToggleCollapse = () => setCollapsed((prev) => !prev);
 
-  /* ========================= */
+  /* =====================================================
+     HEADER VISIBILITY
+     - Hidden on mobile & tablet portrait
+     - Visible tablet landscape+
+  ===================================================== */
+  const showHeader = isTabletLandscapeUp;
+
+  /* =====================================================
+     LAYOUT
+  ===================================================== */
 
   return (
     <div className={styles.shell} data-view={viewMode}>
-      {showHeader && <Header viewMode={viewMode} />}
-      {showMobileToggle && (
-        <MobileMenuButton onClick={() => setIsAsideOpen(toggle)} />
+      {showHeader && (
+        <Header
+          viewMode={viewMode}
+          isMobile={!isTabletLandscapeUp}
+          onToggleSidebar={onToggleSidebar}
+        />
       )}
 
-      <div className={styles.body}>
-        {showAside && (
-          <Sidebar
-            viewMode={viewMode}
-            onNavigate={() => setIsAsideOpen(false)}
-          />
-        )}
+      <div className={styles.main}>
+        <Sidebar
+          viewMode={viewMode}
+          isOpen={sidebarOpen}
+          onClose={closeSidebar}
+          collapsed={collapsed}
+          onToggleCollapse={onToggleCollapse}
+          
+        />
 
         <main className={styles.content}>{children}</main>
       </div>

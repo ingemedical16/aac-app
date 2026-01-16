@@ -16,13 +16,13 @@ import { useTranslation } from "react-i18next";
 type HeaderProps = {
   viewMode: ViewMode;
   isMobile: boolean;
-  onToggleAside?: () => void;
+  onToggleSidebar?: () => void;
 };
 
 export default function Header({
   viewMode,
   isMobile,
-  onToggleAside,
+  onToggleSidebar,
 }: HeaderProps) {
   const router = useRouter();
   const { avatarUrl, displayName } = useProfileIdentity();
@@ -33,7 +33,7 @@ export default function Header({
       {/* ================= MOBILE LEFT ================= */}
       {isMobile && (
         <div className={styles.mobileLeft}>
-          <SandwichButton onClick={onToggleAside} />
+          <SandwichButton onClick={onToggleSidebar} />
         </div>
       )}
 
