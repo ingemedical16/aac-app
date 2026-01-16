@@ -11,6 +11,7 @@ import {
   Shield,
   Stethoscope,
   HelpCircle,
+  LogOut
 } from "lucide-react";
 
 /**
@@ -32,6 +33,7 @@ export const NavIcons = {
 
   admin: Shield,
   professional: Stethoscope,
+  logout: LogOut,
 };
 
 export type NavIconName = keyof typeof NavIcons;
