@@ -1,52 +1,47 @@
 /* =====================================================
    GLOBAL BREAKPOINTS — AAC APP
+   MOBILE-FIRST
    Single source of truth
 ===================================================== */
 
-/* Sizes */
-$mobile-max: 599px;                  // phones
-$tablet-portrait-min: 600px;         // tablets portrait start
-$tablet-landscape-min: 820px;        // tablets landscape start
-$desktop-min: 1024px;                // desktop start
-$wide-min: 1440px;
-$ultra-min: 1800px;
-
-/* Derived max values */
-$tablet-portrait-max: ($tablet-landscape-min - 1); // 819px
-$tablet-landscape-max: ($desktop-min - 1);          // 1023px
+/* Breakpoint minimums */
+$bp-tablet-portrait: 600px;     // tablets portrait+
+$bp-tablet-landscape: 820px;    // tablets landscape+
+$bp-desktop: 1024px;            // desktop+
+$bp-wide: 1440px;               // wide desktop+
+$bp-ultra: 1800px;              // ultra-wide screens
 
 /* =====================================================
-   MEDIA QUERY MIXIN
+   MEDIA QUERY MIXIN (MIN-WIDTH ONLY)
 ===================================================== */
-@mixin respond($breakpoint) {
-  @if $breakpoint == mobile {
-    @media (max-width: $mobile-max) {
-      @content;
-    }
 
-  } @else if $breakpoint == tablet-portrait {
-    @media (min-width: $tablet-portrait-min) and (max-width: $tablet-portrait-max) {
+@mixin respond($breakpoint) {
+  @if $breakpoint == tablet-portrait {
+    @media (min-width: $bp-tablet-portrait) {
       @content;
     }
 
   } @else if $breakpoint == tablet-landscape {
-    @media (min-width: $tablet-landscape-min) and (max-width: $tablet-landscape-max) {
+    @media (min-width: $bp-tablet-landscape) {
       @content;
     }
 
   } @else if $breakpoint == desktop {
-    @media (min-width: $desktop-min) {
+    @media (min-width: $bp-desktop) {
       @content;
     }
 
   } @else if $breakpoint == wide {
-    @media (min-width: $wide-min) {
+    @media (min-width: $bp-wide) {
       @content;
     }
 
   } @else if $breakpoint == ultra {
-    @media (min-width: $ultra-min) {
+    @media (min-width: $bp-ultra) {
       @content;
     }
+
+  } @else {
+    @error "Unknown breakpoint `#{$breakpoint}`. Allowed values: tablet-portrait, tablet-landscape, desktop, wide, ultra.";
   }
 }

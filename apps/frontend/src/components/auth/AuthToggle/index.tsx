@@ -26,7 +26,7 @@ export default function AuthToggle() {
   return (
     <div className={styles.toggle}>
       <span>{label}</span>
-      <Link href={withLocale(locale, targetPath)}>
+      <Link href={targetPath}>
         {action}
       </Link>
     </div>

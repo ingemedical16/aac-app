@@ -56,7 +56,7 @@ export default function Header({
 
       {/* ================= CENTER ================= */}
       <div className={styles.center}>
-        <HeaderNavigation viewMode={viewMode} />
+        {!isMobile && <HeaderNavigation viewMode={viewMode} />}
       </div>
 
       {/* ================= RIGHT ================= */}

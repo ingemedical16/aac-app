@@ -1,3 +1,6 @@
+import type { ComponentType } from "react";
+import type { LucideProps } from "lucide-react";
+
 import {
   Home,
   LayoutDashboard,
@@ -8,32 +11,46 @@ import {
   UserPlus,
   Mail,
   Info,
+  HelpCircle,
+  FileText,
+  ScrollText,
   Shield,
   Stethoscope,
-  HelpCircle,
-  LogOut
+  LogOut,
 } from "lucide-react";
 
 /**
  * All sidebar / header icons live here
  * Icons are COMPONENTS (not JSX)
  */
-export const NavIcons = {
+export const NavIcons: Record<
+  string,
+  ComponentType<LucideProps>
+> = {
+  /* ===== Public ===== */
   home: Home,
+  about: Info,
+  contact: Mail,
+  help: HelpCircle,
+  privacy: FileText,
+  terms: ScrollText,
+
+  /* ===== Board ===== */
+  board: ClipboardList,
+
+  /* ===== Dashboard ===== */
   dashboard: LayoutDashboard,
   profiles: Users,
   settings: Settings,
-  board: ClipboardList,
 
+  /* ===== Auth ===== */
   login: LogIn,
   register: UserPlus,
-  contact: Mail,
-  about: Info,
-  help: HelpCircle,
+  logout: LogOut,
 
+  /* ===== Roles ===== */
   admin: Shield,
   professional: Stethoscope,
-  logout: LogOut,
 };
 
 export type NavIconName = keyof typeof NavIcons;
@@ -44,7 +61,7 @@ export type NavIconName = keyof typeof NavIcons;
 export function renderNavIcon(
   name?: NavIconName,
   size = 18
-): React.ReactNode {
+): JSX.Element | null {
   if (!name) return null;
 
   const Icon = NavIcons[name];

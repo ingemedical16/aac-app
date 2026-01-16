@@ -56,13 +56,13 @@ export default function AppShell({
 
   return (
     <div className={styles.shell} data-view={viewMode}>
-      {showHeader && (
+      
         <Header
           viewMode={viewMode}
           isMobile={!isTabletLandscapeUp}
           onToggleSidebar={onToggleSidebar}
         />
-      )}
+      
 
       <div className={styles.main}>
         <Sidebar

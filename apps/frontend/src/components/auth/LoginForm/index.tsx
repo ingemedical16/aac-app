@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { getPostLoginRedirect } from "@/lib/auth/postLoginRedirect";
-import { withLocale } from "@/lib/navigation/withLocale";
 import { useTranslation } from "react-i18next";
 import AuthToggle from "@/components/auth/AuthToggle";
 import styles from "./LoginForm.module.scss";
@@ -12,7 +10,7 @@ import styles from "./LoginForm.module.scss";
 export default function LoginForm() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { locale } = useParams<{ locale: string }>();
+
   const searchParams = useSearchParams();
   const next = searchParams.get("next");
 
@@ -29,10 +27,9 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const u = await login({ email, password });
+      await login({ email, password });
 
-      const path = getPostLoginRedirect(u.role, next);
-      router.replace(withLocale(locale, path));
+      router.replace("/dashboard");
     } catch {
       setError(t("auth.invalid_credentials"));
     } finally {

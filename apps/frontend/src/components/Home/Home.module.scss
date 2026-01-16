@@ -4,7 +4,7 @@
    HOME CONTAINER
 =========================== */
 .container {
-  padding: var(--space-xl);
+  padding: var(--space-lg);          /* mobile default */
   max-width: 1200px;
   margin: 0 auto;
 
@@ -12,23 +12,35 @@
   color: var(--text);
 
   direction: var(--dir);
+
+  @include respond(tablet-portrait) {
+    padding: var(--space-xl);
+  }
 }
 
 /* ===========================
    TEXT
 =========================== */
 .title {
-  font-size: var(--font-size-xxl);
+  font-size: var(--font-size-xl);    /* mobile default */
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-lg);
   text-align: center;
+
+  @include respond(tablet-portrait) {
+    font-size: var(--font-size-xxl);
+  }
 }
 
 .subtitle {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);    /* mobile default */
   margin-bottom: var(--space-xl);
   text-align: center;
   color: var(--text-muted);
+
+  @include respond(tablet-portrait) {
+    font-size: var(--font-size-lg);
+  }
 }
 
 /* ===========================
@@ -64,21 +76,4 @@
 :global(body.hc) .container {
   background: var(--hc-bg);
   color: var(--hc-text);
-}
-
-/* ===========================
-   RESPONSIVE
-=========================== */
-@include respond(mobile) {
-  .container {
-    padding: var(--space-lg);
-  }
-
-  .title {
-    font-size: var(--font-size-xl);
-  }
-
-  .subtitle {
-    font-size: var(--font-size-md);
-  }
 }

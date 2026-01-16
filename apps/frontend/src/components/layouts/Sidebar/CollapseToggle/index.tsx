@@ -22,6 +22,7 @@ export default function CollapseToggle({
     >
       <span className={styles.icon}>
         {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+        
       </span>
     </button>
   );

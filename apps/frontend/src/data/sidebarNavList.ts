@@ -29,6 +29,26 @@ export const sidebarNavList: SidebarNavList = [
         href: "/contact",
         icon: "contact",
       },
+
+      /* --- NEW PUBLIC PAGES --- */
+      {
+        key: "help",
+        labelKey: "nav.help",
+        href: "/help",
+        icon: "help",
+      },
+      {
+        key: "privacy",
+        labelKey: "nav.privacy",
+        href: "/privacy",
+        icon: "privacy",
+      },
+      {
+        key: "terms",
+        labelKey: "nav.terms",
+        href: "/terms",
+        icon: "terms",
+      },
     ],
   },
 

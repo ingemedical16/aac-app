@@ -6,11 +6,12 @@
 
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 60px;
   inset-inline-start: 0;
 
   height: 100vh;
-  width: 260px;
+  width: 40%;
+  max-width: 250px;
 
   display: flex;
   flex-direction: column;
@@ -52,9 +53,11 @@
 @include respond(tablet-landscape) {
   .sidebar {
     position: sticky;
-    top: 0;
+    top: 56px; // header height
+    height: calc(100vh - 56px);
     transform: none;
     box-shadow: none;
+    width: 260px;
   }
 }
 

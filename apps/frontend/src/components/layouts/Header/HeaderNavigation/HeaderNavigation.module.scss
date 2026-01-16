@@ -1,16 +1,30 @@
 @use "@/styles/breakpoints.scss" as *;
 
 .nav {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  display: none;
 }
 
-/* High contrast */
-body.hc & {
-  a,
-  button {
-    color: #000;
-    font-weight: 600;
+/* =========================
+   TABLET LANDSCAPE +
+========================= */
+
+@include respond(tablet-landscape) {
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-lg);
+
+    /* Centered header navigation */
+    justify-content: center;
+  }
+}
+
+/* =========================
+   DESKTOP +
+========================= */
+
+@include respond(desktop) {
+  .nav {
+    gap: calc(var(--gap-lg) * 1.25);
   }
 }
