@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "aac-aside-collapsed";
+const STORAGE_KEY = "aac-Sidebar-collapsed";
 
 export function useAsideState() {
   const [collapsed, setCollapsed] = useState(false);

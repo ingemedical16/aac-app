@@ -1,17 +1,17 @@
 @use "@/styles/breakpoints.scss" as *;
 
 $header-height: 64px;
-$aside-width: 280px;
-$aside-collapsed-width: 80px;
+$Sidebar-width: 280px;
+$Sidebar-collapsed-width: 80px;
 
 /* ============================
    Mobile First — Overlay Menu
 ============================= */
-.aside {
+.Sidebar {
   position: fixed;
   inset: 0;
   width: 80%;
-  max-width: $aside-width;
+  max-width: $Sidebar-width;
   height: 100vh;
   background: var(--bg);
   z-index: 90;
@@ -25,11 +25,11 @@ $aside-collapsed-width: 80px;
    Desktop / Tablet Landscape
 ============================= */
 @include respond(tablet-landscape) {
-  .aside {
+  .Sidebar {
     inset: auto;
     top: $header-height;
     inset-inline-start: 0;
-    width: $aside-width;
+    width: $Sidebar-width;
     height: calc(100vh - $header-height);
 
     border-inline-end: 1px solid var(--border);
@@ -41,7 +41,7 @@ $aside-collapsed-width: 80px;
 ============================= */
 @include respond(tablet-landscape) {
   .collapsed {
-    width: $aside-collapsed-width;
+    width: $Sidebar-collapsed-width;
     padding: var(--padding-md);
     align-items: center;
   }

@@ -1,8 +1,8 @@
 @use "@/styles/breakpoints.scss" as *;
 
 $header-height: 64px;
-$aside-width: 300px;
-$aside-collapsed-width: 90px;
+$Sidebar-width: 300px;
+$Sidebar-collapsed-width: 90px;
 
 /* Base mobile-first */
 .shell {
@@ -43,12 +43,12 @@ $aside-collapsed-width: 90px;
 
 .layoutAsideOpen {
   .main {
-    margin-inline-start: $aside-width;
+    margin-inline-start: $Sidebar-width;
   }
 }
 
 .layoutAsideCollapsed {
   .main {
-    margin-inline-start: $aside-collapsed-width;
+    margin-inline-start: $Sidebar-collapsed-width;
   }
 }

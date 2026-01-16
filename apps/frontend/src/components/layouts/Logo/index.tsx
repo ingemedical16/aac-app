@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 export type LogoProps = {
   /**
-   * compact = icon only (mobile, aside, favicon-like usage)
+   * compact = icon only (mobile, Sidebar, favicon-like usage)
    * full = icon + text
    */
   variant?: "full" | "compact";
@@ -35,11 +35,7 @@ export default function Logo({
       aria-label="AAC Logo"
     >
       <Image
-        src={
-          isCompact
-            ? "/logo/logo-icon.svg"
-            : "/logo/logo.svg"
-        }
+        src={isCompact ? "/logo/logo-icon.svg" : "/logo/logo.svg"}
         alt="AAC"
         width={isCompact ? 36 : 140}
         height={36}

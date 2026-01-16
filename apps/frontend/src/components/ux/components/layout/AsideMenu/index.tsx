@@ -15,7 +15,12 @@ type Props = {
   onCollapseChange: (v: boolean) => void;
 };
 
-export function AsideMenu({ isOpen, isMobile, onClose, onCollapseChange }: Props) {
+export function AsideMenu({
+  isOpen,
+  isMobile,
+  onClose,
+  onCollapseChange,
+}: Props) {
   const { collapsed, setCollapsed } = useAsideState();
 
   // Notify parent AFTER render
@@ -28,9 +33,15 @@ export function AsideMenu({ isOpen, isMobile, onClose, onCollapseChange }: Props
   const isCollapsed = !isMobile && collapsed;
 
   return (
-    <aside className={`${styles.aside} ${isCollapsed ? styles.collapsed : ""}`}>
+    <Sidebar
+      className={`${styles.Sidebar} ${isCollapsed ? styles.collapsed : ""}`}
+    >
       {isMobile && (
-        <button className={styles.close} onClick={onClose} aria-label="Close menu">
+        <button
+          className={styles.close}
+          onClick={onClose}
+          aria-label="Close menu"
+        >
           ✕
         </button>
       )}
@@ -47,9 +58,9 @@ export function AsideMenu({ isOpen, isMobile, onClose, onCollapseChange }: Props
       {!isMobile && (
         <AsideToggle
           collapsed={isCollapsed}
-          onToggle={() => setCollapsed(v => !v)}   // ✅ only local state
+          onToggle={() => setCollapsed((v) => !v)} // ✅ only local state
         />
       )}
-    </aside>
+    </Sidebar>
   );
 }
