@@ -1,11 +1,11 @@
 import AuthGate from "@/components/auth/AuthGate";
 import { AppShell } from "@/components/layouts";
-import { ViewMode } from "@/types/viewMode";
+
 
 export default function ProfessionalDashboardPage() {
   return (
     <AuthGate >
-      <AppShell viewMode={ViewMode.DASHBOARD}>
+      <AppShell >
         <div>Professional Dashboard (WIP)</div>
       </AppShell>
     </AuthGate>

@@ -1,5 +1,10 @@
+import {AppShell} from "@/components/layouts"
 import TemporaryPage from "@/components/TemporaryPage";
 
 export default function ContactPage() {
-  return <TemporaryPage />;
+  return (
+    <AppShell >
+      <TemporaryPage  />
+    </AppShell>
+    );
 }
