@@ -5,7 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 import type { SidebarNavItem as SidebarNavItemType } from "@/types/sidebar";
-import { renderNavIcon } from "@/components/layouts/icons";
+import { renderNavIcon } from "@/components/icons";
+
 
 type Props = {
   item: SidebarNavItemType;
