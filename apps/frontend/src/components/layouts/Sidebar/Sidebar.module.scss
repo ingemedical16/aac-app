@@ -53,8 +53,8 @@
 @include respond(tablet-landscape) {
   .sidebar {
     position: sticky;
-    top: 56px; // header height
-    height: calc(100vh - 56px);
+    top: 57px; // header height
+    height: calc(100vh - 60px);
     transform: none;
     box-shadow: none;
     width: 260px;

@@ -59,7 +59,9 @@
     "languages": "Preferred languages",
     "languagesHint": "Select at least one language",
     "add": "Add profile",
-    "newProfile": "New profile"
+    "newProfile": "New profile",
+    "typeChild": "Child",
+    "typeIndividual": "Individual"
   },
 
   "auth": {
@@ -123,6 +125,33 @@
       "sit": "sit",
       "stand": "stand"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "highContrast": "High contrast",
+    "bigButtons": "Big buttons",
+    "on": "On",
+    "off": "Off"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "help": "Help",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+
+    "board": "Board",
+    "dashboard": "Dashboard",
+    "profiles": "Profiles",
+    "settings": "Settings",
+    "section": {
+      "account": "Account",
+      "tools": "Tools",
+      "profiles": "Profiles",
+      "categories": "Categories"
+    }
+
   },
   "userDashboard": {
     "title": "Dashboard",
