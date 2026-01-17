@@ -24,8 +24,6 @@ export interface Profile {
   ========================= */
   preferredLanguages: LocaleCode[];
   primaryLanguage?: LocaleCode ;
-  highContrast: boolean;
-  bigButtons: boolean;
 
   /* =========================
      METADATA

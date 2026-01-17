@@ -2,28 +2,21 @@
 
 import { useEffect } from "react";
 import i18next from "@/lib/i18n";
-import { useTheme } from "@/context/ThemeContext";
 
 /**
  * AppEffects
  * ---------------------------------------
- * Global DOM side-effects only:
- * - lang / dir (RTL / LTR)
- * - theme class
- * - accessibility modes (HC / BIG)
+ * Global DOM side-effects ONLY:
+ * - language
+ * - direction (RTL / LTR)
  *
- * Mounted once in app/layout.tsx
+ * Theme & accessibility are handled
+ * exclusively by ThemeContext
  */
 export default function AppEffects() {
-  const { theme, highContrast, bigButtons } = useTheme();
-
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
-
-    /* =========================
-       LANGUAGE / DIRECTION
-    ========================= */
 
     const lang = i18next.language || "en";
     const isRTL = lang === "ar";
@@ -33,33 +26,7 @@ export default function AppEffects() {
 
     body.classList.toggle("rtl", isRTL);
     body.classList.toggle("ltr", !isRTL);
-
-    /* =========================
-       THEME
-    ========================= */
-
-    body.classList.remove(
-      "theme-calm",
-      "theme-playful",
-      "theme-pro"
-    );
-
-    if (theme && theme !== "default") {
-      body.classList.add(`theme-${theme}`);
-    }
-
-    /* =========================
-       ACCESSIBILITY
-    ========================= */
-
-    body.classList.toggle("hc", highContrast);
-    body.classList.toggle("big", bigButtons);
-  }, [
-    theme,
-    highContrast,
-    bigButtons,
-    i18next.language,
-  ]);
+  }, [i18next.language]);
 
   return null;
 }
