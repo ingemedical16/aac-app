@@ -37,7 +37,7 @@ export default function AppearanceSettings({
       ========================= */}
       <div className={styles.field}>
         <label className={styles.label}>
-          {t(tx("common", "appearance.theme"))}
+          {t(tx("common", "settings.theme"))}
         </label>
 
         <select
@@ -47,7 +47,7 @@ export default function AppearanceSettings({
             setTheme(e.target.value as ThemeName);
             onAnyAction();
           }}
-          aria-label={t(tx("common", "appearance.theme"))}
+          aria-label={t(tx("common", "settings.theme"))}
         >
           {availableThemes.map((th) => (
             <option key={th.key} value={th.key}>
