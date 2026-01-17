@@ -142,11 +142,14 @@
     "theme": "Thème"
   },
 
-  "theme": {
+    "theme": {
     "default": "Par défaut",
     "calm": "Calme",
     "playful": "Ludique",
-    "pro": "Professionnel"
+    "professional": "Professionnel",
+    "dark": "Sombre",
+    "school": "Scolaire",
+    "autismSoft": "Autisme doux"
   },
 
   "nav": {

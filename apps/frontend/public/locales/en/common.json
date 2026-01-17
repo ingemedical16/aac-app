@@ -138,11 +138,14 @@
     "theme": "Theme"
   },
   "theme": {
-      "default": "Default",
-      "calm": "Calm",
-      "playful": "Playful",
-      "pro": "Professional"
-    },
+    "default": "Default",
+    "calm": "Calm",
+    "playful": "Playful",
+    "professional": "Professional",
+    "dark": "Dark",
+    "school": "School",
+    "autismSoft": "Autism soft"
+  },
   "nav": {
     "home": "Home",
     "about": "About",

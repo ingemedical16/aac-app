@@ -20,7 +20,7 @@ export default function Home() {
       <div className={styles.actions}>
         {/* Open board (public / demo / child) */}
         <Link
-          href={`/${locale}/board`}
+          href="/board"
           className={styles.primaryButton}
         >
           {t("openBoard", { defaultValue: "Open Communication Board" })}

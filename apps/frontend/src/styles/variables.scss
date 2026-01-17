@@ -82,7 +82,7 @@
 }
 
 /* =====================================================
-   RTL MODE
+   RTL / LTR
 ===================================================== */
 
 body.rtl {
@@ -92,10 +92,6 @@ body.rtl {
   --icon-scale-x: -1;
 }
 
-/* =====================================================
-   LTR MODE (EXPLICIT)
-===================================================== */
-
 body.ltr {
   --dir: ltr;
   --flex-row-dir: row;
@@ -104,36 +100,28 @@ body.ltr {
 }
 
 /* =====================================================
-   THEME — CALM (SENSORY FRIENDLY)
+   THEME — CALM
 ===================================================== */
 
 body.theme-calm {
   --bg: #f6f7f8;
   --bg-hover: #eceff1;
-
   --border: #d1d5db;
   --border-hover: #9ca3af;
-
   --text: #374151;
   --text-muted: #6b7280;
-
   --tile-bg: #ffffff;
   --tile-bg-hover: #f1f5f9;
   --tile-border: #d1d5db;
-
   --header-bg: #ffffff;
   --sidebar-bg: #f9fafb;
-
   --accent: #6b8e7f;
   --accent-hover: #587a6d;
   --accent-text: #ffffff;
-
   --danger: #c97064;
   --danger-hover: #b05c52;
-
   --warning: #e9c46a;
   --warning-hover: #d4b55f;
-
   --logo-color: #6b8e7f;
 }
 
@@ -144,30 +132,22 @@ body.theme-calm {
 body.theme-playful {
   --bg: #fff7ed;
   --bg-hover: #ffedd5;
-
   --border: #fed7aa;
   --border-hover: #fb923c;
-
   --text: #3f1d0b;
   --text-muted: #7c2d12;
-
   --tile-bg: #ffffff;
   --tile-bg-hover: #ffedd5;
   --tile-border: #fed7aa;
-
   --header-bg: #ffffff;
   --sidebar-bg: #fffaf0;
-
   --accent: #f97316;
   --accent-hover: #ea580c;
   --accent-text: #ffffff;
-
   --danger: #ef4444;
   --danger-hover: #dc2626;
-
   --warning: #facc15;
   --warning-hover: #eab308;
-
   --logo-color: #f97316;
 }
 
@@ -178,66 +158,126 @@ body.theme-playful {
 body.theme-pro {
   --bg: #f3f4f6;
   --bg-hover: #e5e7eb;
-
   --border: #d1d5db;
   --border-hover: #9ca3af;
-
   --text: #111827;
   --text-muted: #6b7280;
-
   --tile-bg: #ffffff;
   --tile-bg-hover: #f3f4f6;
   --tile-border: #d1d5db;
-
   --header-bg: #ffffff;
   --sidebar-bg: #f9fafb;
-
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   --accent-text: #ffffff;
-
   --danger: #dc2626;
   --danger-hover: #b91c1c;
-
   --warning: #f59e0b;
   --warning-hover: #d97706;
-
   --logo-color: #2563eb;
 }
 
+/* =====================================================
+   THEME — DARK
+===================================================== */
 
+body.theme-dark {
+  --bg: #0f172a;
+  --bg-hover: #1e293b;
+  --border: #334155;
+  --border-hover: #475569;
+  --text: #e5e7eb;
+  --text-muted: #94a3b8;
+  --tile-bg: #020617;
+  --tile-bg-hover: #020617;
+  --tile-border: #334155;
+  --header-bg: #020617;
+  --sidebar-bg: #020617;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --accent-text: #020617;
+  --danger: #fb7185;
+  --danger-hover: #f43f5e;
+  --warning: #fbbf24;
+  --warning-hover: #f59e0b;
+  --logo-color: #38bdf8;
+}
 
 /* =====================================================
-   HIGH CONTRAST (AAC — ALWAYS WINS)
+   THEME — SCHOOL
+===================================================== */
+
+body.theme-school {
+  --bg: #f9fafb;
+  --bg-hover: #f3f4f6;
+  --border: #d1d5db;
+  --border-hover: #9ca3af;
+  --text: #1f2937;
+  --text-muted: #4b5563;
+  --tile-bg: #ffffff;
+  --tile-bg-hover: #f3f4f6;
+  --tile-border: #d1d5db;
+  --header-bg: #ffffff;
+  --sidebar-bg: #f9fafb;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-text: #ffffff;
+  --danger: #dc2626;
+  --danger-hover: #b91c1c;
+  --warning: #f59e0b;
+  --warning-hover: #d97706;
+  --logo-color: #2563eb;
+}
+
+/* =====================================================
+   THEME — AUTISM SOFT
+===================================================== */
+
+body.theme-autism-soft {
+  --bg: #f5f7f6;
+  --bg-hover: #eef2f0;
+  --border: #d1d5db;
+  --border-hover: #cbd5e1;
+  --text: #374151;
+  --text-muted: #6b7280;
+  --tile-bg: #ffffff;
+  --tile-bg-hover: #f1f5f4;
+  --tile-border: #e5e7eb;
+  --header-bg: #ffffff;
+  --sidebar-bg: #f8faf9;
+  --accent: #6b9b8a;
+  --accent-hover: #5a8778;
+  --accent-text: #ffffff;
+  --danger: #c08497;
+  --danger-hover: #a96f82;
+  --warning: #e9c46a;
+  --warning-hover: #d4b55f;
+  --logo-color: #6b9b8a;
+}
+
+/* =====================================================
+   HIGH CONTRAST — ALWAYS WINS
 ===================================================== */
 
 body.hc {
   --bg: #000000;
   --bg-hover: #111111;
-
   --border: #ffeb3b;
   --border-hover: #f1550c;
-
   --text: #ffeb3b;
   --text-muted: #ffe082;
-
   --tile-bg: #000000;
   --tile-bg-hover: #111111;
   --tile-border: #ffeb3b;
-
   --header-bg: #000000;
   --sidebar-bg: #000000;
-
   --accent: #ffeb3b;
   --accent-hover: #ffe082;
   --accent-text: #000000;
-
   --danger: #ffeb3b;
   --danger-hover: #ffe082;
-
   --warning: #ffeb3b;
   --warning-hover: #ffe082;
-
   --logo-color: #ffeb3b;
 }
 
