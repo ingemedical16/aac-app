@@ -1,18 +1,30 @@
 @use "@/styles/breakpoints.scss" as *;
 
+/* =====================================================
+   CATEGORY BAR
+   Tablet landscape + desktop only
+===================================================== */
+
 .bar {
-  display: flex;
+  display: none;
   gap: var(--gap-sm);
   direction: var(--dir);
-  margin-top: 10px;
-  @include respond(mobile) {
-    display: none; /* replaced by mobile menu */
+  margin-top: var(--gap-sm);
+}
+
+/* =========================
+   TABLET LANDSCAPE +
+========================= */
+
+@include respond(tablet-landscape) {
+  .bar {
+    display: flex;
   }
 }
 
-.mobile {
-  display: flex;
-}
+/* =====================================================
+   CATEGORY BUTTON
+===================================================== */
 
 .button {
   padding: var(--padding-sm) var(--padding-md);
@@ -27,12 +39,19 @@
 
   cursor: pointer;
 
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+
   &:hover {
     background: var(--bg-hover);
     border-color: var(--border-hover);
-    color: var(--text-hover);
   }
 }
+
+/* =========================
+   ACTIVE STATE
+========================= */
 
 .buttonActive {
   background: var(--accent);

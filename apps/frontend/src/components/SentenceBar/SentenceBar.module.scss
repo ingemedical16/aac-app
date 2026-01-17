@@ -1,49 +1,56 @@
 @use "@/styles/breakpoints.scss" as *;
 
+/* =====================================================
+   SENTENCE BAR WRAPPER
+===================================================== */
+
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--gap-sm);
+
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+
+  background: var(--bg);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* ✅ MOBILE: sticky bottom bar */
-@include respond(mobile) {
-  .wrapper {
-    position: sticky;
-    bottom: 0;
-    z-index: 50;
+/* =====================================================
+   BREADCRUMB
+===================================================== */
 
-    background: var(--bg);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-/* BREADCRUMB */
 .breadcrumb {
-  display: none;
+  display: flex;
+  align-items: center;
+
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   color: var(--text-muted);
+
   padding-inline: var(--padding-sm);
 }
 
 .sep {
-  margin-inline: 6px;
+  margin-inline: var(--gap-xs);
 }
 
-/* MOBILE ONLY */
-@include respond(mobile) {
+/* Hide breadcrumb on tablet landscape + */
+@include respond(tablet-landscape) {
   .breadcrumb {
-    display: flex;
-    align-items: center;
+    display: none;
   }
 }
 
-/* BAR */
+/* =====================================================
+   MAIN BAR
+===================================================== */
+
 .bar {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: var(--gap-md);
 
   padding: var(--padding-md);
@@ -53,18 +60,23 @@
 
   background: var(--tile-bg);
 
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
-/* MOBILE → STACK */
-@include respond(mobile) {
+/* Tablet landscape + → horizontal */
+@include respond(tablet-landscape) {
   .bar {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
   }
 }
 
-/* AUTO-SCROLL WORD ROW */
+/* =====================================================
+   WORD ROW
+===================================================== */
+
 .words {
   flex: 1;
 
@@ -75,7 +87,7 @@
   white-space: nowrap;
   scroll-behavior: smooth;
 
-  padding-bottom: 4px;
+  padding-bottom: var(--gap-xs);
 
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
@@ -91,7 +103,7 @@
 }
 
 .word {
-  margin-inline-end: 4px;
+  margin-inline-end: var(--gap-xs);
 }
 
 .hint {
@@ -99,25 +111,28 @@
   font-weight: var(--font-weight-normal);
 }
 
-/* BUTTONS */
+/* =====================================================
+   ACTION BUTTONS CONTAINER
+===================================================== */
+
 .buttons {
   display: flex;
   gap: var(--gap-sm);
-  justify-content: flex-end;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
-@include respond(mobile) {
+/* Tablet landscape + → align right */
+@include respond(tablet-landscape) {
   .buttons {
-    justify-content: space-between;
-  }
-
-  .buttons button {
-    flex: 1;
+    justify-content: flex-end;
   }
 }
 
-/* ✅ ACTION BUTTONS (restored) */
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
 .speak,
 .deleteLast,
 .clear {
@@ -137,7 +152,11 @@
   user-select: none;
 
   border: 1px solid transparent;
-  transition: background 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .speak {
@@ -153,21 +172,18 @@
 
 .deleteLast {
   background: var(--warning);
-  color: #543d00;
+  color: var(--text);
+  border-color: var(--warning);
 
   &:hover {
     background: var(--warning-hover);
-  }
-
-  :global(body.hc) & {
-    color: var(--accent-text);
-    border-color: var(--border);
   }
 }
 
 .clear {
   background: var(--danger);
-  color: #ffffff;
+  color: var(--accent-text);
+  border-color: var(--danger);
 
   &:hover {
     background: var(--danger-hover);
@@ -186,6 +202,10 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
+
+/* =====================================================
+   SPEAKING STATE
+===================================================== */
 
 .barSpeaking {
   outline: 3px solid var(--accent);

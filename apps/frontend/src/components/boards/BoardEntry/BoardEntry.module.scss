@@ -7,7 +7,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  flex: 1;
 
   background: var(--bg);
   color: var(--text);
@@ -26,32 +26,30 @@
 
   padding: var(--padding-md);
   gap: var(--gap-md);
+}
 
-  @include respond(tablet) {
+/* Tablet landscape + */
+@include respond(tablet-landscape) {
+  .main {
     padding: var(--padding-lg);
     gap: var(--gap-lg);
   }
 }
 
 /* =========================
-   ACCESSIBILITY
+   ACCESSIBILITY MODES
+   (variable-driven only)
 ========================= */
 
-/* 🔲 Big buttons */
-:global(body.big) .main {
-  gap: calc(var(--gap-lg) * 1.2);
-}
-
-/* 🟨 High contrast */
-:global(body.hc) .wrapper {
-  background: var(--hc-bg);
-  color: var(--hc-text);
+/* Big buttons → spacing naturally increases via variables */
+.main {
+  gap: var(--gap-md);
 }
 
 /* =========================
-   RTL FIXES
+   RTL SAFETY
 ========================= */
 
-:global(body.rtl) .wrapper {
-  direction: rtl;
+.wrapper {
+  direction: var(--dir);
 }

@@ -34,9 +34,7 @@ export default function Tile({ tile, onSpeak, onSelect, onLongPress }: Props) {
 
   return (
     <div
-      className={`${styles.tile} ${
-        profile.highContrast ? styles.highContrastTile : ""
-      }`}
+      className={styles.tile}
       onMouseDown={handleDown}
       onMouseUp={handleUp}
       onMouseLeave={handleUp}

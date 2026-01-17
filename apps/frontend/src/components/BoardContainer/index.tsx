@@ -16,13 +16,11 @@ import type { BoardCapabilities } from "@/types/boardCapabilities";
 interface BoardContainerProps {
   tiles: TileData[];
   onTileSelect: (tile: TileData) => void;
-  capabilities?: BoardCapabilities | null;
 }
 
 export default function BoardContainer({
   tiles,
   onTileSelect,
-  capabilities,
 }: BoardContainerProps) {
   const { speak } = useTTS();
   const { t } = useTranslation();
@@ -33,9 +31,7 @@ export default function BoardContainer({
   /* =========================
      SAFETY DEFAULTS
   ========================= */
-  const canPreview = capabilities?.canAddTiles ?? true;
-  const canSpeak = true; // speaking is always allowed
-  const canTrack = capabilities?.canViewStats ?? false;
+
 
   return (
     <>
@@ -44,34 +40,27 @@ export default function BoardContainer({
           <Tile
             key={tile.id}
             tile={tile}
-            onSpeak={
-              canSpeak
-                ? () => speak(t(tx("tiles", tile.translateKey)))
-                : undefined
-            }
+            onSpeak={() => speak(t(tx("tiles", tile.translateKey)))}
             onSelect={(t) => {
-              if (canTrack) trackTile(t);
+              trackTile(t);
               onTileSelect(t);
             }}
-            onLongPress={
-              canPreview ? (t) => setPreviewTile(t) : undefined
-            }
+            onLongPress={(t) => setPreviewTile(t)}
           />
         ))}
       </BoardGrid>
 
-      {/* 🔍 Tile preview (optional, capability-based) */}
-      {previewTile && canPreview && (
+    
         <TilePreviewModal
           tile={previewTile}
           onClose={() => setPreviewTile(null)}
           onAdd={(tile) => {
-            if (canTrack) trackTile(tile);
+            trackTile(tile);
             onTileSelect(tile);
             setPreviewTile(null);
           }}
         />
-      )}
+      
     </>
   );
 }

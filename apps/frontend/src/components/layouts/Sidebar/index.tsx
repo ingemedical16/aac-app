@@ -67,7 +67,7 @@ export default function Sidebar({ viewMode, isOpen, collapsed, onClose, onToggle
     <>
       <div className={styles.backdrop} onClick={onClose} />
 
-      <aside className={styles.overlay}>
+      <aside className={`${styles.sidebar} ${styles.overlay}`}>
         <SidebarHeader onClose={onClose} />
 
         <SidebarNav

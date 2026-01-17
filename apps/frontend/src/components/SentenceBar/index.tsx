@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./SentenceBar.module.scss";
 
 import useTTS from "@/hooks/useTTS";
-import { buildSentence, type GrammarMode } from "@/lib/sentenceBuilder";
+import { buildSentence } from "@/lib/sentenceBuilder";
 import type { TileData } from "@/types/tile";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,7 @@ interface SentenceBarProps {
   sentence: TileData[];
   onClear: () => void;
   onDeleteLast: () => void;
-  grammarMode?: GrammarMode;
+  grammarMode?: "simple" | "advanced";
 }
 
 export default function SentenceBar({
@@ -34,7 +34,6 @@ export default function SentenceBar({
   const fullSentence = buildSentence(
     sentence,
     i18n.language as any,
-    grammarMode
   );
 
   /* =========================
@@ -60,10 +59,7 @@ export default function SentenceBar({
 
   return (
     <div
-      className={[
-        styles.wrapper,
-        profile.highContrast ? styles.highContrast : "",
-      ].join(" ")}
+      className={styles.wrapper}
     >
       <div
         className={[styles.bar, isSpeaking ? styles.barSpeaking : ""].join(" ")}

@@ -1,14 +1,14 @@
 @use "@/styles/breakpoints.scss" as *;
 
-/* =========================
+/* =====================================================
    BOARD GRID
-========================= */
+===================================================== */
 
 .board {
   display: grid;
   gap: var(--gap-md);
 
-  /* Default grid (mobile first) */
+  /* Mobile first */
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
 
   padding: var(--padding-md);
@@ -22,7 +22,7 @@
      RESPONSIVE
   ========================= */
 
-  @include respond(tablet) {
+  @include respond(tablet-portrait) {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: var(--gap-lg);
   }
@@ -32,36 +32,9 @@
   }
 }
 
-/* =========================
-   ACCESSIBILITY MODES
-========================= */
-
-/* 🔲 Big buttons */
-:global(body.big) .board {
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-
-  @include respond(tablet) {
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  }
-}
-
-/* 🟨 High contrast */
-:global(body.hc) .board {
-  background: var(--hc-bg);
-  color: var(--hc-text);
-}
-
-/* =========================
-   RTL ADJUSTMENTS
-========================= */
-
-:global(body.rtl) .board {
-  direction: rtl;
-}
-
-/* =========================
-   EMPTY STATE (optional)
-========================= */
+/* =====================================================
+   EMPTY STATE
+===================================================== */
 
 .empty {
   grid-column: 1 / -1;

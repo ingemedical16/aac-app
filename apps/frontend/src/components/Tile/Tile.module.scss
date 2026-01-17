@@ -1,45 +1,48 @@
-@use "../../styles/breakpoints.scss" as *;
+@use "@/styles/breakpoints.scss" as *;
 
 /* ------------------------------------------
    TILE WRAPPER
 --------------------------------------------*/
 .tile {
- background: var(--tile-bg, #fff);
-  border: 3px solid var(--tile-border, #ddd);
-  border-radius: var(--tile-radius, 16px);
+  background: var(--tile-bg);
+  border: 2px solid var(--tile-border);
+  border-radius: var(--radius-lg);
 
   min-width: 0;
   height: auto;
-  //min-height: 100%; /* ✅ critical */
 
   overflow: hidden;
-  padding: 12px;
+  padding: var(--padding-md);
 
   display: grid;
   grid-template-rows: 1fr auto;
-  gap: 8px;
+  gap: var(--gap-sm);
 
   justify-items: center;
   align-items: center;
 
   cursor: pointer;
-
-  transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
-
-  &:hover {
-    border-color: #9bbcff;
-    background: #eef4ff;
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
+  user-select: none;
 
   direction: var(--dir);
+
+  transition:
+    transform 0.12s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.tile:hover {
+  border-color: var(--border-hover);
+  background-color: var(--tile-bg-hover);
+}
+
+.tile:active {
+  transform: scale(0.96);
 }
 
 /* ------------------------------------------
-   TILE IMAGE (STRICTLY CONSTRAINED)
+   TILE IMAGE
 --------------------------------------------*/
 .image {
   width: 100%;
@@ -54,63 +57,29 @@
 --------------------------------------------*/
 .label {
   width: 100%;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-color, #333);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
   line-height: 1.15;
   text-align: center;
 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  @include respond(tablet-portrait) {
-    font-size: 1.25rem;
-  }
-
-  @include respond(tablet-landscape) {
-    font-size: 1.35rem;
-  }
-
-  @include respond(desktop) {
-    font-size: 1.45rem;
-  }
-
-  @include respond(wide) {
-    font-size: 1.6rem;
-  }
 }
 
-/* ------------------------------------------
-   HIGH CONTRAST MODE
---------------------------------------------*/
-.highContrastTile {
-  background: #000 !important;
-  border-color: #ffeb3b !important;
-
+/* Tablet portrait */
+@include respond(tablet-portrait) {
   .label {
-    color: #ffeb3b !important;
-  }
-
-  &:hover {
-    background: #111 !important;
-    border-color: #ffee58 !important;
+    font-size: var(--font-size-lg);
   }
 }
 
-/* Big buttons mode (from body.big) */
-:global(body.big) .tile {
-  border-width: 4px;
-  padding: 14px;
-  gap: 10px;
-}
-
-:global(body.big) .image {
-  width: min(85%, 170px);
-}
-
-:global(body.big) .label {
-  font-size: 1.25rem;
+/* Desktop+ */
+@include respond(desktop) {
+  .label {
+    font-size: var(--font-size-xl);
+  }
 }
 
 /* ------------------------------------------
@@ -121,7 +90,13 @@
 }
 
 @keyframes longpressPulse {
-  0% { box-shadow: 0 0 4px rgba(74, 140, 255, 0.3); }
-  50% { box-shadow: 0 0 18px rgba(74, 140, 255, 0.6); }
-  100% { box-shadow: 0 0 4px rgba(74, 140, 255, 0.3); }
+  0% {
+    box-shadow: 0 0 4px var(--accent);
+  }
+  50% {
+    box-shadow: 0 0 18px var(--accent);
+  }
+  100% {
+    box-shadow: 0 0 4px var(--accent);
+  }
 }
