@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useParams, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "react-i18next";
 import AuthToggle from "@/components/auth/AuthToggle";
@@ -11,8 +11,6 @@ export default function LoginForm() {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-  const next = searchParams.get("next");
 
   const { login } = useAuth();
 

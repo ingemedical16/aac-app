@@ -1,9 +1,9 @@
 // src/lib/sentenceBuilder.ts
 import type { TileData } from "@/types/tile";
-import type { LocaleCode } from "@/types/userProfile";
 import i18next from "i18next";
 import { SEMANTIC } from "@/lib/ai/semantic";
 import { tx } from "@/lib/i18n/tx";
+import { LocaleCode } from "./i18n/languages";
 
 /* =========================
    HELPERS

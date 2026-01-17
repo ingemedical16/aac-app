@@ -2,14 +2,15 @@
 
 import type { TileData } from "@/types/tile";
 
-const usageMap = new Map<number, number>();
+const usageMap = new Map<string, number>();
 
 export function useUsageTracker() {
   function trackTile(tile: TileData) {
-    usageMap.set(tile.id, (usageMap.get(tile.id) ?? 0) + 1);
+    const current = usageMap.get(tile.id) ?? 0;
+    usageMap.set(tile.id, current + 1);
   }
 
-  function getUsage(tileId: number) {
+  function getUsage(tileId: string): number {
     return usageMap.get(tileId) ?? 0;
   }
 

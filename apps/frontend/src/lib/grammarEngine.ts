@@ -1,6 +1,6 @@
 // src/lib/grammarEngine.ts
 import type { TileData } from "@/types/tile";
-import type { LocaleCode } from "@/types/userProfile";
+
 import {
   SEMANTIC,
   isFeelingSemantic,
@@ -9,6 +9,7 @@ import {
   isQuantitySemantic,
 } from "@/lib/ai/semantic";
 import i18next from "i18next";
+import { LocaleCode } from "./i18n/languages";
 
 /* ---------------------------------------------
    SEMANTIC GRAMMAR ENGINE

@@ -4,17 +4,12 @@
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { getPostLoginRedirect } from "@/lib/auth/postLoginRedirect";
 import { withLocale } from "@/lib/navigation/withLocale";
 import type { UserRole } from "@/types/auth";
 import { useTranslation } from "react-i18next";
 import AuthToggle from "@/components/auth/AuthToggle";
 import styles from "./RegisterForm.module.scss";
 
-const ALLOWED_ROLES: UserRole[] = [
-  "PATIENT",
-  "PROFESSIONAL",
-];
 
 export default function RegisterForm() {
   const { t } = useTranslation();
@@ -22,19 +17,18 @@ export default function RegisterForm() {
   const { locale } = useParams<{ locale: string }>();
   const { register, user } = useAuth();
 
-  const [role, setRole] = useState<UserRole>("PATIENT");
+  const [role, setRole] = useState<UserRole>("USER");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const ALLOWED_ROLES: UserRole[] = ["USER", "PROFESSIONAL"];
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
     await register({ email, password, role });
-
-    const redirectPath = getPostLoginRedirect(locale, user!.role);
-    router.replace(withLocale(locale, redirectPath));
+    router.replace("/dashboard");
   }
 
   return (
