@@ -1,0 +1,103 @@
+@use "@/styles/breakpoints.scss" as *;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
+}
+
+/* =========================
+   FIELD (LIKE LANGUAGE SWITCHER)
+========================= */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.select {
+  appearance: none;
+  width: 100%;
+
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+
+  background-color: var(--tile-bg);
+  color: var(--text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+
+  cursor: pointer;
+
+  background-image: linear-gradient(
+      45deg,
+      transparent 50%,
+      var(--text) 50%
+    ),
+    linear-gradient(
+      135deg,
+      var(--text) 50%,
+      transparent 50%
+    );
+  background-position:
+    calc(100% - 16px) 55%,
+    calc(100% - 11px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+
+  &:hover {
+    border-color: var(--border-hover);
+    background-color: var(--tile-bg-hover);
+  }
+}
+
+/* =========================
+   TOGGLES
+========================= */
+
+.toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+}
+
+.toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: var(--padding-sm) var(--padding-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+
+  background: var(--tile-bg);
+  color: var(--text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+
+  cursor: pointer;
+
+  &:hover {
+    background: var(--tile-bg-hover);
+    border-color: var(--border-hover);
+  }
+
+  span {
+    font-weight: var(--font-weight-bold);
+  }
+}

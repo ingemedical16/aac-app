@@ -126,13 +126,23 @@
       "stand": "stand"
     }
   },
+  "appearance": {
+    "title": "Appearance"
+  },
   "settings": {
     "title": "Settings",
     "highContrast": "High contrast",
     "bigButtons": "Big buttons",
     "on": "On",
-    "off": "Off"
+    "off": "Off",
+    "theme": "Theme"
   },
+  "theme": {
+      "default": "Default",
+      "calm": "Calm",
+      "playful": "Playful",
+      "pro": "Professional"
+    },
   "nav": {
     "home": "Home",
     "about": "About",

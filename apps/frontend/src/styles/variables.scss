@@ -104,63 +104,6 @@ body.ltr {
 }
 
 /* =====================================================
-   HIGH CONTRAST (AAC — ALWAYS WINS)
-===================================================== */
-
-body.hc {
-  --bg: #000000;
-  --bg-hover: #111111;
-
-  --border: #ffeb3b;
-  --border-hover: #f1550c;
-
-  --text: #ffeb3b;
-  --text-muted: #ffe082;
-
-  --tile-bg: #000000;
-  --tile-bg-hover: #111111;
-  --tile-border: #ffeb3b;
-
-  --header-bg: #000000;
-  --sidebar-bg: #000000;
-
-  --accent: #ffeb3b;
-  --accent-hover: #ffe082;
-  --accent-text: #000000;
-
-  --danger: #ffeb3b;
-  --danger-hover: #ffe082;
-
-  --warning: #ffeb3b;
-  --warning-hover: #ffe082;
-
-  --logo-color: #ffeb3b;
-}
-
-/* =====================================================
-   BIG BUTTON MODE
-===================================================== */
-
-body.big {
-  --font-size-sm: 1rem;
-  --font-size-md: 1.2rem;
-  --font-size-lg: 1.4rem;
-  --font-size-xl: 1.6rem;
-
-  --padding-sm: 10px;
-  --padding-md: 14px;
-  --padding-lg: 18px;
-
-  --gap-sm: 10px;
-  --gap-md: 14px;
-  --gap-lg: 18px;
-
-  --tile-size: 150px;
-  --tile-min: 150px;
-  --tile-row-min: 150px;
-}
-
-/* =====================================================
    THEME — CALM (SENSORY FRIENDLY)
 ===================================================== */
 
@@ -260,4 +203,63 @@ body.theme-pro {
   --warning-hover: #d97706;
 
   --logo-color: #2563eb;
+}
+
+
+
+/* =====================================================
+   HIGH CONTRAST (AAC — ALWAYS WINS)
+===================================================== */
+
+body.hc {
+  --bg: #000000;
+  --bg-hover: #111111;
+
+  --border: #ffeb3b;
+  --border-hover: #f1550c;
+
+  --text: #ffeb3b;
+  --text-muted: #ffe082;
+
+  --tile-bg: #000000;
+  --tile-bg-hover: #111111;
+  --tile-border: #ffeb3b;
+
+  --header-bg: #000000;
+  --sidebar-bg: #000000;
+
+  --accent: #ffeb3b;
+  --accent-hover: #ffe082;
+  --accent-text: #000000;
+
+  --danger: #ffeb3b;
+  --danger-hover: #ffe082;
+
+  --warning: #ffeb3b;
+  --warning-hover: #ffe082;
+
+  --logo-color: #ffeb3b;
+}
+
+/* =====================================================
+   BIG BUTTON MODE
+===================================================== */
+
+body.big {
+  --font-size-sm: 1rem;
+  --font-size-md: 1.2rem;
+  --font-size-lg: 1.4rem;
+  --font-size-xl: 1.6rem;
+
+  --padding-sm: 10px;
+  --padding-md: 14px;
+  --padding-lg: 18px;
+
+  --gap-sm: 10px;
+  --gap-md: 14px;
+  --gap-lg: 18px;
+
+  --tile-size: 150px;
+  --tile-min: 150px;
+  --tile-row-min: 150px;
 }

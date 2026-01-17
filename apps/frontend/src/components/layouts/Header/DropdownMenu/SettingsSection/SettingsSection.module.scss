@@ -1,21 +1,65 @@
+@use "@/styles/breakpoints.scss" as *;
+
+/* =====================================================
+   SETTINGS SECTION
+===================================================== */
+
 .section {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--gap-md);
+
+  padding: var(--padding-md);
+  border-radius: var(--radius-md);
+
+  background: var(--bg);
+  color: var(--text);
 }
+
+/* =====================================================
+   TITLE
+===================================================== */
 
 .title {
-  font-size: 0.8rem;
-  opacity: 0.65;
-  padding: 0.25rem 0.5rem;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--text);
+
+  padding-bottom: var(--padding-sm);
+  border-bottom: 1px solid var(--border);
 }
 
+/* =====================================================
+   INLINE CONTROL
+   (LanguageSwitcher, selects, etc.)
+===================================================== */
+
 .inlineControl {
-  padding: 0.25rem 0.25rem 0.5rem 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
 }
+
+/* =====================================================
+   LIST (DropdownItems)
+===================================================== */
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: var(--gap-sm);
+}
+
+/* =====================================================
+   TABLET LANDSCAPE +
+===================================================== */
+
+@include respond(tablet-landscape) {
+  .section {
+    padding: var(--padding-lg);
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+  }
 }

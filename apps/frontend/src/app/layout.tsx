@@ -1,9 +1,12 @@
 // src/app/layout.tsx
+import "@/styles/globals.scss";
+
 import I18nProvider from "@/components/I18nProvider";
 import AppEffects from "@/components/layouts/AppEffects";
+
 import { AuthProvider } from "@/context/AuthContext";
 import { UserProfileProvider } from "@/context/UserProfileContext";
-import "@/styles/globals.scss";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export default function RootLayout({
   children,
@@ -16,8 +19,10 @@ export default function RootLayout({
         <I18nProvider>
           <AuthProvider>
             <UserProfileProvider>
-              <AppEffects />
-              {children}
+              <ThemeProvider>
+                <AppEffects />
+                {children}
+              </ThemeProvider>
             </UserProfileProvider>
           </AuthProvider>
         </I18nProvider>

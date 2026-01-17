@@ -1,10 +1,10 @@
 {
-  "appTitle": "Tablou de comunicare AAC",
-  "appTitleShort": "Tablou AAC",
+  "appTitle": "Tablă de comunicare AAC",
+  "appTitleShort": "Tablă AAC",
   "language": "Limbă",
-  "boardTitle": "Tablou de comunicare",
+  "boardTitle": "Tablă de comunicare",
 
-  "tapToSpeak": "Apasă pe un buton pentru a vorbi",
+  "tapToSpeak": "Apasă pe un card pentru a vorbi",
   "speak": "Vorbește",
   "clear": "Șterge",
   "deleteLast": "Șterge ultimul",
@@ -30,23 +30,25 @@
 
   "profiles": "Profiluri",
   "addProfile": "Adaugă profil",
-  "deleteProfile": "Șterge profilul",
+  "deleteProfile": "Șterge profil",
   "newProfile": "Profil nou",
 
   "profileRole": {
     "child": "Copil",
     "group": "Grup"
   },
+
   "parentDashboard": {
-    "title": "Panoul părintelui",
-    "subtitle": "Gestionează profilurile copiilor și accesează tabloul de comunicare",
-    "noChild": "Nu există încă niciun profil de copil.",
-    "createChild": "Creează un profil de copil",
-    "selectChild": "Selectează un profil de copil",
+    "title": "Panou părinte",
+    "subtitle": "Gestionează profilurile copiilor și accesează tabla de comunicare",
+    "noChild": "Nu există încă un profil de copil.",
+    "createChild": "Creează un profil copil",
+    "selectChild": "Selectează un profil copil",
     "defaultChildName": "Copilul meu"
   },
+
   "childDashboard": {
-    "title": "Tabloul de comunicare pentru {{name}}"
+    "title": "Tabla de comunicare pentru {{name}}"
   },
 
   "profile": {
@@ -59,25 +61,37 @@
     "languages": "Limbi preferate",
     "languagesHint": "Selectează cel puțin o limbă",
     "add": "Adaugă profil",
-    "newProfile": "Profil nou"
+    "newProfile": "Profil nou",
+    "typeChild": "Copil",
+    "typeIndividual": "Individual"
   },
 
   "auth": {
+    "welcome": "Bine ai venit",
+    "account": "Cont",
     "login": "Autentificare",
     "register": "Înregistrare",
-    "email": "Adresă de e-mail",
+    "email": "Adresă email",
     "password": "Parolă",
     "role": "Rol",
     "roles": {
-      "parent": "Părinte",
-      "professional": "Profesional",
-      "patient_adult": "Pacient adult"
+      "admin": "Administrator",
+      "professional": "Specialist",
+      "user": "Utilizator"
     },
+    "dashboard": "Panou de control",
+    "profiles": "Profiluri",
+    "goToBoard": "Mergi la tablă",
+    "goToDashboard": "Mergi la panou",
+    "goToHome": "Mergi acasă",
+
+    "adminTools": "Instrumente admin",
+    "professionalTools": "Instrumente specialist",
     "create_account": "Creează cont",
-    "invalid_credentials": "E-mail sau parolă incorecte",
+    "invalid_credentials": "Email sau parolă incorecte",
     "logout": "Deconectare",
-    "noAccount": "Nu ai un cont?",
-    "haveAccount": "Ai deja un cont?"
+    "noAccount": "Nu ai cont?",
+    "haveAccount": "Ai deja cont?"
   },
 
   "sentence": {
@@ -88,7 +102,7 @@
     "want": "vreau",
     "dont_want": "nu vreau",
     "help": "ajutor",
-    "stop": "stop",
+    "stop": "oprește",
 
     "more": "mai mult",
     "again": "din nou",
@@ -114,21 +128,64 @@
       "stand": "ridică-te"
     }
   },
+
+  "appearance": {
+    "title": "Aspect"
+  },
+
+  "settings": {
+    "title": "Setări",
+    "highContrast": "Contrast ridicat",
+    "bigButtons": "Butoane mari",
+    "on": "Pornit",
+    "off": "Oprit",
+    "theme": "Temă"
+  },
+
+  "theme": {
+    "default": "Implicit",
+    "calm": "Calm",
+    "playful": "Jucăuș",
+    "pro": "Profesional"
+  },
+
+  "nav": {
+    "home": "Acasă",
+    "about": "Despre",
+    "contact": "Contact",
+    "help": "Ajutor",
+    "privacy": "Politica de confidențialitate",
+    "terms": "Termeni și condiții",
+
+    "board": "Tablă",
+    "dashboard": "Panou",
+    "profiles": "Profiluri",
+    "settings": "Setări",
+
+    "section": {
+      "account": "Cont",
+      "tools": "Instrumente",
+      "profiles": "Profiluri",
+      "categories": "Categorii"
+    }
+  },
+
   "userDashboard": {
-    "title": "Tablou de bord",
+    "title": "Panou de control",
     "subtitle": "Gestionează profilurile de comunicare",
     "noProfile": "Nu există încă profiluri.",
     "createProfile": "Creează profil",
     "selectProfile": "Selectează un profil",
     "defaultProfileName": "Copil"
   },
+
   "errors": {
     "userProfileContext": {
-      "missingProvider": "Contextul profilului utilizatorului trebuie utilizat în UserProfileProvider"
+      "missingProvider": "Contextul profilului utilizator trebuie folosit în UserProfileProvider"
     },
     "auth": {
-      "missingProvider": "Contextul de autentificare trebuie utilizat în AuthProvider",
-      "tokenInvalid": "Tokenul de autentificare este invalid sau a expirat"
+      "missingProvider": "Contextul de autentificare trebuie folosit în AuthProvider",
+      "tokenInvalid": "Tokenul de autentificare este invalid sau expirat"
     }
   }
 }

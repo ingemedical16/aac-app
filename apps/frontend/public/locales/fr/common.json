@@ -4,7 +4,7 @@
   "language": "Langue",
   "boardTitle": "Tableau de communication",
 
-  "tapToSpeak": "Touchez une tuile pour parler",
+  "tapToSpeak": "Appuyez sur une case pour parler",
   "speak": "Parler",
   "clear": "Effacer",
   "deleteLast": "Supprimer le dernier",
@@ -13,7 +13,7 @@
   "save": "Enregistrer",
   "delete": "Supprimer",
 
-  "all": "Tout",
+  "all": "Tous",
 
   "normalMode": "Normal",
   "highContrast": "Contraste élevé",
@@ -37,16 +37,18 @@
     "child": "Enfant",
     "group": "Groupe"
   },
+
   "parentDashboard": {
-    "title": "Tableau de bord des parents",
+    "title": "Tableau de bord parent",
     "subtitle": "Gérez les profils de vos enfants et accédez au tableau de communication",
-    "noChild": "Aucun profil d’enfant n’existe pour le moment.",
-    "createChild": "Créer un profil d’enfant",
-    "selectChild": "Sélectionner un profil d’enfant",
+    "noChild": "Aucun profil enfant n'existe encore.",
+    "createChild": "Créer un profil enfant",
+    "selectChild": "Sélectionner un profil enfant",
     "defaultChildName": "Mon enfant"
   },
+
   "childDashboard": {
-    "title": "Tableau de communication de {{name}}"
+    "title": "Tableau de communication pour {{name}}"
   },
 
   "profile": {
@@ -58,25 +60,37 @@
     "role_group": "Groupe",
     "languages": "Langues préférées",
     "languagesHint": "Sélectionnez au moins une langue",
-    "add": "Ajouter le profil",
-    "newProfile": "Nouveau profil"
+    "add": "Ajouter un profil",
+    "newProfile": "Nouveau profil",
+    "typeChild": "Enfant",
+    "typeIndividual": "Individuel"
   },
 
   "auth": {
+    "welcome": "Bienvenue",
+    "account": "Compte",
     "login": "Connexion",
     "register": "Inscription",
     "email": "Adresse e-mail",
     "password": "Mot de passe",
     "role": "Rôle",
     "roles": {
-      "parent": "Parent",
+      "admin": "Administrateur",
       "professional": "Professionnel",
-      "patient_adult": "Patient adulte"
+      "user": "Utilisateur"
     },
+    "dashboard": "Tableau de bord",
+    "profiles": "Profils",
+    "goToBoard": "Aller au tableau",
+    "goToDashboard": "Aller au tableau de bord",
+    "goToHome": "Aller à l'accueil",
+
+    "adminTools": "Outils d'administration",
+    "professionalTools": "Outils professionnels",
     "create_account": "Créer un compte",
-    "invalid_credentials": "E-mail ou mot de passe invalide",
+    "invalid_credentials": "Email ou mot de passe invalide",
     "logout": "Déconnexion",
-    "noAccount": "Vous n’avez pas de compte ?",
+    "noAccount": "Vous n'avez pas de compte ?",
     "haveAccount": "Vous avez déjà un compte ?"
   },
 
@@ -85,10 +99,10 @@
   },
 
   "semantic": {
-    "want": "veux",
-    "dont_want": "ne veux pas",
+    "want": "vouloir",
+    "dont_want": "ne pas vouloir",
     "help": "aide",
-    "stop": "arrêter",
+    "stop": "stop",
 
     "more": "plus",
     "again": "encore",
@@ -101,7 +115,7 @@
     },
 
     "feeling": {
-      "happy": "content",
+      "happy": "heureux",
       "sad": "triste",
       "angry": "en colère",
       "tired": "fatigué"
@@ -114,6 +128,48 @@
       "stand": "se lever"
     }
   },
+
+  "appearance": {
+    "title": "Apparence"
+  },
+
+  "settings": {
+    "title": "Paramètres",
+    "highContrast": "Contraste élevé",
+    "bigButtons": "Grands boutons",
+    "on": "Activé",
+    "off": "Désactivé",
+    "theme": "Thème"
+  },
+
+  "theme": {
+    "default": "Par défaut",
+    "calm": "Calme",
+    "playful": "Ludique",
+    "pro": "Professionnel"
+  },
+
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "contact": "Contact",
+    "help": "Aide",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+
+    "board": "Tableau",
+    "dashboard": "Tableau de bord",
+    "profiles": "Profils",
+    "settings": "Paramètres",
+
+    "section": {
+      "account": "Compte",
+      "tools": "Outils",
+      "profiles": "Profils",
+      "categories": "Catégories"
+    }
+  },
+
   "userDashboard": {
     "title": "Tableau de bord",
     "subtitle": "Gérer les profils de communication",
@@ -122,13 +178,14 @@
     "selectProfile": "Sélectionner un profil",
     "defaultProfileName": "Enfant"
   },
+
   "errors": {
     "userProfileContext": {
       "missingProvider": "Le contexte du profil utilisateur doit être utilisé dans UserProfileProvider"
     },
     "auth": {
-      "missingProvider": "Le contexte d’authentification doit être utilisé dans AuthProvider",
-      "tokenInvalid": "Le jeton d’authentification est invalide ou a expiré"
+      "missingProvider": "Le contexte d'authentification doit être utilisé dans AuthProvider",
+      "tokenInvalid": "Le jeton d'authentification est invalide ou expiré"
     }
   }
 }
