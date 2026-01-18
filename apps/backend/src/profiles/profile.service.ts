@@ -7,9 +7,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { I18nService } from "nestjs-i18n";
 
-import { Profile } from "./profile.entity";
-import { User } from "../users/user.entity";
-import { Child } from "../children/child.entity";
+import { Profile } from "../entities/profile.entity";
+import { User } from "../entities/user.entity";
+import { Child } from "../entities/child.entity";
 import { CreateProfileDto } from "./dto/create-profile.dto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
 import { ProfileType } from "../common/enums/profileType.enum";

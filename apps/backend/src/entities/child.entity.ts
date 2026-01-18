@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "../users/user.entity";
-import { Profile } from "../profiles/profile.entity";
+import { User } from "./user.entity";
+import { Profile } from "./profile.entity";
 
 @Entity("children")
 export class Child {

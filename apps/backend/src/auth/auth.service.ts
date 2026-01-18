@@ -10,8 +10,7 @@ import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { I18nService } from "nestjs-i18n";
 
-import { User } from "../users/user.entity";
-import { Profile } from "../profiles/profile.entity";
+import { User, Profile } from "../entities";
 import { RegisterDto } from "./dto/register.dto";
 import { LoginDto } from "./dto/login.dto";
 import { UserRole } from "../common/enums/roles.enum";

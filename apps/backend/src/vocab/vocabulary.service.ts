@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Vocabulary } from './vocabulary.entity';
+import { Vocabulary } from '../entities/vocabulary.entity';
 import { CreateVocabularyDto } from './dto/create-vocab.dto';
 import { UpdateVocabularyDto } from './dto/update-vocab.dto';
 

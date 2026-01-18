@@ -17,7 +17,7 @@ import { CreateProfileDto } from "./dto/create-profile.dto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
 import { ProfileResponseDto } from "./dto/profile-response.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
-import { User } from "../users/user.entity";
+import { User } from "../entities/user.entity";
 
 @Controller("profiles")
 @UseGuards(JwtAuthGuard)

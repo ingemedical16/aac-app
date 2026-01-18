@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "../users/user.entity";
-import { Child } from "../children/child.entity";
+import { User } from "./user.entity";
+import { Child } from "./child.entity";
 import { ProfileType } from "../common/enums/profileType.enum";
 import { Sex } from "../common/enums/sex.enum";
 

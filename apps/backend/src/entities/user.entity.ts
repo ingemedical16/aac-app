@@ -9,8 +9,8 @@ import {
   JoinColumn,
 } from "typeorm";
 import { UserRole } from "../common/enums/roles.enum";
-import { Profile } from "../profiles/profile.entity";
-import { Child } from "../children/child.entity";
+import { Profile } from "./profile.entity";
+import { Child } from "./child.entity";
 
 @Entity("users")
 export class User {

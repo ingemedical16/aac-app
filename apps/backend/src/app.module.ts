@@ -5,16 +5,16 @@ import { AcceptLanguageResolver, QueryResolver } from 'nestjs-i18n';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'path';
 
-import { User } from './users/user.entity';
-import { Child } from './children/child.entity';
-import { Vocabulary } from './vocab/vocabulary.entity';
+import { User } from './entities/user.entity';
+import { Child } from './entities/child.entity';
+import { Vocabulary } from './entities/vocabulary.entity';
 import { ImageAsset } from './images/image.entity';
 
 import { AuthModule } from './auth/auth.module';
 import { ChildrenModule } from './children/children.module';
 import { VocabularyModule } from './vocab/vocabulary.module';
 import { ImagesModule } from './images/images.module';
-import { Profile } from './profiles/profile.entity';
+import { Profile } from './entities/profile.entity';
 import { ProfileModule } from './profiles/profile.module';
 
 @Module({
