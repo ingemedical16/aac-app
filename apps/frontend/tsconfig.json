@@ -34,7 +34,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "../backend/src/app.controller.ts"  ],
   "exclude": [
     "node_modules"
   ]
