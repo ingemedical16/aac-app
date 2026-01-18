@@ -14,9 +14,11 @@ import { ProfileModule } from "./profiles/profile.module";
 
 import { AppException } from "./common/exceptions/app-exception";
 import { I18nService } from "nestjs-i18n";
+import { AppController } from "./app.controller";
 
 @Module({
   imports: [
+  
     /* =========================
        ENV / CONFIG
     ========================= */
@@ -66,6 +68,7 @@ import { I18nService } from "nestjs-i18n";
     /* =========================
        FEATURE MODULES
     ========================= */
+    AppController,
     AuthModule,
     ChildrenModule,
     ProfileModule,
