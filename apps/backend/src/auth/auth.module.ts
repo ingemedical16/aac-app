@@ -6,19 +6,17 @@ import { APP_GUARD } from "@nestjs/core";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
 import { User } from "../users/user.entity";
+import { Profile } from "../profiles/profile.entity";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { RolesGuard } from "./guards/roles.guard";
 import { JwtStrategy } from "./strategies/jwt.strategy";
-import { Profile } from "../profiles/profile.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User,Profile]),
-
-    // ✅ makes ConfigService available here (even if global)
+    TypeOrmModule.forFeature([User, Profile]),
     ConfigModule,
 
     PassportModule.register({
@@ -29,7 +27,7 @@ import { Profile } from "../profiles/profile.entity";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>("JWT_SECRET") || "dev-secret-change-me",
+        secret: config.get<string>("JWT_SECRET") || "dev-secret-change-me-9f7a3c2d1b8e4a6f5c0d",
         signOptions: {
           expiresIn: "7d",
         },
@@ -43,9 +41,6 @@ import { Profile } from "../profiles/profile.entity";
     AuthService,
     JwtStrategy,
 
-    /* =========================
-       GLOBAL SECURITY GUARDS
-    ========================= */
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

@@ -17,6 +17,8 @@ import { LoginDto } from "./dto/login.dto";
 import { UserRole } from "../common/enums/roles.enum";
 import { ProfileType } from "../common/enums/profileType.enum";
 
+
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -31,70 +33,56 @@ export class AuthService {
     private readonly i18n: I18nService
   ) {}
 
-  /* =========================
-     REGISTER
-  ========================= */
   async register(dto: RegisterDto, lang = "en") {
-    const exists = await this.userRepo.findOne({
-      where: { email: dto.email },
-    });
+    const exists = await this.userRepo.findOne({ where: { email: dto.email } });
     if (exists) {
-      throw new ConflictException(
-        this.i18n.t("auth.user_exists", { lang })
-      );
+      throw new ConflictException(this.i18n.t("auth.user_exists", { lang }));
     }
 
     if (dto.role === UserRole.ADMIN) {
-      const errorMessage = this.i18n.t("auth.roleNotAllowed", { lang });
-      throw new BadRequestException(errorMessage);
-  throw new BadRequestException(errorMessage);
-}
-
+      throw new BadRequestException(this.i18n.t("auth.roleNotAllowed", { lang }));
+    }
 
     const hash = await bcrypt.hash(dto.password, 10);
-
     const role = dto.role || UserRole.USER;
-
     const primaryLanguage = (lang?.split(",")?.[0] ?? "en").trim() || "en";
 
     const result = await this.dataSource.transaction(async (manager) => {
-      const user = manager.getRepository(User).create({
+      const userRepo = manager.getRepository(User);
+      const profileRepo = manager.getRepository(Profile);
+
+      const user = userRepo.create({
         email: dto.email,
         password: hash,
         role,
       });
 
-      const savedUser = await manager.getRepository(User).save(user);
+      const savedUser = await userRepo.save(user);
 
-      // ✅ Create INDIVIDUAL profile for EVERY non-admin user
-      const isPatient = role === UserRole.USER; // professionals/admins default false
       const displayName =
         [dto.firstName, dto.lastName].filter(Boolean).join(" ").trim() ||
         dto.email.split("@")[0];
 
-      const profile = manager.getRepository(Profile).create({
+      const profile = profileRepo.create({
         owner: savedUser,
-        child: null,
-        name: displayName,
+        user: savedUser, // attach to user (1:1)
+        displayName,
         type: ProfileType.INDIVIDUAL,
-
         firstName: dto.firstName ?? null,
         lastName: dto.lastName ?? null,
-
-        // identity fields optional at registration
         dateOfBirth: null,
         sex: null,
         avatarUrl: null,
-
-        isPatient,
+        isPatient: role === UserRole.USER,
         primaryLanguage,
         preferredLanguages: [primaryLanguage],
-        highContrast: false,
-        bigButtons: false,
       });
 
-      const savedProfile = await manager.getRepository(Profile).save(profile);
-      console.log("Created profile for new user:", savedProfile);
+      const savedProfile = await profileRepo.save(profile);
+
+      // attach the SINGLE profile to user
+      savedUser.profile = savedProfile;
+      await userRepo.save(savedUser);
 
       return { user: savedUser, profile: savedProfile };
     });
@@ -102,9 +90,6 @@ export class AuthService {
     return this.sign(result.user, result.profile.id);
   }
 
-  /* =========================
-     LOGIN
-  ========================= */
   async login(dto: LoginDto, lang = "en") {
     const user = await this.userRepo
       .createQueryBuilder("user")
@@ -113,38 +98,30 @@ export class AuthService {
       .getOne();
 
     if (!user) {
-      throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang })
-      );
+      throw new UnauthorizedException(this.i18n.t("auth.invalid_credentials", { lang }));
     }
 
     const valid = await bcrypt.compare(dto.password, user.password);
-
     if (!valid) {
-      throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang })
-      );
+      throw new UnauthorizedException(this.i18n.t("auth.invalid_credentials", { lang }));
     }
 
-    // Optional: include default profile id if you want
-    const firstProfile = await this.profileRepo.findOne({
-      where: { owner: { id: user.id }, isActive: true },
+    // get the SINGLE personal profile
+    const personalProfile = await this.profileRepo.findOne({
+      where: { user: { id: user.id }, isActive: true },
       order: { createdAt: "ASC" },
     });
 
-    return this.sign(user, firstProfile?.id ?? null);
+    return this.sign(user, personalProfile?.id ?? null);
   }
 
-  /* =========================
-     JWT SIGN
-  ========================= */
   private sign(user: User, profileId: string | null) {
     return {
       access_token: this.jwtService.sign({
         sub: user.id,
         email: user.email,
         role: user.role,
-        profileId, // ✅ helps frontend (optional but useful)
+        profileId,
       }),
     };
   }

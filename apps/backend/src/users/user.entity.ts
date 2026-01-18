@@ -37,20 +37,20 @@ export class User {
      RELATIONS
   ========================= */
 
-  // User identity
+  // Personal profile (1:1)
   @OneToOne(() => Profile, (profile) => profile.user, {
     cascade: true,
   })
   @JoinColumn()
   profile!: Profile;
 
-  // Children relations
-  @OneToMany(() => Child, (child) => child.parent)
-  children!: Child[];
-
-  // Ownership of all profiles
+  // Owns all profiles (personal + children)
   @OneToMany(() => Profile, (profile) => profile.owner)
   profiles!: Profile[];
+
+  // Owns children
+  @OneToMany(() => Child, (child) => child.parent)
+  children!: Child[];
 
   @CreateDateColumn()
   createdAt!: Date;

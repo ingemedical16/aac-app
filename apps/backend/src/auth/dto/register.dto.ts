@@ -9,16 +9,16 @@ import { UserRole } from "../../common/enums/roles.enum";
 
 export class RegisterDto {
   @IsEmail()
-  email: string;
+  email!: string;
 
   @IsString()
   @MinLength(8)
-  password: string;
+  password!: string;
 
   /**
    * Optional role at registration
    * Allowed: USER, PROFESSIONAL
-   * Forbidden: ADMIN (enforced again in service)
+   * Forbidden: ADMIN (enforced in service)
    */
   @IsOptional()
   @IsEnum(UserRole)

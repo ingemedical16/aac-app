@@ -1,10 +1,10 @@
 import {
-  Column,
-  CreateDateColumn,
   Entity,
+  Column,
+  PrimaryGeneratedColumn,
   ManyToOne,
   OneToOne,
-  PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { User } from "../users/user.entity";
@@ -21,12 +21,13 @@ export class Profile {
      OWNERSHIP
   ========================= */
 
+  // Owner is always the user account
   @ManyToOne(() => User, (user) => user.profiles, {
     onDelete: "CASCADE",
   })
   owner!: User;
 
-  // Profile belongs to either user or child
+  // Profile belongs to either user OR child
   @OneToOne(() => User, (user) => user.profile, {
     nullable: true,
   })
@@ -48,19 +49,19 @@ export class Profile {
   type!: ProfileType;
 
   @Column({ nullable: true })
-  firstName?: string;
+  firstName?: string | null;
 
   @Column({ nullable: true })
-  lastName?: string;
+  lastName?: string | null;
 
   @Column({ type: "date", nullable: true })
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | null;
 
   @Column({ type: "simple-enum", enum: Sex, nullable: true })
-  sex?: Sex;
+  sex?: Sex | null;
 
   @Column({ nullable: true })
-  avatarUrl?: string;
+  avatarUrl?: string | null;
 
   /* =========================
      AAC SETTINGS

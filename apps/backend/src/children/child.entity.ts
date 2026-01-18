@@ -2,10 +2,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToOne,
+  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  JoinColumn,
-  OneToOne,
 } from "typeorm";
 import { User } from "../users/user.entity";
 import { Profile } from "../profiles/profile.entity";
@@ -16,15 +16,16 @@ export class Child {
   id!: string;
 
   /* =========================
-     RELATION
+     RELATIONS
   ========================= */
 
+  // Child belongs to a user
   @ManyToOne(() => User, (user) => user.children, {
     onDelete: "CASCADE",
   })
   parent!: User;
 
-  // Child identity lives in Profile
+  // Child has exactly one profile
   @OneToOne(() => Profile, (profile) => profile.child, {
     cascade: true,
   })
