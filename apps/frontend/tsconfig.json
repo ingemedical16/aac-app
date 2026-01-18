@@ -36,6 +36,7 @@
     "**/*.tsx"
 , "../backend/src/app.controller.ts"  ],
   "exclude": [
+    "../backend",
     "node_modules"
   ]
 }
