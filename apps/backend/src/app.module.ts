@@ -68,13 +68,14 @@ import { AppController } from "./app.controller";
     /* =========================
        FEATURE MODULES
     ========================= */
-    AppController,
+    
     AuthModule,
     ChildrenModule,
     ProfileModule,
     VocabularyModule,
     ImagesModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {
   constructor(private readonly i18n: I18nService) {
