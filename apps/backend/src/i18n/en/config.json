@@ -1,0 +1,3 @@
+{
+    "jwt_missing": "JWT secret is not configured"
+}

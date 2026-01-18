@@ -1,21 +1,19 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { I18nModule, I18nJsonLoader } from 'nestjs-i18n';
-import { AcceptLanguageResolver, QueryResolver } from 'nestjs-i18n';
-import { ConfigModule } from '@nestjs/config';
-import * as path from 'path';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { I18nModule, I18nJsonLoader } from "nestjs-i18n";
+import { AcceptLanguageResolver, QueryResolver } from "nestjs-i18n";
+import { ConfigModule } from "@nestjs/config";
+import * as path from "path";
 
-import { User } from './entities/user.entity';
-import { Child } from './entities/child.entity';
-import { Vocabulary } from './entities/vocabulary.entity';
-import { ImageAsset } from './images/image.entity';
+import { User, Child, Vocabulary, Profile, ImageAsset} from "./entities";
+import { AuthModule } from "./auth/auth.module";
+import { ChildrenModule } from "./children/children.module";
+import { VocabularyModule } from "./vocab/vocabulary.module";
+import { ImagesModule } from "./images/images.module";
+import { ProfileModule } from "./profiles/profile.module";
 
-import { AuthModule } from './auth/auth.module';
-import { ChildrenModule } from './children/children.module';
-import { VocabularyModule } from './vocab/vocabulary.module';
-import { ImagesModule } from './images/images.module';
-import { Profile } from './entities/profile.entity';
-import { ProfileModule } from './profiles/profile.module';
+import { AppException } from "./common/exceptions/app-exception";
+import { I18nService } from "nestjs-i18n";
 
 @Module({
   imports: [
@@ -23,30 +21,30 @@ import { ProfileModule } from './profiles/profile.module';
        ENV / CONFIG
     ========================= */
     ConfigModule.forRoot({
-      isGlobal: true, // 👈 VERY IMPORTANT
+      isGlobal: true,
     }),
 
     /* =========================
        DATABASE
     ========================= */
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'dev.db',
+      type: "sqlite",
+      database: "dev.db",
       entities: [User, Child, Vocabulary, ImageAsset, Profile],
-      synchronize: true,
+      synchronize: true, // ⚠ disable in production
     }),
 
     /* =========================
        I18N
     ========================= */
     I18nModule.forRoot({
-      fallbackLanguage: 'en',
+      fallbackLanguage: "en",
       loader: I18nJsonLoader,
       loaderOptions: {
-        path: path.join(__dirname, 'i18n'),
+        path: path.join(__dirname, "i18n"),
       },
       resolvers: [
-        { use: QueryResolver, options: ['lang'] },
+        { use: QueryResolver, options: ["lang"] },
         AcceptLanguageResolver,
       ],
     }),
@@ -61,4 +59,9 @@ import { ProfileModule } from './profiles/profile.module';
     ImagesModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly i18n: I18nService) {
+    // Initialize centralized exception helper
+    AppException.init(this.i18n);
+  }
+}

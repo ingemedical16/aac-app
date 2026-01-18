@@ -12,6 +12,7 @@ import { AuthController } from "./auth.controller";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { RolesGuard } from "./guards/roles.guard";
 import { JwtStrategy } from "./strategies/jwt.strategy";
+import { AppException } from "../common/exceptions/app-exception";
 
 @Module({
   imports: [
@@ -22,15 +23,23 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
       defaultStrategy: "jwt",
     }),
 
-    JwtModule.registerAsync({
+   JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>("JWT_SECRET") || "ajGMHKmrXgWPPBc6Y291ReIgStZxNzqKcJv2ox4ubQT",
-        signOptions: {
-          expiresIn: "7d",
-        },
-      }),
+      useFactory: (config: ConfigService) => {
+        const secret = config.get<string>("JWT_SECRET");
+
+        if (!secret) {
+          throw AppException.system("config.jwt_missing");
+        }
+
+        return {
+          secret,
+          signOptions: {
+            expiresIn: "7d",
+          },
+        };
+      },
     }),
   ],
 

@@ -1,0 +1,3 @@
+{
+    "jwt_missing": "La clé secrète JWT n'est pas configurée"
+}

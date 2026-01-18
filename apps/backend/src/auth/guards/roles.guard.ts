@@ -1,25 +1,23 @@
 import {
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
   Injectable,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { I18nService } from "nestjs-i18n";
 import { ROLES_KEY } from "../decorators/roles.decorator";
 import { UserRole } from "../../common/enums/roles.enum";
+import { AppException } from "../../common/exceptions/app-exception";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly i18n: I18nService
   ) {}
 
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
       ROLES_KEY,
-      [context.getHandler(), context.getClass()]
+      [context.getHandler(), context.getClass()],
     );
 
     // 🔓 No role restriction
@@ -31,27 +29,22 @@ export class RolesGuard implements CanActivate {
     const user = request.user;
 
     // 🌍 Detect language (fallback = en)
-    const lang =
-      request.headers["accept-language"]?.split(",")[0] ?? "en";
+    const langHeader = request.headers["accept-language"] as string;
+    const lang = langHeader?.split(",")[0] || "en";
 
     // 🚫 No authenticated user
     if (!user || !user.role) {
-      throw new ForbiddenException(
-        this.i18n.t("auth.access_denied", { lang })
-      );
+      throw AppException.forbidden("auth.access_denied", lang);
     }
 
     // 🚫 Role mismatch
-    if (!requiredRoles.includes(user.role)) {
-      throw new ForbiddenException(
-        this.i18n.t("auth.insufficient_role", {
-          lang,
-          args: {
-            role: user.role,
-            required: requiredRoles.join(", "),
-          },
-        })
-      );
+    const userRole = user.role as UserRole;
+
+    if (!requiredRoles.includes(userRole)) {
+      throw AppException.forbidden("auth.insufficient_role", lang, {
+        role: userRole,
+        required: requiredRoles.join(", "),
+      });
     }
 
     return true;
