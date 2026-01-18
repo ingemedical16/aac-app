@@ -1,59 +1,39 @@
 import {
   Entity,
-  Column,
   PrimaryGeneratedColumn,
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  Index,
-  OneToMany,
+  JoinColumn,
+  OneToOne,
 } from "typeorm";
-import {  User } from "../users/user.entity";
+import { User } from "../users/user.entity";
 import { Profile } from "../profiles/profile.entity";
-import { Sex } from "../common/enums/sex.enum";
-
 
 @Entity("children")
 export class Child {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
-
-  @Column({ length: 100 })
-  firstName: string;
-
-  @Column({ length: 100, nullable: true })
-  lastName?: string;
-
-  @Column({ type: "date", nullable: true })
-  dateOfBirth?: Date;
-
-  @Column({
-    type: "simple-enum",
-    enum: Sex,
-    nullable: true,
-  })
-  sex?: Sex;
+  id!: string;
 
   /* =========================
-     RELATIONS
+     RELATION
   ========================= */
 
-  @Index()
   @ManyToOne(() => User, (user) => user.children, {
     onDelete: "CASCADE",
   })
-  parent: User;
+  parent!: User;
 
-  @OneToMany(() => Profile, (profile) => profile.child)
-  profiles: Profile[];
-
-  /* =========================
-     SYSTEM
-  ========================= */
+  // Child identity lives in Profile
+  @OneToOne(() => Profile, (profile) => profile.child, {
+    cascade: true,
+  })
+  @JoinColumn()
+  profile!: Profile;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }

@@ -1,19 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 export class Vocabulary {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  word: string;
+  word!: string;
 
   @Column()
-  lang: string;
+  lang!: string;
 
   @Column({ nullable: true })
-  imageUrl: string;
+  imageUrl?: string;
 
   @Column({ nullable: true })
-  category: string;
+  category?: string;
 }

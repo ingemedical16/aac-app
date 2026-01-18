@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -14,30 +15,37 @@ import { Sex } from "../common/enums/sex.enum";
 @Entity("profiles")
 export class Profile {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   /* =========================
      OWNERSHIP
   ========================= */
 
-  @ManyToOne(() => User, (user) => user.profiles, { onDelete: "CASCADE" })
-  owner: User;
+  @ManyToOne(() => User, (user) => user.profiles, {
+    onDelete: "CASCADE",
+  })
+  owner!: User;
 
-  @ManyToOne(() => Child, (child) => child.profiles, {
+  // Profile belongs to either user or child
+  @OneToOne(() => User, (user) => user.profile, {
     nullable: true,
-    onDelete: "SET NULL",
+  })
+  user?: User | null;
+
+  @OneToOne(() => Child, (child) => child.profile, {
+    nullable: true,
   })
   child?: Child | null;
 
   /* =========================
-     IDENTITY
+     IDENTITY (single source)
   ========================= */
 
   @Column()
-  name: string;
+  displayName!: string;
 
   @Column({ type: "simple-enum", enum: ProfileType })
-  type: ProfileType;
+  type!: ProfileType;
 
   @Column({ nullable: true })
   firstName?: string;
@@ -59,30 +67,24 @@ export class Profile {
   ========================= */
 
   @Column({ default: true })
-  isPatient: boolean;
+  isPatient!: boolean;
 
   @Column({ default: "en" })
-  primaryLanguage: string;
+  primaryLanguage!: string;
 
   @Column("simple-array")
-  preferredLanguages: string[];
-
-  @Column({ default: false })
-  highContrast: boolean;
-
-  @Column({ default: false })
-  bigButtons: boolean;
+  preferredLanguages!: string[];
 
   /* =========================
-     METADATA
+     SYSTEM
   ========================= */
 
   @Column({ default: true })
-  isActive: boolean;
+  isActive!: boolean;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }
