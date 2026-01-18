@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -6,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // ✅ CORS must be FIRST
+  // CORS
   app.enableCors({
     origin: [
       'http://localhost:3000',
@@ -20,13 +21,14 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // ✅ Then pipes, guards, interceptors, etc.
+  // Global validation
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   const port = process.env.PORT || 4000;
   await app.listen(port, '0.0.0.0');
 
-  console.log(`Backend listening on http://localhost:${port}`);
+  console.log(`Backend running in ${process.env.NODE_ENV} mode`);
+  console.log(`Backend listening on port ${port}`);
 }
 
 bootstrap();

@@ -5,7 +5,7 @@ import { AcceptLanguageResolver, QueryResolver } from "nestjs-i18n";
 import { ConfigModule } from "@nestjs/config";
 import * as path from "path";
 
-import { User, Child, Vocabulary, Profile, ImageAsset} from "./entities";
+import { User, Child, Vocabulary, Profile, ImageAsset } from "./entities";
 import { AuthModule } from "./auth/auth.module";
 import { ChildrenModule } from "./children/children.module";
 import { VocabularyModule } from "./vocab/vocabulary.module";
@@ -28,10 +28,24 @@ import { I18nService } from "nestjs-i18n";
        DATABASE
     ========================= */
     TypeOrmModule.forRoot({
-      type: "sqlite",
-      database: "dev.db",
+      type: (process.env.DB_TYPE as any) || "sqlite",
+
+      // SQLite (local dev)
+      database: process.env.DB_TYPE === "sqlite" ? "dev.db" : undefined,
+
+      // PostgreSQL (staging & production)
+      url: process.env.DATABASE_URL,
+
       entities: [User, Child, Vocabulary, ImageAsset, Profile],
-      synchronize: true, // ⚠ disable in production
+
+      synchronize: process.env.NODE_ENV !== "production",
+
+      ssl:
+        process.env.DB_SSL === "true"
+          ? { rejectUnauthorized: false }
+          : false,
+
+      autoLoadEntities: true,
     }),
 
     /* =========================
