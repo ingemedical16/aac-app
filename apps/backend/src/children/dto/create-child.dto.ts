@@ -2,7 +2,7 @@ import { IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateChildDto {
   @IsString()
-  name: string;
+  name!: string;
 
   @IsOptional()
   @IsNumber()

@@ -3,14 +3,14 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class ImageAsset {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  url: string;
+  url!: string;
 
   @Column({ nullable: true })
-  description: string;
+  description?: string;
 
   @Column()
-  lang: string;
+  lang!: string;
 }
