@@ -1,21 +1,20 @@
-import {
-  Injectable,
-  ConflictException,
-  UnauthorizedException,
-  BadRequestException,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, DataSource } from "typeorm";
 import * as bcrypt from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
-import { I18nService } from "nestjs-i18n";
 
-import { User } from "../users/user.entity";
-import { Profile } from "../profiles/profile.entity";
+import { User, Profile } from "../entities";
 import { RegisterDto } from "./dto/register.dto";
 import { LoginDto } from "./dto/login.dto";
+import { RefreshDto } from "./dto/refresh.dto";
+import { ChangePasswordDto } from "./dto/change-password.dto";
+import { ForgotPasswordDto } from "./dto/forgot-password.dto";
+import { ResetPasswordDto } from "./dto/reset-password.dto";
+
 import { UserRole } from "../common/enums/roles.enum";
 import { ProfileType } from "../common/enums/profileType.enum";
+import { AppException } from "../common/exceptions/app-exception";
 
 @Injectable()
 export class AuthService {
@@ -27,8 +26,7 @@ export class AuthService {
     private readonly profileRepo: Repository<Profile>,
 
     private readonly dataSource: DataSource,
-    private readonly jwtService: JwtService,
-    private readonly i18n: I18nService
+    private readonly jwtService: JwtService
   ) {}
 
   /* =========================
@@ -38,63 +36,56 @@ export class AuthService {
     const exists = await this.userRepo.findOne({
       where: { email: dto.email },
     });
+
     if (exists) {
-      throw new ConflictException(
-        this.i18n.t("auth.user_exists", { lang })
-      );
+      throw AppException.conflict("auth.user_exists", lang);
     }
 
     if (dto.role === UserRole.ADMIN) {
-      const errorMessage = this.i18n.t("auth.roleNotAllowed", { lang });
-      throw new BadRequestException(errorMessage);
-  throw new BadRequestException(errorMessage);
-}
-
+      throw AppException.badRequest("auth.roleNotAllowed", lang);
+    }
 
     const hash = await bcrypt.hash(dto.password, 10);
-
     const role = dto.role || UserRole.USER;
-
     const primaryLanguage = (lang?.split(",")?.[0] ?? "en").trim() || "en";
 
     const result = await this.dataSource.transaction(async (manager) => {
-      const user = manager.getRepository(User).create({
+      const userRepo = manager.getRepository(User);
+      const profileRepo = manager.getRepository(Profile);
+
+      const user = userRepo.create({
         email: dto.email,
         password: hash,
         role,
       });
 
-      const savedUser = await manager.getRepository(User).save(user);
+      const savedUser = await userRepo.save(user);
 
-      // ✅ Create INDIVIDUAL profile for EVERY non-admin user
-      const isPatient = role === UserRole.USER; // professionals/admins default false
       const displayName =
         [dto.firstName, dto.lastName].filter(Boolean).join(" ").trim() ||
         dto.email.split("@")[0];
 
-      const profile = manager.getRepository(Profile).create({
+      const profile = profileRepo.create({
         owner: savedUser,
-        child: null,
-        name: displayName,
+        user: savedUser,
+        displayName,
         type: ProfileType.INDIVIDUAL,
 
         firstName: dto.firstName ?? null,
         lastName: dto.lastName ?? null,
-
-        // identity fields optional at registration
         dateOfBirth: null,
         sex: null,
         avatarUrl: null,
 
-        isPatient,
+        isPatient: role === UserRole.USER,
         primaryLanguage,
         preferredLanguages: [primaryLanguage],
-        highContrast: false,
-        bigButtons: false,
       });
 
-      const savedProfile = await manager.getRepository(Profile).save(profile);
-      console.log("Created profile for new user:", savedProfile);
+      const savedProfile = await profileRepo.save(profile);
+
+      savedUser.profile = savedProfile;
+      await userRepo.save(savedUser);
 
       return { user: savedUser, profile: savedProfile };
     });
@@ -113,26 +104,117 @@ export class AuthService {
       .getOne();
 
     if (!user) {
-      throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang })
-      );
+      throw AppException.unauthorized("auth.invalid_credentials", lang);
     }
 
     const valid = await bcrypt.compare(dto.password, user.password);
-
     if (!valid) {
-      throw new UnauthorizedException(
-        this.i18n.t("auth.invalid_credentials", { lang })
-      );
+      throw AppException.unauthorized("auth.invalid_credentials", lang);
     }
 
-    // Optional: include default profile id if you want
-    const firstProfile = await this.profileRepo.findOne({
-      where: { owner: { id: user.id }, isActive: true },
+    const personalProfile = await this.profileRepo.findOne({
+      where: { user: { id: user.id }, isActive: true },
       order: { createdAt: "ASC" },
     });
 
-    return this.sign(user, firstProfile?.id ?? null);
+    return this.sign(user, personalProfile?.id ?? null);
+  }
+
+  /* =========================
+     REFRESH
+  ========================= */
+  async refresh(dto: RefreshDto, lang = "en") {
+    let payload: any;
+
+    try {
+      payload = this.jwtService.verify(dto.refresh_token);
+    } catch {
+      throw AppException.unauthorized("auth.invalid_token", lang);
+    }
+
+    const user = await this.userRepo.findOne({
+      where: { id: payload.sub },
+    });
+
+    if (!user) {
+      throw AppException.unauthorized("auth.invalid_token", lang);
+    }
+
+    return this.sign(user, payload.profileId ?? null);
+  }
+
+  /* =========================
+     CHANGE PASSWORD
+  ========================= */
+  async changePassword(userId: string, dto: ChangePasswordDto, lang = "en") {
+    const user = await this.userRepo
+      .createQueryBuilder("user")
+      .addSelect("user.password")
+      .where("user.id = :id", { id: userId })
+      .getOne();
+
+    if (!user) {
+      throw AppException.unauthorized("auth.invalid_credentials", lang);
+    }
+
+    const valid = await bcrypt.compare(dto.currentPassword, user.password);
+    if (!valid) {
+      throw AppException.unauthorized("auth.invalid_credentials", lang);
+    }
+
+    user.password = await bcrypt.hash(dto.newPassword, 10);
+    await this.userRepo.save(user);
+
+    return { success: true };
+  }
+
+  /* =========================
+     FORGOT PASSWORD
+  ========================= */
+  async forgotPassword(dto: ForgotPasswordDto, lang = "en") {
+    const user = await this.userRepo.findOne({
+      where: { email: dto.email },
+    });
+
+    // Prevent account enumeration: always return success.
+    if (!user) return { success: true };
+
+    const token = this.jwtService.sign(
+      { sub: user.id },
+      { expiresIn: "15m" }
+    );
+
+    // TODO: send email with reset link
+    // For now, log for development only:
+    console.log("RESET TOKEN:", token);
+
+    return { success: true };
+  }
+
+  /* =========================
+     RESET PASSWORD
+  ========================= */
+  async resetPassword(dto: ResetPasswordDto, lang = "en") {
+    let payload: any;
+
+    try {
+      payload = this.jwtService.verify(dto.token);
+    } catch {
+      throw AppException.unauthorized("auth.invalid_token", lang);
+    }
+
+    const user = await this.userRepo.findOne({
+      where: { id: payload.sub },
+    });
+
+    if (!user) {
+      throw AppException.unauthorized("auth.invalid_token", lang);
+    }
+
+    user.password = await bcrypt.hash(dto.newPassword, 10);
+    await this.userRepo.save(user);
+
+    return { success: true };
   }
 
   /* =========================
@@ -144,7 +226,7 @@ export class AuthService {
         sub: user.id,
         email: user.email,
         role: user.role,
-        profileId, // ✅ helps frontend (optional but useful)
+        profileId,
       }),
     };
   }

@@ -12,10 +12,10 @@ import { ProfileType } from "../../common/enums/profileType.enum";
 export class CreateProfileDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsEnum(ProfileType)
-  type: ProfileType;
+  type!: ProfileType;
 
   /**
    * Required when type === CHILD
@@ -29,7 +29,7 @@ export class CreateProfileDto {
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })
-  preferredLanguages: string[];
+  preferredLanguages!: string[];
 
   @IsOptional()
   @IsBoolean()

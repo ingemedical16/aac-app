@@ -1,17 +1,15 @@
 import {
   Injectable,
   ExecutionContext,
-  UnauthorizedException,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { I18nService } from "nestjs-i18n";
 import { Reflector } from "@nestjs/core";
 import { IS_PUBLIC_KEY } from "../decorators/public.decorator";
+import { AppException } from "../../common/exceptions/app-exception";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt") {
   constructor(
-    private readonly i18n: I18nService,
     private readonly reflector: Reflector,
   ) {
     super();
@@ -20,12 +18,12 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
   canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
-    // ✅ 1. ALWAYS allow CORS preflight
+    // ✅ Always allow CORS preflight
     if (request.method === "OPTIONS") {
       return true;
     }
 
-    // ✅ 2. Allow @Public() routes
+    // ✅ Allow @Public() routes
     const isPublic = this.reflector.getAllAndOverride<boolean>(
       IS_PUBLIC_KEY,
       [context.getHandler(), context.getClass()],
@@ -45,12 +43,11 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
     context: ExecutionContext,
   ) {
     const request = context.switchToHttp().getRequest();
-    const lang = request.headers["accept-language"] || "en";
+    const langHeader = request.headers["accept-language"] as string;
+    const lang = langHeader?.split(",")[0] || "en";
 
     if (err || !user) {
-      throw new UnauthorizedException(
-        this.i18n.t("auth.unauthorized", { lang }),
-      );
+      throw AppException.unauthorized("auth.unauthorized", lang);
     }
 
     return user;

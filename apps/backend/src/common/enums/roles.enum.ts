@@ -1,5 +1,3 @@
-// src/auth/roles.enum.ts
-
 /**
  * System user roles (RBAC)
  *

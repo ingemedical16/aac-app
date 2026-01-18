@@ -2,10 +2,10 @@ import { IsString, IsOptional } from 'class-validator';
 
 export class CreateVocabularyDto {
   @IsString()
-  word: string;
+  word!: string;
 
   @IsString()
-  lang: string;
+  lang!: string;
 
   @IsOptional()
   @IsString()

@@ -1,88 +1,91 @@
 import {
-  Column,
-  CreateDateColumn,
   Entity,
-  ManyToOne,
+  Column,
   PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+  CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "../users/user.entity";
-import { Child } from "../children/child.entity";
+import { User } from "./user.entity";
+import { Child } from "./child.entity";
 import { ProfileType } from "../common/enums/profileType.enum";
 import { Sex } from "../common/enums/sex.enum";
 
 @Entity("profiles")
 export class Profile {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   /* =========================
      OWNERSHIP
   ========================= */
 
-  @ManyToOne(() => User, (user) => user.profiles, { onDelete: "CASCADE" })
-  owner: User;
+  // Owner is always the user account
+  @ManyToOne(() => User, (user) => user.profiles, {
+    onDelete: "CASCADE",
+  })
+  owner!: User;
 
-  @ManyToOne(() => Child, (child) => child.profiles, {
+  // Profile belongs to either user OR child
+  @OneToOne(() => User, (user) => user.profile, {
     nullable: true,
-    onDelete: "SET NULL",
+  })
+  user?: User | null;
+
+  @OneToOne(() => Child, (child) => child.profile, {
+    nullable: true,
   })
   child?: Child | null;
 
   /* =========================
-     IDENTITY
+     IDENTITY (single source)
   ========================= */
 
   @Column()
-  name: string;
+  displayName!: string;
 
   @Column({ type: "simple-enum", enum: ProfileType })
-  type: ProfileType;
+  type!: ProfileType;
 
   @Column({ nullable: true })
-  firstName?: string;
+  firstName?: string | null;
 
   @Column({ nullable: true })
-  lastName?: string;
+  lastName?: string | null;
 
   @Column({ type: "date", nullable: true })
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | null;
 
   @Column({ type: "simple-enum", enum: Sex, nullable: true })
-  sex?: Sex;
+  sex?: Sex | null;
 
   @Column({ nullable: true })
-  avatarUrl?: string;
+  avatarUrl?: string | null;
 
   /* =========================
      AAC SETTINGS
   ========================= */
 
   @Column({ default: true })
-  isPatient: boolean;
+  isPatient!: boolean;
 
   @Column({ default: "en" })
-  primaryLanguage: string;
+  primaryLanguage!: string;
 
   @Column("simple-array")
-  preferredLanguages: string[];
-
-  @Column({ default: false })
-  highContrast: boolean;
-
-  @Column({ default: false })
-  bigButtons: boolean;
+  preferredLanguages!: string[];
 
   /* =========================
-     METADATA
+     SYSTEM
   ========================= */
 
   @Column({ default: true })
-  isActive: boolean;
+  isActive!: boolean;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }

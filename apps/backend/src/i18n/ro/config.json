@@ -1,0 +1,3 @@
+{
+    "jwt_missing": "Secretul JWT nu este configurat"
+}
