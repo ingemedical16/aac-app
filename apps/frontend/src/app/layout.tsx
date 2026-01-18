@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 // src/app/layout.tsx
 import "@/styles/globals.scss";
 
@@ -22,6 +23,7 @@ export default function RootLayout({
               <ThemeProvider>
                 <AppEffects />
                 {children}
+                <SpeedInsights />
               </ThemeProvider>
             </UserProfileProvider>
           </AuthProvider>
