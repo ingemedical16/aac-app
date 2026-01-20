@@ -1,16 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity()
+@Entity("image_assets")
 export class ImageAsset {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ type: "text" })
   url!: string;
 
-  @Column({ nullable: true })
-  description?: string;
+  @Column({ type: "text", nullable: true })
+  description?: string | null;
 
-  @Column()
+  @Column({ length: 5 })
   lang!: string;
 }
