@@ -16,9 +16,10 @@ import { AppException } from "./common/exceptions/app-exception";
 import { I18nService } from "nestjs-i18n";
 import { AppController } from "./app.controller";
 
+const isSQLite = process.env.DB_TYPE === "sqlite";
+
 @Module({
   imports: [
-  
     /* =========================
        ENV / CONFIG
     ========================= */
@@ -29,26 +30,28 @@ import { AppController } from "./app.controller";
     /* =========================
        DATABASE
     ========================= */
-    TypeOrmModule.forRoot({
-      type: (process.env.DB_TYPE as any) || "sqlite",
-
-      // SQLite (local dev)
-      database: process.env.DB_TYPE === "sqlite" ? "dev.db" : undefined,
-
-      // PostgreSQL (staging & production)
-      url: process.env.DATABASE_URL,
-
-      entities: [User, Child, Vocabulary, ImageAsset, Profile],
-
-      synchronize: process.env.NODE_ENV !== "production",
-
-      ssl:
-        process.env.DB_SSL === "true"
-          ? { rejectUnauthorized: false }
-          : false,
-
-      autoLoadEntities: true,
-    }),
+    TypeOrmModule.forRoot(
+      isSQLite
+        ? {
+            type: "sqlite",
+            database: "dev.db",
+            entities: [User, Child, Vocabulary, ImageAsset, Profile],
+            synchronize: true,
+            autoLoadEntities: true,
+          }
+        : {
+            type: "postgres",
+            host: process.env.DB_HOST,
+            port: Number(process.env.DB_PORT || 5432),
+            username: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME,
+            entities: [User, Child, Vocabulary, ImageAsset, Profile],
+            synchronize: false,
+            ssl: false, // Railway internal network
+            autoLoadEntities: true,
+          }
+    ),
 
     /* =========================
        I18N
@@ -68,7 +71,6 @@ import { AppController } from "./app.controller";
     /* =========================
        FEATURE MODULES
     ========================= */
-    
     AuthModule,
     ChildrenModule,
     ProfileModule,
@@ -79,7 +81,6 @@ import { AppController } from "./app.controller";
 })
 export class AppModule {
   constructor(private readonly i18n: I18nService) {
-    // Initialize centralized exception helper
     AppException.init(this.i18n);
   }
 }

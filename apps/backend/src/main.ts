@@ -30,9 +30,6 @@ async function bootstrap() {
   console.log(`Backend running in ${process.env.NODE_ENV} mode`);
   console.log(`Backend listening on port ${port}`);
 }
-console.log("DB_TYPE =", process.env.DB_TYPE);
-console.log("DB_HOST =", process.env.DB_HOST);
-console.log("DB_PORT =", process.env.DB_PORT);
 
 
 bootstrap();
