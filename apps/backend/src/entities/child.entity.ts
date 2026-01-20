@@ -32,9 +32,13 @@ export class Child {
   @JoinColumn()
   profile!: Profile;
 
-  @CreateDateColumn()
+  /* =========================
+     SYSTEM
+  ========================= */
+
+  @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "timestamptz" })
   updatedAt!: Date;
 }

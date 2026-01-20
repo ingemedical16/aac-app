@@ -21,13 +21,11 @@ export class Profile {
      OWNERSHIP
   ========================= */
 
-  // Owner is always the user account
   @ManyToOne(() => User, (user) => user.profiles, {
     onDelete: "CASCADE",
   })
   owner!: User;
 
-  // Profile belongs to either user OR child
   @OneToOne(() => User, (user) => user.profile, {
     nullable: true,
   })
@@ -39,53 +37,53 @@ export class Profile {
   child?: Child | null;
 
   /* =========================
-     IDENTITY (single source)
+     IDENTITY
   ========================= */
 
-  @Column()
+  @Column({ type: "varchar", length: 150 })
   displayName!: string;
 
-  @Column({ type: "simple-enum", enum: ProfileType })
+  @Column({ type: "enum", enum: ProfileType })
   type!: ProfileType;
 
-  @Column({ nullable: true })
-  firstName?: string | null;
+  @Column({ type: "varchar", length: 100, nullable: true })
+  firstName!: string | null;
 
-  @Column({ nullable: true })
-  lastName?: string | null;
+  @Column({ type: "varchar", length: 100, nullable: true })
+  lastName!: string | null;
 
   @Column({ type: "date", nullable: true })
-  dateOfBirth?: Date | null;
+  dateOfBirth!: Date | null;
 
-  @Column({ type: "simple-enum", enum: Sex, nullable: true })
-  sex?: Sex | null;
+  @Column({ type: "enum", enum: Sex, nullable: true })
+  sex!: Sex | null;
 
-  @Column({ nullable: true })
-  avatarUrl?: string | null;
+  @Column({ type: "varchar", nullable: true })
+  avatarUrl!: string | null;
 
   /* =========================
      AAC SETTINGS
   ========================= */
 
-  @Column({ default: true })
+  @Column({ type: "boolean", default: true })
   isPatient!: boolean;
 
-  @Column({ default: "en" })
+  @Column({ type: "varchar", length: 10, default: "en" })
   primaryLanguage!: string;
 
-  @Column("simple-array")
+  @Column({ type: "text", array: true })
   preferredLanguages!: string[];
 
   /* =========================
      SYSTEM
   ========================= */
 
-  @Column({ default: true })
+  @Column({ type: "boolean", default: true })
   isActive!: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "timestamptz" })
   updatedAt!: Date;
 }

@@ -1,19 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
 
-@Entity()
+@Entity("vocabularies")
 export class Vocabulary {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Index()
+  @Column({ type: "text" })
   word!: string;
 
-  @Column()
+  @Index()
+  @Column({ type: "varchar", length: 10 })
   lang!: string;
 
-  @Column({ nullable: true })
-  imageUrl?: string;
+  @Column({ type: "text", nullable: true })
+  imageUrl?: string | null;
 
-  @Column({ nullable: true })
-  category?: string;
+  @Index()
+  @Column({ type: "varchar", length: 100, nullable: true })
+  category?: string | null;
 }

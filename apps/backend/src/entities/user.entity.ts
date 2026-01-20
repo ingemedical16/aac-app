@@ -17,15 +17,16 @@ export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ unique: true })
+  @Column({ type: "text", unique: true })
   email!: string;
 
-  @Column({ select: false })
+  @Column({ type: "text", select: false })
   password!: string;
 
   @Column({
-    type: "simple-enum",
+    type: "enum",
     enum: UserRole,
+    enumName: "user_role_enum",
     default: UserRole.USER,
   })
   role!: UserRole;
@@ -52,9 +53,9 @@ export class User {
   @OneToMany(() => Child, (child) => child.parent)
   children!: Child[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "timestamptz" })
   updatedAt!: Date;
 }

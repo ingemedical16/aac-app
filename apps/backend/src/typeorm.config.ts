@@ -3,26 +3,27 @@ import { DataSource } from 'typeorm';
 import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
-const isSQLite = process.env.DB_TYPE === 'sqlite' || !process.env.DATABASE_URL;
+const isSQLite = process.env.DB_TYPE === 'sqlite';
 
 const sqliteConfig: SqliteConnectionOptions = {
   type: 'sqlite',
-  database: 'dev.db',
+  database: process.env.DB_PATH || 'data/dev.sqlite',
   entities: [__dirname + '/entities/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/*{.ts,.js}'],
-  synchronize: process.env.NODE_ENV !== 'production',
+  synchronize: true,
 };
 
 const postgresConfig: PostgresConnectionOptions = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT || 5432),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   entities: [__dirname + '/entities/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/*{.ts,.js}'],
   synchronize: false,
-  ssl:
-    process.env.DB_SSL === 'true'
-      ? { rejectUnauthorized: false }
-      : false,
+  ssl: { rejectUnauthorized: false },
 };
 
 export default new DataSource(isSQLite ? sqliteConfig : postgresConfig);
