@@ -20,7 +20,11 @@ export class AppException {
     this.i18n = i18n;
   }
 
-  private static t(key: string, lang = "en", args?: Record<string, any>) {
+  private static t(
+    key: string,
+    lang = "en",
+    args?: Record<string, unknown>,
+  ): string {
     if (!this.i18n) {
       return key; // fallback if not initialized
     }
@@ -28,23 +32,43 @@ export class AppException {
     return this.i18n.t(key, { lang, args });
   }
 
-  static badRequest(key: string, lang = "en", args?: Record<string, any>) {
+  static badRequest(
+    key: string,
+    lang = "en",
+    args?: Record<string, unknown>,
+  ) {
     return new BadRequestException(this.t(key, lang, args));
   }
 
-  static unauthorized(key: string, lang = "en", args?: Record<string, any>) {
+  static unauthorized(
+    key: string,
+    lang = "en",
+    args?: Record<string, unknown>,
+  ) {
     return new UnauthorizedException(this.t(key, lang, args));
   }
 
-  static forbidden(key: string, lang = "en", args?: Record<string, any>) {
+  static forbidden(
+    key: string,
+    lang = "en",
+    args?: Record<string, unknown>,
+  ) {
     return new ForbiddenException(this.t(key, lang, args));
   }
 
-  static notFound(key: string, lang = "en", args?: Record<string, any>) {
+  static notFound(
+    key: string,
+    lang = "en",
+    args?: Record<string, unknown>,
+  ) {
     return new NotFoundException(this.t(key, lang, args));
   }
 
-  static conflict(key: string, lang = "en", args?: Record<string, any>) {
+  static conflict(
+    key: string,
+    lang = "en",
+    args?: Record<string, unknown>,
+  ) {
     return new ConflictException(this.t(key, lang, args));
   }
 
