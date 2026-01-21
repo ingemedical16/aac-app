@@ -1,7 +1,5 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { I18nModule } from "nestjs-i18n";
-
 import { Profile } from "../entities/profile.entity";
 import { Child } from "../entities/child.entity";
 import { ProfileService } from "./profile.service";
