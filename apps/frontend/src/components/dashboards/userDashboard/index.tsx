@@ -4,14 +4,12 @@
 import styles from "./userDashboard.module.scss";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "@/context/UserProfileContext";
-import { withLocale } from "@/lib/navigation/withLocale";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function userDashboard() {
   const { t } = useTranslation();
   const { profiles, setActiveProfileId } = useUserProfile();
   const router = useRouter();
-  const { locale } = useParams<{ locale: string }>();
 
   const childProfiles = profiles.filter((p) => p.type === "CHILD");
 
@@ -28,7 +26,7 @@ export default function userDashboard() {
               <button
                 onClick={() => {
                   setActiveProfileId(child.id);
-                  router.push(withLocale(locale, "/board"));
+                  router.push("/board");
                 }}
               >
                 {child.name}

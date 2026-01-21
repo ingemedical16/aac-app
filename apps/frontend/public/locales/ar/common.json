@@ -1,5 +1,5 @@
 {
-  "appTitle": "لوحة التواصل البديل",
+  "appTitle": "لوحة التواصل المعزز والبديل",
   "appTitleShort": "لوحة AAC",
   "language": "اللغة",
   "boardTitle": "لوحة التواصل",
@@ -16,11 +16,11 @@
   "all": "الكل",
 
   "normalMode": "عادي",
-  "highContrast": "تباين عالٍ",
+  "highContrast": "تباين عالي",
   "bigButtons": "أزرار كبيرة",
   "normalButtons": "أزرار عادية",
 
-  "enterFullscreen": "وضع ملء الشاشة",
+  "enterFullscreen": "ملء الشاشة",
   "exitFullscreen": "الخروج من ملء الشاشة",
 
   "menu": "القائمة",
@@ -29,9 +29,9 @@
   "loading": "جارٍ التحميل...",
 
   "profiles": "الملفات الشخصية",
-  "addProfile": "إضافة ملف شخصي",
-  "deleteProfile": "حذف الملف الشخصي",
-  "newProfile": "ملف شخصي جديد",
+  "addProfile": "إضافة ملف",
+  "deleteProfile": "حذف الملف",
+  "newProfile": "ملف جديد",
 
   "profileRole": {
     "child": "طفل",
@@ -41,8 +41,8 @@
   "parentDashboard": {
     "title": "لوحة تحكم الوالدين",
     "subtitle": "إدارة ملفات الأطفال والوصول إلى لوحة التواصل",
-    "noChild": "لا يوجد ملف لطفل بعد.",
-    "createChild": "إنشاء ملف لطفل",
+    "noChild": "لا يوجد ملف طفل بعد.",
+    "createChild": "إنشاء ملف طفل",
     "selectChild": "اختر ملف طفل",
     "defaultChildName": "طفلي"
   },
@@ -63,11 +63,11 @@
     "add": "إضافة ملف",
     "newProfile": "ملف جديد",
     "typeChild": "طفل",
-    "typeIndividual": "فرد"
+    "typeIndividual": "فردي"
   },
 
   "auth": {
-    "welcome": "مرحبًا",
+    "welcome": "مرحباً",
     "account": "الحساب",
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
@@ -81,21 +81,23 @@
     },
     "dashboard": "لوحة التحكم",
     "profiles": "الملفات",
-    "goToBoard": "اذهب إلى اللوحة",
-    "goToDashboard": "اذهب إلى لوحة التحكم",
-    "goToHome": "اذهب إلى الرئيسية",
+    "goToBoard": "الانتقال إلى اللوحة",
+    "goToDashboard": "الانتقال إلى لوحة التحكم",
+    "goToHome": "الانتقال إلى الصفحة الرئيسية",
 
-    "adminTools": "أدوات الإدارة",
+    "adminTools": "أدوات المدير",
     "professionalTools": "أدوات المختص",
     "create_account": "إنشاء حساب",
     "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
     "logout": "تسجيل الخروج",
     "noAccount": "ليس لديك حساب؟",
-    "haveAccount": "لديك حساب بالفعل؟"
+    "haveAccount": "لديك حساب بالفعل؟",
+    "first_name": "الاسم الأول",
+    "last_name": "اسم العائلة"
   },
 
   "sentence": {
-    "iFeel": "أنا أشعر"
+    "iFeel": "أشعر"
   },
 
   "semantic": {
@@ -135,7 +137,7 @@
 
   "settings": {
     "title": "الإعدادات",
-    "highContrast": "تباين عالٍ",
+    "highContrast": "تباين عالي",
     "bigButtons": "أزرار كبيرة",
     "on": "تشغيل",
     "off": "إيقاف",
@@ -149,14 +151,13 @@
     "professional": "احترافي",
     "dark": "داكن",
     "school": "مدرسي",
-    "autismSoft": "توحّد هادئ"
-  }
-,
+    "autismSoft": "توحد ناعم"
+  },
 
   "nav": {
     "home": "الرئيسية",
     "about": "حول",
-    "contact": "اتصال",
+    "contact": "اتصل بنا",
     "help": "مساعدة",
     "privacy": "سياسة الخصوصية",
     "terms": "شروط الاستخدام",
@@ -165,7 +166,6 @@
     "dashboard": "لوحة التحكم",
     "profiles": "الملفات",
     "settings": "الإعدادات",
-
     "section": {
       "account": "الحساب",
       "tools": "الأدوات",
@@ -179,13 +179,13 @@
     "subtitle": "إدارة ملفات التواصل",
     "noProfile": "لا توجد ملفات بعد.",
     "createProfile": "إنشاء ملف",
-    "selectProfile": "اختر ملفًا",
+    "selectProfile": "اختر ملفاً",
     "defaultProfileName": "طفل"
   },
 
   "errors": {
     "userProfileContext": {
-      "missingProvider": "يجب استخدام سياق الملف الشخصي داخل UserProfileProvider"
+      "missingProvider": "يجب استخدام سياق ملف المستخدم داخل UserProfileProvider"
     },
     "auth": {
       "missingProvider": "يجب استخدام سياق المصادقة داخل AuthProvider",

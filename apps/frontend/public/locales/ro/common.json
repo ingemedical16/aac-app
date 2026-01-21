@@ -1,10 +1,10 @@
 {
-  "appTitle": "Tablă de comunicare AAC",
-  "appTitleShort": "Tablă AAC",
+  "appTitle": "Panou de comunicare AAC",
+  "appTitleShort": "Panou AAC",
   "language": "Limbă",
-  "boardTitle": "Tablă de comunicare",
+  "boardTitle": "Panou de comunicare",
 
-  "tapToSpeak": "Apasă pe un card pentru a vorbi",
+  "tapToSpeak": "Apasă pe o pictogramă pentru a vorbi",
   "speak": "Vorbește",
   "clear": "Șterge",
   "deleteLast": "Șterge ultimul",
@@ -40,15 +40,15 @@
 
   "parentDashboard": {
     "title": "Panou părinte",
-    "subtitle": "Gestionează profilurile copiilor și accesează tabla de comunicare",
+    "subtitle": "Gestionează profilurile copiilor și accesează panoul de comunicare",
     "noChild": "Nu există încă un profil de copil.",
-    "createChild": "Creează un profil copil",
-    "selectChild": "Selectează un profil copil",
+    "createChild": "Creează profil copil",
+    "selectChild": "Selectează profil copil",
     "defaultChildName": "Copilul meu"
   },
 
   "childDashboard": {
-    "title": "Tabla de comunicare pentru {{name}}"
+    "title": "Panou de comunicare pentru {{name}}"
   },
 
   "profile": {
@@ -71,7 +71,7 @@
     "account": "Cont",
     "login": "Autentificare",
     "register": "Înregistrare",
-    "email": "Adresă email",
+    "email": "Adresă e-mail",
     "password": "Parolă",
     "role": "Rol",
     "roles": {
@@ -81,17 +81,19 @@
     },
     "dashboard": "Panou de control",
     "profiles": "Profiluri",
-    "goToBoard": "Mergi la tablă",
-    "goToDashboard": "Mergi la panou",
-    "goToHome": "Mergi acasă",
+    "goToBoard": "Mergi la panou",
+    "goToDashboard": "Mergi la panou de control",
+    "goToHome": "Mergi la acasă",
 
     "adminTools": "Instrumente admin",
     "professionalTools": "Instrumente specialist",
     "create_account": "Creează cont",
-    "invalid_credentials": "Email sau parolă incorecte",
+    "invalid_credentials": "E-mail sau parolă invalidă",
     "logout": "Deconectare",
     "noAccount": "Nu ai cont?",
-    "haveAccount": "Ai deja cont?"
+    "haveAccount": "Ai deja cont?",
+    "first_name": "Prenume",
+    "last_name": "Nume"
   },
 
   "sentence": {
@@ -125,7 +127,7 @@
       "go": "mergi",
       "come": "vino",
       "sit": "stai jos",
-      "stand": "ridică-te"
+      "stand": "stai în picioare"
     }
   },
 
@@ -148,8 +150,8 @@
     "playful": "Jucăuș",
     "professional": "Profesional",
     "dark": "Întunecat",
-    "school": "Școlar",
-    "autismSoft": "Autism blând"
+    "school": "Școală",
+    "autismSoft": "Autism soft"
   },
 
   "nav": {
@@ -160,11 +162,10 @@
     "privacy": "Politica de confidențialitate",
     "terms": "Termeni și condiții",
 
-    "board": "Tablă",
-    "dashboard": "Panou",
+    "board": "Panou",
+    "dashboard": "Panou de control",
     "profiles": "Profiluri",
     "settings": "Setări",
-
     "section": {
       "account": "Cont",
       "tools": "Instrumente",
@@ -176,7 +177,7 @@
   "userDashboard": {
     "title": "Panou de control",
     "subtitle": "Gestionează profilurile de comunicare",
-    "noProfile": "Nu există încă profiluri.",
+    "noProfile": "Nu există profiluri încă.",
     "createProfile": "Creează profil",
     "selectProfile": "Selectează un profil",
     "defaultProfileName": "Copil"

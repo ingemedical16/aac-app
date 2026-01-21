@@ -4,7 +4,7 @@
   "language": "Langue",
   "boardTitle": "Tableau de communication",
 
-  "tapToSpeak": "Appuyez sur une case pour parler",
+  "tapToSpeak": "Appuyez sur une tuile pour parler",
   "speak": "Parler",
   "clear": "Effacer",
   "deleteLast": "Supprimer le dernier",
@@ -60,7 +60,7 @@
     "role_group": "Groupe",
     "languages": "Langues préférées",
     "languagesHint": "Sélectionnez au moins une langue",
-    "add": "Ajouter un profil",
+    "add": "Ajouter le profil",
     "newProfile": "Nouveau profil",
     "typeChild": "Enfant",
     "typeIndividual": "Individuel"
@@ -85,13 +85,15 @@
     "goToDashboard": "Aller au tableau de bord",
     "goToHome": "Aller à l'accueil",
 
-    "adminTools": "Outils d'administration",
-    "professionalTools": "Outils professionnels",
+    "adminTools": "Outils administrateur",
+    "professionalTools": "Outils professionnel",
     "create_account": "Créer un compte",
-    "invalid_credentials": "Email ou mot de passe invalide",
+    "invalid_credentials": "E-mail ou mot de passe invalide",
     "logout": "Déconnexion",
     "noAccount": "Vous n'avez pas de compte ?",
-    "haveAccount": "Vous avez déjà un compte ?"
+    "haveAccount": "Vous avez déjà un compte ?",
+    "first_name": "Prénom",
+    "last_name": "Nom"
   },
 
   "sentence": {
@@ -99,8 +101,8 @@
   },
 
   "semantic": {
-    "want": "vouloir",
-    "dont_want": "ne pas vouloir",
+    "want": "veux",
+    "dont_want": "ne veux pas",
     "help": "aide",
     "stop": "stop",
 
@@ -142,13 +144,13 @@
     "theme": "Thème"
   },
 
-    "theme": {
+  "theme": {
     "default": "Par défaut",
     "calm": "Calme",
-    "playful": "Ludique",
+    "playful": "Joyeux",
     "professional": "Professionnel",
     "dark": "Sombre",
-    "school": "Scolaire",
+    "school": "École",
     "autismSoft": "Autisme doux"
   },
 
@@ -164,7 +166,6 @@
     "dashboard": "Tableau de bord",
     "profiles": "Profils",
     "settings": "Paramètres",
-
     "section": {
       "account": "Compte",
       "tools": "Outils",

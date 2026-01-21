@@ -89,7 +89,9 @@
     "invalid_credentials": "Invalid email or password",
     "logout": "Logout",
     "noAccount": "Don’t have an account?",
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "first_name": "First name",
+    "last_name": "Last name"
   },
 
   "sentence": {
