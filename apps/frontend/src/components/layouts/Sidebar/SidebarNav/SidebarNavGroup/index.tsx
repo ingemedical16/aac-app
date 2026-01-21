@@ -5,6 +5,7 @@ import SidebarNavItem from "../SidebarNavItem";
 import { useTranslation } from "react-i18next";
 import { tx } from "@/lib/i18n/tx";
 import type { SidebarNavGroup as GroupType } from "@/types/sidebar";
+import { useRouter } from "next/navigation";
 
 type SidebarNavGroupProps = {
   group: GroupType;
@@ -20,6 +21,7 @@ export default function SidebarNavGroup({
   onNavigate,
 }: SidebarNavGroupProps) {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <div className={styles.group}>
@@ -39,6 +41,12 @@ export default function SidebarNavGroup({
               disabled={item.disabled}
               active={activePath === item.href}
               onClick={() => {
+                if (item.disabled) return;
+
+                // Navigate
+                router.push(item.href);
+
+                // Close sidebar on mobile
                 onNavigate();
               }}
             />
