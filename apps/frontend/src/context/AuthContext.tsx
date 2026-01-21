@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 "use client";
 
 import React, {
@@ -8,9 +7,17 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import type { AuthUser, JwtPayload, UserRole } from "@/types/auth";
+
+import type {
+  AuthUser,
+  JwtPayload,
+  LoginInput,
+  RegisterInput,
+} from "@/types/auth";
+
 import { tokenStorage } from "@/lib/auth/tokenStorage";
 import { loginApi, registerApi } from "@/lib/api/auth.api";
+import { throwI18nError } from "@/helpers/throwI18nError";
 
 /* =========================
    JWT HELPERS
@@ -35,21 +42,8 @@ function isExpired(payload: JwtPayload | null): boolean {
 }
 
 /* =========================
-   TYPES
+   CONTEXT TYPES
 ========================= */
-
-type RegisterInput = {
-  email: string;
-  password: string;
-  role?: UserRole;
-  firstName?: string;
-  lastName?: string;
-};
-
-type LoginInput = {
-  email: string;
-  password: string;
-};
 
 interface AuthContextValue {
   isReady: boolean;
@@ -108,7 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   /* =========================
-     BOOTSTRAP
+     BOOTSTRAP SESSION
   ========================= */
 
   useEffect(() => {
@@ -126,14 +120,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (input: LoginInput): Promise<AuthUser> => {
     const res = await loginApi(input);
     const u = applyToken(res.access_token);
-    if (!u) throw new Error("AUTH_TOKEN_INVALID");
+
+    if (!u) {
+      throwI18nError("errors.auth.tokenInvalid");
+    }
+
     return u;
   };
 
   const register = async (input: RegisterInput): Promise<AuthUser> => {
     const res = await registerApi(input);
     const u = applyToken(res.access_token);
-    if (!u) throw new Error("AUTH_TOKEN_INVALID");
+
+    if (!u) {
+      throwI18nError("errors.auth.tokenInvalid");
+    }
+
     return u;
   };
 
@@ -174,8 +176,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
+
   if (!ctx) {
-    throw new Error("AuthContext missing provider");
+    throwI18nError("errors.auth.missingProvider");
   }
+
   return ctx;
 }

@@ -10,7 +10,9 @@ export type I18nNamespace =
   | "tiles"
   | "categories"
   | "groups"
-  | "semantic";
+  | "semantic"
+  | "errors";
+  
 
 export function tx(
   namespace: I18nNamespace,

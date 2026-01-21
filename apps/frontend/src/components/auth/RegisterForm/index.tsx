@@ -4,7 +4,6 @@
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { withLocale } from "@/lib/navigation/withLocale";
 import type { UserRole } from "@/types/auth";
 import { useTranslation } from "react-i18next";
 import AuthToggle from "@/components/auth/AuthToggle";
@@ -14,8 +13,7 @@ import styles from "./RegisterForm.module.scss";
 export default function RegisterForm() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { locale } = useParams<{ locale: string }>();
-  const { register, user } = useAuth();
+  const { register } = useAuth();
 
   const [role, setRole] = useState<UserRole>("USER");
   const [email, setEmail] = useState("");
