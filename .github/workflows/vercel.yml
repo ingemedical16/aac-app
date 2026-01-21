@@ -1,0 +1,21 @@
+name: vercel-preview
+
+on:
+  push:
+    branches: [dev, staging]
+
+jobs:
+  deploy:
+    name: vercel-preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        run: |
+          npm install -g vercel
+          if [ "${{ github.ref_name }}" = "dev" ]; then
+            vercel deploy --yes --environment=development --token=${{ secrets.VERCEL_TOKEN }}
+          else
+            vercel deploy --yes --token=${{ secrets.VERCEL_TOKEN }}
+          fi

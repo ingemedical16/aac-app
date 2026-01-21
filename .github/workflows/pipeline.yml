@@ -1,48 +1,50 @@
-name: AAC CI/CD Pipeline
+name: pipeline
 
 on:
   push:
     branches:
+      - dev
       - staging
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
+    name: deploy-${{ github.ref_name }}
     runs-on: ubuntu-latest
 
+    environment:
+      name: ${{ github.ref_name == 'main' && 'Production' || github.ref_name == 'staging' && 'Staging' || 'Development' }}
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # Sanity build checks
-      - name: Build backend
-        run: npm run build --workspace apps/backend
+      - name: Build application
+        run: npm run build
 
-      - name: Build frontend
-        run: npm run build --workspace apps/frontend
-
-      # Deploy frontend to Vercel (branch-aware)
-      - name: Deploy frontend to Vercel
-        working-directory: apps/frontend
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           npm install -g vercel
-          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
-            vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} \
-              --org=${{ secrets.VERCEL_ORG_ID }} \
-              --project=${{ secrets.VERCEL_PROJECT_ID }} \
-              --confirm
+
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "Deploying to Production"
+            vercel deploy --prod --yes --token=$VERCEL_TOKEN
+
+          elif [ "${{ github.ref_name }}" = "staging" ]; then
+            echo "Deploying to Staging (Preview)"
+            vercel deploy --yes --token=$VERCEL_TOKEN
+
           else
-            vercel deploy --token=${{ secrets.VERCEL_TOKEN }} \
-              --org=${{ secrets.VERCEL_ORG_ID }} \
-              --project=${{ secrets.VERCEL_PROJECT_ID }} \
-              --confirm
+            echo "Deploying to Development"
+            vercel deploy --yes --environment=development --token=$VERCEL_TOKEN
           fi
