@@ -1,34 +1,29 @@
-name: pipeline
+name: frontend-pipeline
 
 on:
   push:
-    branches:
-      - dev
-      - staging
-      - main
+    branches: [dev, staging, main]
 
 jobs:
   deploy:
-    name: deploy-${{ github.ref_name }}
+    name: frontend-deploy-${{ github.ref_name }}
     runs-on: ubuntu-latest
 
     environment:
       name: ${{ github.ref_name == 'main' && 'Production' || github.ref_name == 'staging' && 'Staging' || 'Development' }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    defaults:
+      run:
+        working-directory: apps/frontend
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build application
-        run: npm run build
+      - run: npm ci
+      - run: npm run build
 
       - name: Deploy to Vercel
         env:
@@ -37,14 +32,9 @@ jobs:
           npm install -g vercel
 
           if [ "${{ github.ref_name }}" = "main" ]; then
-            echo "Deploying to Production"
             vercel deploy --prod --yes --token=$VERCEL_TOKEN
-
           elif [ "${{ github.ref_name }}" = "staging" ]; then
-            echo "Deploying to Staging (Preview)"
             vercel deploy --yes --token=$VERCEL_TOKEN
-
           else
-            echo "Deploying to Development"
             vercel deploy --yes --environment=development --token=$VERCEL_TOKEN
           fi

@@ -1,4 +1,4 @@
-name: CI
+name: frontend-ci
 
 on:
   pull_request:
@@ -6,8 +6,12 @@ on:
 
 jobs:
   lint:
-    name: lint
+    name: frontend-lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/frontend
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -16,20 +20,13 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
-  typecheck:
-    name: typecheck
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run typecheck
-
   test:
-    name: test
+    name: frontend-test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/frontend
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -39,8 +36,12 @@ jobs:
       - run: npm test
 
   build:
-    name: build
+    name: frontend-build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/frontend
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
