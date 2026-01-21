@@ -1,14 +1,12 @@
-// src/components/auth/RegisterForm/index.tsx
 "use client";
 
 import { useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import type { UserRole } from "@/types/auth";
 import { useTranslation } from "react-i18next";
 import AuthToggle from "@/components/auth/AuthToggle";
 import styles from "./RegisterForm.module.scss";
-
 
 export default function RegisterForm() {
   const { t } = useTranslation();
@@ -16,23 +14,38 @@ export default function RegisterForm() {
   const { register } = useAuth();
 
   const [role, setRole] = useState<UserRole>("USER");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const ALLOWED_ROLES: UserRole[] = ["USER", "PROFESSIONAL"];
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
-    await register({ email, password, role });
-    router.replace("/dashboard");
+    try {
+      await register({
+        email,
+        password,
+        role,
+        firstName: firstName.trim() || undefined,
+        lastName: lastName.trim() || undefined,
+      });
+
+      router.replace("/dashboard");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h1>{t("auth.register")}</h1>
 
+      {/* Role */}
       <label>
         {t("auth.role")}
         <select
@@ -47,6 +60,27 @@ export default function RegisterForm() {
         </select>
       </label>
 
+      {/* First name */}
+      <input
+        type="text"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        placeholder={t("auth.first_name")}
+        autoComplete="given-name"
+        required
+      />
+
+      {/* Last name */}
+      <input
+        type="text"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        placeholder={t("auth.last_name")}
+        autoComplete="family-name"
+        required
+      />
+
+      {/* Email */}
       <input
         type="email"
         value={email}
@@ -56,6 +90,7 @@ export default function RegisterForm() {
         required
       />
 
+      {/* Password */}
       <input
         type="password"
         value={password}
@@ -68,6 +103,7 @@ export default function RegisterForm() {
       <button type="submit" disabled={loading}>
         {loading ? t("loading") : t("auth.create_account")}
       </button>
+
       <AuthToggle />
     </form>
   );
