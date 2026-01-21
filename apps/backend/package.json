@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/main.js",
-    "lint": "eslint .",
+    "lint": "eslint src --ext .ts",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "start:prod": "node dist/main.js",
     "build": "nest build",
