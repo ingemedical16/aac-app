@@ -15,6 +15,7 @@ import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { UserRole } from "../common/enums/roles.enum";
 import { ProfileType } from "../common/enums/profileType.enum";
 import { AppException } from "../common/exceptions/app-exception";
+import { JwtPayload } from "../common/types/jwt-payload";
 
 @Injectable()
 export class AuthService {
@@ -121,13 +122,13 @@ export class AuthService {
   }
 
   /* =========================
-     REFRESH
+     REFRESH TOKEN
   ========================= */
   async refresh(dto: RefreshDto, lang = "en") {
-    let payload: any;
+    let payload: JwtPayload;
 
     try {
-      payload = this.jwtService.verify(dto.refresh_token);
+      payload = this.jwtService.verify<JwtPayload>(dto.refresh_token);
     } catch {
       throw AppException.unauthorized("auth.invalid_token", lang);
     }
@@ -176,7 +177,7 @@ export class AuthService {
       where: { email: dto.email },
     });
 
-    // Prevent account enumeration: always return success.
+    // Prevent account enumeration
     if (!user) return { success: true };
 
     const token = this.jwtService.sign(
@@ -184,9 +185,8 @@ export class AuthService {
       { expiresIn: "15m" }
     );
 
-    // TODO: send email with reset link
-    // For now, log for development only:
-    console.log("RESET TOKEN:", token);
+    // TODO: send email
+    console.log("RESET TOKEN:", token, "lang:", lang);
 
     return { success: true };
   }
@@ -195,10 +195,10 @@ export class AuthService {
      RESET PASSWORD
   ========================= */
   async resetPassword(dto: ResetPasswordDto, lang = "en") {
-    let payload: any;
+    let payload: JwtPayload;
 
     try {
-      payload = this.jwtService.verify(dto.token);
+      payload = this.jwtService.verify<JwtPayload>(dto.token);
     } catch {
       throw AppException.unauthorized("auth.invalid_token", lang);
     }

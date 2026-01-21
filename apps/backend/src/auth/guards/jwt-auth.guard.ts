@@ -4,26 +4,28 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Reflector } from "@nestjs/core";
+import { Request } from "express";
+
 import { IS_PUBLIC_KEY } from "../decorators/public.decorator";
 import { AppException } from "../../common/exceptions/app-exception";
+import { JwtPayload } from "../../common/types/jwt-payload";
+import { AuthRequest } from "../../common/types/auth-request";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt") {
-  constructor(
-    private readonly reflector: Reflector,
-  ) {
+  constructor(private readonly reflector: Reflector) {
     super();
   }
 
   canActivate(context: ExecutionContext) {
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<Request>();
 
-    // ✅ Always allow CORS preflight
+    // Allow CORS preflight
     if (request.method === "OPTIONS") {
       return true;
     }
 
-    // ✅ Allow @Public() routes
+    // Allow @Public() routes
     const isPublic = this.reflector.getAllAndOverride<boolean>(
       IS_PUBLIC_KEY,
       [context.getHandler(), context.getClass()],
@@ -36,20 +38,21 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
     return super.canActivate(context);
   }
 
-  handleRequest(
-    err: any,
-    user: any,
-    info: any,
+  // Must match Passport's generic signature
+  handleRequest<TUser = JwtPayload>(
+    err: unknown,
+    user: unknown,
+    _info: unknown,
     context: ExecutionContext,
-  ) {
-    const request = context.switchToHttp().getRequest();
-    const langHeader = request.headers["accept-language"] as string;
+  ): TUser {
+    const request = context.switchToHttp().getRequest<AuthRequest>();
+    const langHeader = request.headers["accept-language"] as string | undefined;
     const lang = langHeader?.split(",")[0] || "en";
 
     if (err || !user) {
       throw AppException.unauthorized("auth.unauthorized", lang);
     }
 
-    return user;
+    return user as TUser;
   }
 }

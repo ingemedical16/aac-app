@@ -8,6 +8,7 @@ import { RefreshDto } from "./dto/refresh.dto";
 import { ChangePasswordDto } from "./dto/change-password.dto";
 import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
+import { AuthRequest } from "../common/types/auth-request";
 
 @Controller("auth")
 export class AuthController {
@@ -37,12 +38,11 @@ export class AuthController {
 
   @Post("logout")
   logout() {
-    // Stateless JWT: logout is handled client-side unless you implement refresh-token revocation.
     return { success: true };
   }
 
   @Post("change-password")
-  changePassword(@Req() req: any, @Body() dto: ChangePasswordDto) {
+  changePassword(@Req() req: AuthRequest, @Body() dto: ChangePasswordDto) {
     const lang =
       (req.headers["accept-language"] as string)?.split(",")[0] || "en";
     return this.authService.changePassword(req.user.id, dto, lang);
@@ -61,7 +61,7 @@ export class AuthController {
   }
 
   @Get("me")
-  me(@Req() req: any) {
+  me(@Req() req: AuthRequest) {
     return req.user;
   }
 }

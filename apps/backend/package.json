@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node dist/main.js",
+    "lint": "eslint src --ext .ts",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "start:prod": "node dist/main.js",
-    "build": "nest build"
+    "build": "nest build",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.9",
@@ -32,14 +34,23 @@
     "typeorm": "^0.3.28"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@nestjs/cli": "^11.0.14",
     "@nestjs/schematics": "^11.0.9",
     "@nestjs/testing": "^11.1.9",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
     "@types/passport-jwt": "^4.0.1",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^14.0.0",
+    "jest": "^30.2.0",
+    "jiti": "^2.6.1",
+    "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.1"
   }
 }
