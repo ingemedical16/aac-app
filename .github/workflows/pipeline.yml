@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,48 +23,26 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Sanity build checks
       - name: Build backend
         run: npm run build --workspace apps/backend
 
       - name: Build frontend
         run: npm run build --workspace apps/frontend
 
-  deploy-staging:
-    if: github.ref == 'refs/heads/staging'
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: Deploy Frontend to Vercel (Staging)
+      # Deploy frontend to Vercel (branch-aware)
+      - name: Deploy frontend to Vercel
+        working-directory: apps/frontend
         run: |
-          cd apps/frontend
-          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} \
-            --project=${{ secrets.VERCEL_PROJECT_ID_STAGING }}
-
-  deploy-production:
-    if: github.ref == 'refs/heads/main'
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: Deploy Frontend to Vercel (Production)
-        run: |
-          cd apps/frontend
-          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} \
-            --project=${{ secrets.VERCEL_PROJECT_ID_PRODUCTION }}
+          npm install -g vercel
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} \
+              --org=${{ secrets.VERCEL_ORG_ID }} \
+              --project=${{ secrets.VERCEL_PROJECT_ID }} \
+              --confirm
+          else
+            vercel deploy --token=${{ secrets.VERCEL_TOKEN }} \
+              --org=${{ secrets.VERCEL_ORG_ID }} \
+              --project=${{ secrets.VERCEL_PROJECT_ID }} \
+              --confirm
+          fi
