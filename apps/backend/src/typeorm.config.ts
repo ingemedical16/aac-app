@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+console.log('DB_TYPE =', process.env.DB_TYPE);
 
 const isSQLite = process.env.DB_TYPE === 'sqlite';
 
@@ -22,7 +23,7 @@ const postgresConfig: PostgresConnectionOptions = {
   database: process.env.DB_NAME,
   entities: [__dirname + '/entities/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/*{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
   ssl: { rejectUnauthorized: false },
 };
 
