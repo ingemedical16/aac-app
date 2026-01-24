@@ -1,0 +1,41 @@
+name: Enforce Branch Promotion Flow
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - dev
+      - staging
+      - main
+
+jobs:
+  enforce-branch-flow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch promotion rules
+        run: |
+          BASE="${{ github.base_ref }}"
+          HEAD="${{ github.head_ref }}"
+
+          echo "Checking merge: $HEAD → $BASE"
+
+          # any branch → dev
+          if [[ "$BASE" == "dev" ]]; then
+            echo "Allowed: any branch → dev"
+            exit 0
+          fi
+
+          # dev → staging
+          if [[ "$BASE" == "staging" && "$HEAD" == "dev" ]]; then
+            echo "Allowed: dev → staging"
+            exit 0
+          fi
+
+          # staging → main
+          if [[ "$BASE" == "main" && "$HEAD" == "staging" ]]; then
+            echo "Allowed: staging → main"
+            exit 0
+          fi
+
+          echo "❌ Invalid branch promotion: $HEAD → $BASE"
+          exit 1
