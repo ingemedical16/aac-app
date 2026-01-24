@@ -3,6 +3,10 @@ name: backend-pipeline
 on:
   push:
     branches: [dev, staging, main]
+    paths:
+      - "apps/backend/**"
+      - "package.json"
+      - "package-lock.json"
 
 jobs:
   deploy:
@@ -22,6 +26,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+          cache-dependency-path: apps/backend/package-lock.json
 
       - run: npm ci
       - run: npm run build
@@ -31,6 +37,5 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
         run: |
-          npm install -g @railway/cli
-          railway link --project $RAILWAY_PROJECT_ID
-          railway up --service backend
+          npx @railway/cli link --project $RAILWAY_PROJECT_ID
+          npx @railway/cli up --service backend
