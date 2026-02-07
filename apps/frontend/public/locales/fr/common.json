@@ -191,5 +191,29 @@
       "missingProvider": "Le contexte d'authentification doit être utilisé dans AuthProvider",
       "tokenInvalid": "Le jeton d'authentification est invalide ou expiré"
     }
+  },
+  "home": {
+    "title": "AACBoard",
+    "subtitle": "Un tableau de communication simple et accessible pour tous",
+
+    "openBoard": "Ouvrir le tableau de communication",
+    "getStarted": "Se connecter ou créer un compte",
+
+    "features": {
+      "easy": {
+        "title": "Simple à utiliser",
+        "description": "Conçu pour un accès rapide et une communication facile."
+      },
+      "accessible": {
+        "title": "Accessible",
+        "description": "Pensé pour les personnes ayant des besoins de communication variés."
+      },
+      "secure": {
+        "title": "Sécurisé",
+        "description": "Vos données sont protégées et traitées avec soin."
+      }
+    },
+
+    "footer": "Conçu avec attention pour favoriser la communication et l’inclusion."
   }
 }

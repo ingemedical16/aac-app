@@ -191,5 +191,29 @@
       "missingProvider": "Contextul de autentificare trebuie folosit în AuthProvider",
       "tokenInvalid": "Tokenul de autentificare este invalid sau expirat"
     }
+  },
+   "home": {
+    "title": "AACBoard",
+    "subtitle": "Un panou de comunicare simplu și accesibil pentru toată lumea",
+
+    "openBoard": "Deschide panoul de comunicare",
+    "getStarted": "Autentificare sau creare cont",
+
+    "features": {
+      "easy": {
+        "title": "Ușor de folosit",
+        "description": "Conceput pentru acces rapid și comunicare simplă."
+      },
+      "accessible": {
+        "title": "Accesibil",
+        "description": "Creat pentru a sprijini utilizatorii cu nevoi diferite de comunicare."
+      },
+      "secure": {
+        "title": "Sigur",
+        "description": "Datele tale sunt protejate și tratate cu grijă."
+      }
+    },
+
+    "footer": "Creat cu grijă pentru a susține comunicarea și incluziunea."
   }
 }

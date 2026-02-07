@@ -185,5 +185,29 @@
       "missingProvider": "Auth context must be used within AuthProvider",
       "tokenInvalid": "Authentication token is invalid or has expired"
     }
+  },
+  "home": {
+    "title": "AACBoard",
+    "subtitle": "A simple and accessible communication board for everyone",
+
+    "openBoard": "Open Communication Board",
+    "getStarted": "Login or Create an Account",
+
+    "features": {
+      "easy": {
+        "title": "Easy to Use",
+        "description": "Designed for quick access and simple communication."
+      },
+      "accessible": {
+        "title": "Accessible",
+        "description": "Built to support users with different communication needs."
+      },
+      "secure": {
+        "title": "Secure",
+        "description": "Your data is protected and handled with care."
+      }
+    },
+
+    "footer": "Built with care to support communication and inclusion."
   }
 }
