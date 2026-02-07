@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req, Res } from "@nestjs/common";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { AuthService } from "./auth.service";
 import { RegisterDto } from "./dto/register.dto";
 import { LoginDto } from "./dto/login.dto";
@@ -10,50 +10,76 @@ import { ForgotPasswordDto } from "./dto/forgot-password.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 import { AuthRequest } from "../common/types/auth-request";
 
+type SameSite = "lax" | "strict" | "none";
+
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   private getLang(req: Request): string {
-    return (req.headers["accept-language"] as string)?.split(",")[0] || "en";
+    const raw = req.headers["accept-language"];
+    const header = Array.isArray(raw) ? raw[0] : raw;
+    return header?.split(",")[0] || "en";
   }
 
   /**
    * Cookie settings:
-   * - prod/staging cross-site: SameSite=None; Secure
-   * - local dev: SameSite=Lax; Secure=false (cookies over http)
+   * - prod/staging cross-site (Vercel -> Railway): SameSite=None; Secure
+   * - local dev over http: SameSite=Lax; Secure=false
+   *
+   * IMPORTANT:
+   * - Do NOT set AUTH_COOKIE_DOMAIN for Railway (*.railway.app). Leave it empty.
+   * - Only set AUTH_COOKIE_DOMAIN if the API is served on your own domain
+   *   (e.g. api-staging.aacboard.work).
    */
   private setAccessCookie(res: Response, token: string) {
-    const isProd = (process.env.NODE_ENV ?? "development") === "production";
+    const env = (process.env.NODE_ENV ?? "development").toLowerCase();
+    const isProdLike = env === "production" || env === "staging";
+
     const sameSite = (process.env.AUTH_COOKIE_SAMESITE ??
-      (isProd ? "none" : "lax")) as "lax" | "strict" | "none";
+      (isProdLike ? "none" : "lax")) as SameSite;
 
     // If SameSite=None, Secure MUST be true (browser requirement)
     const secure =
-      (process.env.AUTH_COOKIE_SECURE
+      process.env.AUTH_COOKIE_SECURE != null
         ? process.env.AUTH_COOKIE_SECURE === "true"
-        : sameSite === "none");
+        : sameSite === "none";
 
-    const domain = process.env.AUTH_COOKIE_DOMAIN || undefined; // e.g. ".aacboard.work"
+    // For Railway, keep this undefined.
+    const cookieDomain =
+      process.env.AUTH_COOKIE_DOMAIN && process.env.AUTH_COOKIE_DOMAIN.trim().length > 0
+        ? process.env.AUTH_COOKIE_DOMAIN.trim()
+        : undefined;
 
     res.cookie("access_token", token, {
       httpOnly: true,
       secure,
       sameSite,
-      domain,
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
   }
 
   private clearAccessCookie(res: Response) {
-    const domain = process.env.AUTH_COOKIE_DOMAIN || undefined;
-    res.clearCookie("access_token", { path: "/", domain });
+    const cookieDomain =
+      process.env.AUTH_COOKIE_DOMAIN && process.env.AUTH_COOKIE_DOMAIN.trim().length > 0
+        ? process.env.AUTH_COOKIE_DOMAIN.trim()
+        : undefined;
+
+    res.clearCookie("access_token", {
+      path: "/",
+      ...(cookieDomain ? { domain: cookieDomain } : {}),
+    });
   }
 
   @Public()
   @Post("register")
-  async register(@Body() dto: RegisterDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async register(
+    @Body() dto: RegisterDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
+  ) {
     const data = await this.authService.register(dto, this.getLang(req));
     this.setAccessCookie(res, data.access_token);
     return data; // keep returning token for non-browser clients
@@ -61,7 +87,11 @@ export class AuthController {
 
   @Public()
   @Post("login")
-  async login(@Body() dto: LoginDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async login(
+    @Body() dto: LoginDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
+  ) {
     const data = await this.authService.login(dto, this.getLang(req));
     this.setAccessCookie(res, data.access_token);
     return data;
@@ -69,7 +99,11 @@ export class AuthController {
 
   @Public()
   @Post("refresh")
-  async refresh(@Body() dto: RefreshDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async refresh(
+    @Body() dto: RefreshDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
+  ) {
     const data = await this.authService.refresh(dto, this.getLang(req));
     this.setAccessCookie(res, data.access_token);
     return data;
@@ -83,8 +117,7 @@ export class AuthController {
 
   @Post("change-password")
   changePassword(@Req() req: AuthRequest, @Body() dto: ChangePasswordDto) {
-    const lang = (req.headers["accept-language"] as string)?.split(",")[0] || "en";
-    return this.authService.changePassword(req.user.id, dto, lang);
+    return this.authService.changePassword(req.user.id, dto, this.getLang(req));
   }
 
   @Public()
