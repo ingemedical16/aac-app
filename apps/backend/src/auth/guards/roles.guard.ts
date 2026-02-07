@@ -1,23 +1,30 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-} from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import type { Request } from "express";
+
 import { ROLES_KEY } from "../decorators/roles.decorator";
 import { UserRole } from "../../common/enums/roles.enum";
 import { AppException } from "../../common/exceptions/app-exception";
+import type { AuthRequest } from "../../common/types/auth-request";
+
+function getLang(req: Request): string {
+  const raw = req.headers["accept-language"];
+  const header = Array.isArray(raw) ? raw[0] : raw;
+  return header?.split(",")[0] || "en";
+}
+
+function isUserRole(value: unknown): value is UserRole {
+  return typeof value === "string" && (Object.values(UserRole) as string[]).includes(value);
+}
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(
-    private readonly reflector: Reflector,
-  ) {}
+  constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
       ROLES_KEY,
-      [context.getHandler(), context.getClass()],
+      [context.getHandler(), context.getClass()]
     );
 
     // 🔓 No role restriction
@@ -25,24 +32,20 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<AuthRequest>();
+    const lang = getLang(request);
+
     const user = request.user;
 
-    // 🌍 Detect language (fallback = en)
-    const langHeader = request.headers["accept-language"] as string;
-    const lang = langHeader?.split(",")[0] || "en";
-
-    // 🚫 No authenticated user
-    if (!user || !user.role) {
+    // 🚫 No authenticated user / missing role
+    if (!user || !isUserRole(user.role)) {
       throw AppException.forbidden("auth.access_denied", lang);
     }
 
     // 🚫 Role mismatch
-    const userRole = user.role as UserRole;
-
-    if (!requiredRoles.includes(userRole)) {
+    if (!requiredRoles.includes(user.role)) {
       throw AppException.forbidden("auth.insufficient_role", lang, {
-        role: userRole,
+        role: user.role,
         required: requiredRoles.join(", "),
       });
     }
