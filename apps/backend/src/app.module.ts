@@ -4,8 +4,6 @@ import { I18nModule, I18nJsonLoader } from "nestjs-i18n";
 import { AcceptLanguageResolver, QueryResolver } from "nestjs-i18n";
 import { ConfigModule } from "@nestjs/config";
 import * as path from "path";
-
-import { User, Child, Vocabulary, Profile, ImageAsset } from "./entities";
 import { AuthModule } from "./auth/auth.module";
 import { ChildrenModule } from "./children/children.module";
 import { VocabularyModule } from "./vocab/vocabulary.module";
@@ -16,7 +14,7 @@ import { AppException } from "./common/exceptions/app-exception";
 import { I18nService } from "nestjs-i18n";
 import { AppController } from "./app.controller";
 
-const isSQLite = process.env.DB_TYPE === "sqlite";
+import dataSource from "./typeorm.config";
 
 @Module({
   imports: [
@@ -30,28 +28,7 @@ const isSQLite = process.env.DB_TYPE === "sqlite";
     /* =========================
        DATABASE
     ========================= */
-    TypeOrmModule.forRoot(
-      isSQLite
-        ? {
-            type: "sqlite",
-            database: "dev.db",
-            entities: [User, Child, Vocabulary, ImageAsset, Profile],
-            synchronize: true,
-            autoLoadEntities: true,
-          }
-        : {
-            type: "postgres",
-            host: process.env.DB_HOST,
-            port: Number(process.env.DB_PORT || 5432),
-            username: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            entities: [User, Child, Vocabulary, ImageAsset, Profile],
-            synchronize: false,
-            ssl: false, // Railway internal network
-            autoLoadEntities: true,
-          }
-    ),
+    TypeOrmModule.forRoot(dataSource.options),
 
     /* =========================
        I18N
