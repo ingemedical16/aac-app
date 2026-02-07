@@ -36,7 +36,8 @@ export async function registerApi(input: RegisterInput): Promise<AuthResponse> {
 
 /**
  * If your backend also supports refresh tokens in body, keep RefreshInput.
- * If refresh is cookie-only later, you can change this to `refreshApi()`.
+ * If refresh becomes cookie-only later, you can change this to `refreshApi()`
+ * with no input.
  */
 export async function refreshApi(input: RefreshInput): Promise<AuthResponse> {
   const { data } = await http.post<AuthResponse>("/auth/refresh", input);
@@ -80,6 +81,9 @@ export async function forgotPasswordApi(
 export async function resetPasswordApi(
   input: ResetPasswordInput
 ): Promise<{ success: true }> {
-  const { data } = await http.post<{ success: true }>("/auth/reset-password", input);
+  const { data } = await http.post<{ success: true }>(
+    "/auth/reset-password",
+    input
+  );
   return data;
 }
